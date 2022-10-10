@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1178</width>
-    <height>1313</height>
+    <width>840</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>40</y>
+      <y>0</y>
       <width>829</width>
       <height>629</height>
      </rect>
@@ -76,8 +76,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: rgb(170, 170, 255);
-border-color: rgb(170, 170, 127);</string>
+            <string notr="true">color: rgb(170, 170, 255);</string>
            </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Оконное GUI-приложение&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;для менеджера оптовой торговли&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -109,7 +108,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть категории товаров на складах</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть категории товаров на складах&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -138,7 +137,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть товары на складах</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть товары на складах&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -167,7 +166,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть заказы клиентов</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть заказы клиентов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -196,7 +195,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть клиентов</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть клиентов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -225,7 +224,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть менеджеров</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть менеджеров&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -254,7 +253,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть склады</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть склады&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -283,7 +282,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть поставки</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть поставки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -312,7 +311,7 @@ border-color: rgb(170, 170, 127);</string>
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>Открыть поставщиков</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Открыть поставщиков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -345,7 +344,7 @@ border-color: rgb(170, 170, 127);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1178</width>
+     <width>840</width>
      <height>21</height>
     </rect>
    </property>
