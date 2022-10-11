@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 from app.store.database.database import Database
+from app.store.manager.accessor import ManagerAccessor
 
 if TYPE_CHECKING:
     from app import App
@@ -9,7 +10,7 @@ class Store:
     def __init__(self, app: "App"):
         # TODO: import accessors
         # self.accessor = Accessor(app)
-        pass
+        self.managers = ManagerAccessor(app)
 
 
 def setup_store(app: "App"):

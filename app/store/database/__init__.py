@@ -1,1 +1,1 @@
-# from models import *
+from app.manager.models import *

@@ -3,15 +3,23 @@ from typing import TYPE_CHECKING
 import ctypes
 from sys import platform
 
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import (
+    QMainWindow,
+    QApplication,
+    QLabel,
+    QDialog,
+    QSizePolicy,
+)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QMouseEvent, QIcon
 
 from generated_uis.mainwindow2 import UiMainWindow
 from generated_uis.table_1 import UiForm as T1Form
+from generated_uis.signup_dialog import UiDialog as SignUpDialog
 
-from app.view.signals import LabelSignal
+from app.ui.signals import LabelSignal
 from app.back.utils import in_rect
+from app.manager.views import ManagerSignUpView
 
 if TYPE_CHECKING:
     from app import App
@@ -28,6 +36,10 @@ class Ui(QMainWindow):
         self.ui.setupUi(self)
         self.setCentralWidget(self.ui.layoutWidget)
 
+        self.signup_dialog = QDialog(self)
+        self.signup_form = SignUpDialog()
+        self.signup_form.setupUi(self.signup_dialog)
+
         self.t1_form = T1Form()
 
         self.set_properties()
@@ -40,6 +52,8 @@ class Ui(QMainWindow):
         self.ui.menubar.setStyleSheet("background-color: rgb(252, 239, 229);")
         self.ui.statusbar.setStyleSheet("background-color: rgb(203, 191, 182);")
 
+        self.signup_dialog.setWindowIcon(QIcon(f"{self.app_dir}/resources/log-in-v3.png"))
+
         self.setWindowIcon(QIcon(f"{self.app_dir}/resources/IIT-small.jpg"))
         if platform == 'win32':
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
@@ -47,16 +61,21 @@ class Ui(QMainWindow):
             )
 
     def set_signals(self):
-        # defining signals
+        self.signup_form.pushButton.clicked.connect(self.loginClickedEvent)
 
-        self.label1_signal = LabelSignal()
-        self.label1_signal.clicked.connect(self.open_table)
-
-    def open_table(self):
+    def on_click_label(self, label: QLabel):
         # defining actions when signal emitted
 
-        self.t1_form.setupUi(self)
-        self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT1)
+        match label.objectName():
+            case "label_13":
+                time.sleep(0.2)
+                QApplication.restoreOverrideCursor()
+                self.signup_dialog.exec()
+            case _:
+                time.sleep(0.2)
+                QApplication.restoreOverrideCursor()
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT1)
 
     def mousePressEvent(self, a0: QMouseEvent) -> None:
         if self.centralWidget().objectName() != 'layoutWidget':
@@ -65,7 +84,7 @@ class Ui(QMainWindow):
         labels = [
             self.ui.label_4, self.ui.label_3, self.ui.label_2,
             self.ui.label_8, self.ui.label_6, self.ui.label_7,
-            self.ui.label_10, self.ui.label_9
+            self.ui.label_10, self.ui.label_9, self.ui.label_13
         ]
 
         for label in labels:
@@ -74,9 +93,16 @@ class Ui(QMainWindow):
                 label.size().width(), label.size().height()
             ):
                 QApplication.setOverrideCursor(Qt.PointingHandCursor)
-                self.label1_signal.click()
+                self.on_click_label(label)
 
-        time.sleep(0.2)
-        QApplication.restoreOverrideCursor()
+    def loginClickedEvent(self):
+        data = (
+            self.signup_form.lineEdit.text(),
+            self.signup_form.lineEdit_2.text(),
+            self.signup_form.lineEdit_2.text(),
+        )
+
+        manager_signup = ManagerSignUpView(self.app)
+        manager_signup.signup(data)
 
 # Needed platforms and imageformats in dir with python.exe

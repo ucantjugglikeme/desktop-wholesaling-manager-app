@@ -1,8 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from app.view.ui import Ui
+from app.ui.ui import Ui
 from app.store import Store, setup_store
 from app.back.config import DatabaseConfig, setup_config
+from app.store.database.database import Database
 
 
 class App:
@@ -10,7 +11,7 @@ class App:
     m_win: Ui | None
     config: DatabaseConfig | None
     store: Store | None
-    database: object | None
+    database: Database | None
 
     def __init__(self, q_app: QApplication):
         self.q_app = q_app

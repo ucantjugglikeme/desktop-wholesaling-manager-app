@@ -26,9 +26,9 @@ class Database:
 
         self.session = sessionmaker(
             bind=self._engine,
-            expire_on_commit=False,
-            class_=Engine
+            expire_on_commit=False
         )
 
     def disconnect(self) -> None:
-        self.session.close_all()
+        # self.session.close_all()
+        pass
