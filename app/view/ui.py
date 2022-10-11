@@ -1,4 +1,6 @@
 import time
+import ctypes
+from sys import platform
 from PyQt5 import QtWidgets, QtGui, QtCore
 from generated_uis.mainwindow2 import UiMainWindow
 from generated_uis.table_1 import UiForm as T1Form
@@ -15,7 +17,6 @@ class Ui(QtWidgets.QMainWindow):
         self.ui = UiMainWindow()
         self.ui.setupUi(self)
         self.setCentralWidget(self.ui.layoutWidget)
-        self.centralWidget().setMouseTracking(True)
 
         self.t1_form = T1Form()
 
@@ -28,6 +29,10 @@ class Ui(QtWidgets.QMainWindow):
 
         self.ui.menubar.setStyleSheet("background-color: rgb(252, 239, 229);")
         self.ui.statusbar.setStyleSheet("background-color: rgb(203, 191, 182);")
+
+        self.setWindowIcon(QtGui.QIcon(f"{self.app_dir}/resources/IIT-small.jpg"))
+        if platform == 'win32':
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('rtumirea.dwma.ui.version1')
 
     def set_signals(self):
         # defining signals
@@ -42,7 +47,6 @@ class Ui(QtWidgets.QMainWindow):
         self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT1)
 
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
-        # {a0.globalPos().x()}, {a0.globalPos().y()}
         if self.centralWidget().objectName() != 'layoutWidget':
             return
 
@@ -61,4 +65,6 @@ class Ui(QtWidgets.QMainWindow):
                 self.label1_signal.click()
 
         time.sleep(0.2)
-        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
+        QtWidgets.QApplication.restoreOverrideCursor()
+
+# Needed platforms and imageformats in dir with python.exe
