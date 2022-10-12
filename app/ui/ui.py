@@ -99,7 +99,7 @@ class Ui(QMainWindow):
         data = (
             self.signup_form.lineEdit.text(),
             self.signup_form.lineEdit_2.text(),
-            self.signup_form.lineEdit_2.text(),
+            self.signup_form.lineEdit_3.text(),
         )
 
         manager_signup = ManagerSignUpView(self.app)

@@ -44,7 +44,7 @@ class ManagerModel(db):
     residential_address = Column(TEXT, nullable=False)
     email_address = Column(TEXT, nullable=False)
     work_number = Column(VARCHAR(11), nullable=False)
-    managerauth = relationship("ManagerAuthModel", back_populates="manager")
+    managerauth = relationship("ManagerAuthModel", backref="manager", uselist=False)
 
     def __repr__(self):
         return f"<ManagerModel(" \
@@ -60,7 +60,6 @@ class ManagerAuthModel(db):
     manager_id = Column(BigInteger, ForeignKey("Manager.manager_id"), primary_key=True, autoincrement=False)
     password_ = Column(TEXT, nullable=True)
     auth_token = Column(TEXT, nullable=False)
-    manager = relationship("ManagerModel", back_populates="managerauth")
 
     def __repr__(self):
         return f"<ManagerAuthModel(" \
