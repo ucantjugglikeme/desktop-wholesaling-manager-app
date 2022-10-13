@@ -70,7 +70,7 @@ class UiMainWindow(object):
         self.label_15 = QtWidgets.QLabel(self.frame)
         self.label_15.setGeometry(QtCore.QRect(10, 300, 81, 81))
         self.label_15.setText("")
-        self.label_15.setPixmap(QtGui.QPixmap("gui-elements\\../resources/sing-up-v3.png"))
+        self.label_15.setPixmap(QtGui.QPixmap("gui-elements\\../resources/sign-up-v3.png"))
         self.label_15.setScaledContents(True)
         self.label_15.setObjectName("label_15")
         self.label_16 = QtWidgets.QLabel(self.frame)

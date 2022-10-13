@@ -4,12 +4,15 @@ if TYPE_CHECKING:
     from app import App
 
 
-class ManagerLoginView:
+class ManagerLogInView:
     def __init__(self, app: "App"):
         self.app = app
 
-    def login(self):
-        pass
+    def login(self, data: tuple[str, str] | list[str]) -> tuple[str, str, str]:
+        response_data = self.app.store.managers.login(
+            data[0], data[1]
+        )
+        return response_data
 
 
 class ManagerSignUpView:
@@ -21,6 +24,3 @@ class ManagerSignUpView:
             data[0], data[1], data[2]
         )
         return response_data
-
-    def login(self, data: tuple[str, str] | list[str]) -> tuple[str, str, str]:
-        pass

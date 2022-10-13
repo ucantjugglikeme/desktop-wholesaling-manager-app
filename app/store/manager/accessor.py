@@ -1,13 +1,43 @@
 from hashlib import sha256
 from sqlalchemy import select
+from sqlalchemy.engine import ChunkedIteratorResult
 from app.base.base_accessor import BaseAccessor
 from app.manager.models import ManagerModel, ManagerAuthModel
 from app.back.utils import is_valid_psw
 
 
 class ManagerAccessor(BaseAccessor):
-    def signup(self, email: str, password: str, auth_token: str) -> tuple[str, str, str]:
+    def login(self, email: str, password: str) -> tuple[str, str, str]:
         with self.app.database.session() as get_session:
+            hashed_psw = sha256(password.encode()).hexdigest()
+            res: ChunkedIteratorResult = get_session.execute(select(
+                ManagerModel.manager_id, ManagerModel.manager_full_name,
+                ManagerModel.email_address, ManagerAuthModel.password_
+            ).join(ManagerModel.managerauth).filter(
+                ManagerModel.email_address == email,
+                ManagerAuthModel.password_ == hashed_psw
+            ))
+            res_lst = res.all()
+            if not res_lst:
+                return (
+                    f"{self.app.m_win.app_dir}/resources/error-icon.png",
+                    f"{self.app.m_win.app_dir}/resources/error.png",
+                    "Проверьте введенные данные.\n\n"
+                    "Пожалуйста, убедитесь в правильности введенных данных.\n"
+                    "Проверьте адрес почты и пароль.\n"
+                    "При затруднении свяжитесь с администратором.\n"
+                )
+            get_session.commit()
+
+        return (
+            f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png",
+            f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png",
+            f"Здравствуйте, {res_lst[0][1]}!\n\n"
+            f"Вы успешно авторизовались!"
+        )
+
+    def signup(self, email: str, password: str, auth_token: str) -> tuple[str, str, str]:
+        with self.app.database.session() as upd_session:
             if not is_valid_psw(password):
                 return (
                     f"{self.app.m_win.app_dir}/resources/warning-icon.png",
@@ -21,7 +51,7 @@ class ManagerAccessor(BaseAccessor):
             subquery = select(ManagerModel.manager_id).where(
                 ManagerModel.email_address == email
             )
-            res = get_session.query(ManagerAuthModel).filter(
+            res = upd_session.query(ManagerAuthModel).filter(
                 ManagerAuthModel.manager_id == subquery.scalar_subquery(),
                 ManagerAuthModel.password_.is_(None),
                 ManagerAuthModel.auth_token == auth_token
@@ -38,7 +68,8 @@ class ManagerAccessor(BaseAccessor):
                     "Возможно, аккаунт уже был зарегистрирован.\n"
                     "При затруднении свяжитесь с администратором.\n"
                 )
-            get_session.commit()
+            upd_session.commit()
+
         return (
             f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png",
             f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png",
