@@ -8,14 +8,14 @@ from PyQt5.QtWidgets import (
     QApplication,
     QLabel,
     QDialog,
-    QSizePolicy,
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QMouseEvent, QIcon
+from PyQt5.QtGui import QMouseEvent, QIcon, QPixmap
 
 from generated_uis.mainwindow2 import UiMainWindow
 from generated_uis.table_1 import UiForm as T1Form
 from generated_uis.signup_dialog import UiDialog as SignUpDialog
+from generated_uis.info_dialog import UiDialog as InfoDialog
 
 from app.ui.signals import LabelSignal
 from app.back.utils import in_rect
@@ -40,6 +40,10 @@ class Ui(QMainWindow):
         self.signup_form = SignUpDialog()
         self.signup_form.setupUi(self.signup_dialog)
 
+        self.info_dialog = QDialog(self)
+        self.info_form = InfoDialog()
+        self.info_form.setupUi(self.info_dialog)
+
         self.t1_form = T1Form()
 
         self.set_properties()
@@ -62,6 +66,7 @@ class Ui(QMainWindow):
 
     def set_signals(self):
         self.signup_form.pushButton.clicked.connect(self.loginClickedEvent)
+        self.info_form.pushButton.clicked.connect(self.okInfoDialogClickedEvent)
 
     def on_click_label(self, label: QLabel):
         # defining actions when signal emitted
@@ -103,6 +108,14 @@ class Ui(QMainWindow):
         )
 
         manager_signup = ManagerSignUpView(self.app)
-        manager_signup.signup(data)
+        response_data = manager_signup.signup(data)
+
+        self.info_dialog.setWindowIcon(QIcon(response_data[0]))
+        self.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
+        self.info_form.label_2.setText(response_data[2])
+        self.info_dialog.exec()
+
+    def okInfoDialogClickedEvent(self):
+        self.info_dialog.close()
 
 # Needed platforms and imageformats in dir with python.exe

@@ -16,5 +16,8 @@ class ManagerSignUpView:
     def __init__(self, app: "App"):
         self.app = app
 
-    def signup(self, data: tuple | list):
-        self.app.store.managers.signup(data[0], data[1], data[2])
+    def signup(self, data: tuple[str, str, str] | list[str]) -> tuple[str, str, str]:
+        response_data = self.app.store.managers.signup(
+            data[0], data[1], data[2]
+        )
+        return response_data
