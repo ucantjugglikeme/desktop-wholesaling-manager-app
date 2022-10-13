@@ -13,7 +13,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QMouseEvent, QIcon, QPixmap
 
 from generated_uis.mainwindow2 import UiMainWindow
-from generated_uis.table_1 import UiForm as T1Form
+from generated_uis.table_1_1 import UiForm as T1Form
 from generated_uis.signup_dialog import UiDialog as SignUpDialog
 from generated_uis.info_dialog import UiDialog as InfoDialog
 
@@ -76,6 +76,12 @@ class Ui(QMainWindow):
                 time.sleep(0.2)
                 QApplication.restoreOverrideCursor()
                 self.signup_dialog.exec()
+            case "label_17":
+                time.sleep(0.2)
+                QApplication.restoreOverrideCursor()
+                self.ui.setupUi(self)
+                self.set_properties()
+                self.setCentralWidget(self.ui.layoutWidget)
             case _:
                 time.sleep(0.2)
                 QApplication.restoreOverrideCursor()
@@ -83,14 +89,27 @@ class Ui(QMainWindow):
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT1)
 
     def mousePressEvent(self, a0: QMouseEvent) -> None:
-        if self.centralWidget().objectName() != 'layoutWidget':
-            return
+        # if self.centralWidget().objectName() != 'layoutWidget':
+        #    return
 
-        labels = [
+        m_win_labels = [
             self.ui.label_4, self.ui.label_3, self.ui.label_2,
             self.ui.label_8, self.ui.label_6, self.ui.label_7,
-            self.ui.label_10, self.ui.label_9, self.ui.label_13
+            self.ui.label_10, self.ui.label_9, self.ui.label_13,
         ]
+
+        try:
+            table1_labels = [
+                self.t1_form.label_17
+            ]
+        except AttributeError:
+            table1_labels = []
+
+        match self.centralWidget().objectName():
+            case 'layoutWidget':
+                labels = m_win_labels.copy()
+            case _:
+                labels = table1_labels.copy()
 
         for label in labels:
             if in_rect(
@@ -99,6 +118,7 @@ class Ui(QMainWindow):
             ):
                 QApplication.setOverrideCursor(Qt.PointingHandCursor)
                 self.on_click_label(label)
+                break
 
     def loginClickedEvent(self):
         data = (

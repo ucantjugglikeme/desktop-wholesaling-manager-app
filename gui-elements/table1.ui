@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>838</width>
-    <height>682</height>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,6 +52,31 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QLabel" name="label_17">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Fixedsys</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 170, 127);</string>
+       </property>
+       <property name="text">
+        <string>GO BACK</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item>
