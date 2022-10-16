@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
     QLabel,
     QDialog,
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QMouseEvent, QIcon, QPixmap
 
 from generated_uis.mainwindow2 import UiMainWindow
@@ -72,6 +72,14 @@ class Ui(QMainWindow):
                 'rtumirea.dwma.ui.version1'
             )
 
+    def refresh_m_window(self, saved_size: QSize):
+        self.setWindowTitle("DWMA")
+        self.setMinimumSize(800, 600)
+        self.resize(saved_size.width(), saved_size.height())
+
+        self.ui.menubar.setStyleSheet("background-color: rgb(252, 239, 229);")
+        self.ui.statusbar.setStyleSheet("background-color: rgb(203, 191, 182);")
+
     def set_signals(self):
         self.login_form.pushButton.clicked.connect(self.loginClickedEvent)
         self.signup_form.pushButton.clicked.connect(self.signupClickedEvent)
@@ -89,8 +97,9 @@ class Ui(QMainWindow):
             case "label_15":
                 self.signup_dialog.exec()
             case "label_17":
+                saved_size = QSize(self.width(), self.height())
                 self.ui.setupUi(self)
-                self.set_properties()
+                self.refresh_m_window(saved_size)
                 self.setCentralWidget(self.ui.layoutWidget)
             case _:
                 self.t1_form.setupUi(self)
@@ -119,8 +128,8 @@ class Ui(QMainWindow):
 
         for label in labels:
             if in_rect(
-                a0.x(), a0.y(), label.x(), label.y(),
-                label.size().width(), label.size().height()
+                    a0.x(), a0.y(), label.x(), label.y(),
+                    label.size().width(), label.size().height()
             ):
                 QApplication.setOverrideCursor(Qt.PointingHandCursor)
                 self.on_click_label(label)
