@@ -8,8 +8,5 @@ class VendorGetView:
     def __init__(self, app: "App"):
         self.app = app
 
-    def get(self) -> tuple[str, str, str, str, str]:
-        response_data = self.app.store.vendors.list_vendors()
-        table_data = response_data
-        table_data[0] = str(table_data[0])
-        return table_data
+    def get(self) -> list[tuple[str, str, str, str, str]]:
+        return self.app.store.vendors.list_vendors()

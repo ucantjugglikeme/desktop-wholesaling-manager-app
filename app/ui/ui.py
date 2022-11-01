@@ -17,12 +17,12 @@ from generated_uis.table_1_1 import UiForm as T1Form
 from generated_uis.login_dialog import UiDialog as LogInDialog
 from generated_uis.signup_dialog import UiDialog as SignUpDialog
 from generated_uis.info_dialog import UiDialog as InfoDialog
+from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 
 from app.ui.signals import LabelSignal
-from app.ui.spawner import Spawner
+from app.ui.table_masters import TableMaster
 from app.back.utils import in_rect
 from app.manager.views import ManagerSignUpView, ManagerLogInView
-from app.vendor.views import VendorGetView
 
 if TYPE_CHECKING:
     from app import App
@@ -53,7 +53,8 @@ class Ui(QMainWindow):
         self.info_form.setupUi(self.info_dialog)
 
         self.t1_form = T1Form()
-        self.spawner = Spawner(self, self.t1_form)
+        self.list_vendors_table = TableGetVendors()
+        self.spawner = TableMaster(self, self.t1_form, self.list_vendors_table)
 
         # Setting up application
         self.set_properties()
@@ -176,10 +177,5 @@ class Ui(QMainWindow):
 
     def okInfoDialogClickedEvent(self):
         self.info_dialog.close()
-
-    def listVendorsClickedEvent(self):
-        vendor_get = VendorGetView(self.app)
-        response_data = vendor_get.get()
-        print(response_data)
 
 # Needed platforms and imageformats in dir with python.exe

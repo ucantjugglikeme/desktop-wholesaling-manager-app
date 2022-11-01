@@ -13,8 +13,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class UiFrame(object):
     def setupUi(self, Frame):
-        Frame.setObjectName("Frame")
-        Frame.resize(807, 1345)
+        # Frame.setObjectName("Frame")
+        # Frame.resize(702, 686)
         self.horizontalLayoutWidget = QtWidgets.QWidget(Frame)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 691, 671))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -24,12 +24,17 @@ class UiFrame(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.label_2 = QtWidgets.QLabel(self.horizontalLayoutWidget)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_3.addWidget(self.label_2)
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.tableWidget = QtWidgets.QTableWidget(self.horizontalLayoutWidget)
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
+        self.verticalLayout_4.addWidget(self.tableWidget)
+        self.verticalLayout_3.addLayout(self.verticalLayout_4)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.frame = QtWidgets.QFrame(self.horizontalLayoutWidget)
-        self.frame.setMinimumSize(QtCore.QSize(0, 0))
+        self.frame.setMinimumSize(QtCore.QSize(100, 0))
         self.frame.setMaximumSize(QtCore.QSize(100, 16777215))
         self.frame.setStyleSheet("background-color: rgb(65, 65, 65);")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -255,8 +260,7 @@ class UiFrame(object):
 
     def retranslateUi(self, Frame):
         _translate = QtCore.QCoreApplication.translate
-        Frame.setWindowTitle(_translate("Frame", "Frame"))
-        self.label_2.setText(_translate("Frame", "TextLabel"))
+        # Frame.setWindowTitle(_translate("Frame", "Frame"))
         self.label.setText(_translate("Frame", "<html><head/><body><p>Задать параметры для поиска</p></body></html>"))
         self.label_8.setText(_translate("Frame", "ID поставщика"))
         self.label_9.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))

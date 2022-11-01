@@ -27,7 +27,7 @@ class UiForm(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frameT1.sizePolicy().hasHeightForWidth())
         self.frameT1.setSizePolicy(sizePolicy)
-        self.frameT1.setMinimumSize(QtCore.QSize(0, 0))
+        self.frameT1.setMinimumSize(QtCore.QSize(100, 0))
         self.frameT1.setMaximumSize(QtCore.QSize(100, 16777215))
         self.frameT1.setStyleSheet("background-color: rgb(65, 65, 65);")
         self.frameT1.setFrameShape(QtWidgets.QFrame.StyledPanel)
