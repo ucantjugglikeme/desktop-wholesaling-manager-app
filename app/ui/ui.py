@@ -19,8 +19,10 @@ from generated_uis.signup_dialog import UiDialog as SignUpDialog
 from generated_uis.info_dialog import UiDialog as InfoDialog
 
 from app.ui.signals import LabelSignal
+from app.ui.spawner import Spawner
 from app.back.utils import in_rect
 from app.manager.views import ManagerSignUpView, ManagerLogInView
+from app.vendor.views import VendorGetView
 
 if TYPE_CHECKING:
     from app import App
@@ -51,6 +53,7 @@ class Ui(QMainWindow):
         self.info_form.setupUi(self.info_dialog)
 
         self.t1_form = T1Form()
+        self.spawner = Spawner(self, self.t1_form)
 
         # Setting up application
         self.set_properties()
@@ -104,6 +107,13 @@ class Ui(QMainWindow):
             case _:
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT1)
+                self.define_clicked_label_actions(label)
+
+    def define_clicked_label_actions(self, label: QLabel):
+        match label.objectName():
+            case "label_9":
+                self.spawner.spawn_get_vendors_table()
+                # self.listVendorsClickedEvent()
 
     def mousePressEvent(self, a0: QMouseEvent) -> None:
         m_win_labels = [
@@ -166,5 +176,10 @@ class Ui(QMainWindow):
 
     def okInfoDialogClickedEvent(self):
         self.info_dialog.close()
+
+    def listVendorsClickedEvent(self):
+        vendor_get = VendorGetView(self.app)
+        response_data = vendor_get.get()
+        print(response_data)
 
 # Needed platforms and imageformats in dir with python.exe
