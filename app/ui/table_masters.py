@@ -9,6 +9,7 @@ from app.ui.ui import T1Form
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 from generated_uis.get_vendors_table_widget import UiFrame as TableGetVendorsWidget
 from app.vendor.views import VendorGetView
+from app.back.utils import clear_table_widget, fill_table_with_data
 
 
 class TableMaster:
@@ -35,20 +36,20 @@ class TableMaster:
         self.table_get_vendor.pushButton.clicked.connect(self.listVendorsClickedEvent)
 
     def listVendorsClickedEvent(self):
-        vendor_get = VendorGetView(self.parent.app)
-        response_data = vendor_get.get()
+        if self.table_get_vendor.tableWidget.rowCount() > 0:
+            clear_table_widget(self.table_get_vendor.tableWidget)
 
-        self.table_get_vendor.tableWidget.setRowCount(len(response_data))
-        print(response_data)
-        r, c = 0, 0
-        for row in response_data:
-            for field in row:
-                cur_item = QTableWidgetItem(field)
-                cur_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                self.table_get_vendor.tableWidget.setItem(
-                    r, c, cur_item
-                )
-                self.table_get_vendor.tableWidget.item(r, c).setToolTip(field)
-                c += 1
-            c = 0
-            r += 1
+        filter_params = [
+            line.text() if (line.text() != "") else None for line in (
+                self.table_get_vendor.lineEdit_3,
+                self.table_get_vendor.lineEdit_4,
+                self.table_get_vendor.lineEdit_5,
+                self.table_get_vendor.lineEdit_6,
+                self.table_get_vendor.lineEdit_7,
+            )
+        ]
+
+        vendor_get = VendorGetView(self.parent.app)
+        response_data = vendor_get.get(filter_params)
+
+        fill_table_with_data(response_data, self.table_get_vendor.tableWidget)

@@ -1,5 +1,7 @@
 from typing import Final
 from re import fullmatch
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+from PyQt5.QtCore import Qt
 
 
 def in_rect(p_x: int, p_y: int, r_x: int, r_y: int, r_w: int, r_h: int) -> bool:
@@ -26,3 +28,22 @@ def is_valid_psw(password: str) -> bool:
     """
     pattern = '(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
     return fullmatch(pattern, password) is not None
+
+
+def clear_table_widget(table_widget: QTableWidget):
+    for row_ind in range(table_widget.rowCount() - 1, -1, -1):
+        table_widget.removeRow(row_ind)
+
+
+def fill_table_with_data(data: list[tuple[str, str, str, str, str]], table_widget: QTableWidget):
+    table_widget.setRowCount(len(data))
+    r, c = 0, 0
+    for row in data:
+        for field in row:
+            cur_item = QTableWidgetItem(field)
+            cur_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            table_widget.setItem(r, c, cur_item)
+            table_widget.item(r, c).setToolTip(field)
+            c += 1
+        c = 0
+        r += 1
