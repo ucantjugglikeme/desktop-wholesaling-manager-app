@@ -2,13 +2,14 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app import App
+    from app.manager.models import ManagerModel
 
 
 class ManagerLogInView:
     def __init__(self, app: "App"):
         self.app = app
 
-    def login(self, data: tuple[str, str] | list[str]) -> tuple[str, str, str]:
+    def login(self, data: tuple[str, str] | list[str]) -> tuple[str, str, str, "ManagerModel"]:
         response_data = self.app.store.managers.login(
             data[0], data[1]
         )

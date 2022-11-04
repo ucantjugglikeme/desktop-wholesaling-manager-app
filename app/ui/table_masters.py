@@ -16,6 +16,7 @@ class TableMaster:
     def __init__(self, parent_ui: "Ui", related_form: T1Form, table_get_vendor: TableGetVendors):
         self.parent = parent_ui
         self.base_form = related_form
+        self.cur_table_widget_name = ""
 
         self.table_get_vendor = table_get_vendor
 
@@ -24,6 +25,7 @@ class TableMaster:
         self.table_get_vendor.setupUi(self.parent)
         self.base_form.verticalLayoutT1.addWidget(self.table_get_vendor.horizontalLayoutWidget)
         self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
+        self.cur_table_widget_name = "get_vendors_table"
 
         # setting up table
         self.table_get_vendor.tableWidget.setColumnCount(5)

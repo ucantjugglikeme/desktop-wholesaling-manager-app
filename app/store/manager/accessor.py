@@ -7,12 +7,11 @@ from app.back.utils import is_valid_psw
 
 
 class ManagerAccessor(BaseAccessor):
-    def login(self, email: str, password: str) -> tuple[str, str, str]:
+    def login(self, email: str, password: str) -> tuple[str, str, str, list]:
         with self.app.database.session() as get_session:
             hashed_psw = sha256(password.encode()).hexdigest()
             res: ChunkedIteratorResult = get_session.execute(select(
-                ManagerModel.manager_id, ManagerModel.manager_full_name,
-                ManagerModel.email_address, ManagerAuthModel.password_
+                ManagerModel, ManagerAuthModel.password_
             ).join(ManagerModel.managerauth).filter(
                 ManagerModel.email_address == email,
                 ManagerAuthModel.password_ == hashed_psw
@@ -25,15 +24,15 @@ class ManagerAccessor(BaseAccessor):
                     "Проверьте введенные данные.\n\n"
                     "Пожалуйста, убедитесь в правильности введенных данных.\n"
                     "Проверьте адрес почты и пароль.\n"
-                    "При затруднении свяжитесь с администратором.\n"
+                    "При затруднении свяжитесь с администратором.\n", []
                 )
             get_session.commit()
 
         return (
             f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png",
             f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png",
-            f"Здравствуйте, {res_lst[0][1]}!\n\n"
-            f"Вы успешно авторизовались!"
+            f"Здравствуйте, {res_lst[0][0].manager_full_name}!\n\n"
+            f"Вы успешно авторизовались!", res_lst[0][0]
         )
 
     def signup(self, email: str, password: str, auth_token: str) -> tuple[str, str, str]:

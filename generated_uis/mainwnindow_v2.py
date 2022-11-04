@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui-elements/mainwindow.ui'
+# Form implementation generated from reading ui file 'gui-elements/mainwindow-v2.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -57,7 +57,7 @@ class UiMainWindow(object):
         self.label_13.setScaledContents(True)
         self.label_13.setObjectName("label_13")
         self.label_14 = QtWidgets.QLabel(self.frame)
-        self.label_14.setGeometry(QtCore.QRect(16, 230, 61, 20))
+        self.label_14.setGeometry(QtCore.QRect(20, 230, 51, 20))
         font = QtGui.QFont()
         font.setFamily("Fixedsys")
         font.setPointSize(12)
@@ -74,7 +74,7 @@ class UiMainWindow(object):
         self.label_15.setScaledContents(True)
         self.label_15.setObjectName("label_15")
         self.label_16 = QtWidgets.QLabel(self.frame)
-        self.label_16.setGeometry(QtCore.QRect(10, 390, 71, 21))
+        self.label_16.setGeometry(QtCore.QRect(0, 390, 101, 21))
         font = QtGui.QFont()
         font.setFamily("Fixedsys")
         font.setPointSize(12)
@@ -84,57 +84,40 @@ class UiMainWindow(object):
         self.label_16.setFont(font)
         self.label_16.setStyleSheet("color: rgb(0, 170, 127);")
         self.label_16.setObjectName("label_16")
+        self.label_18 = QtWidgets.QLabel(self.frame)
+        self.label_18.setGeometry(QtCore.QRect(20, 540, 51, 21))
+        font = QtGui.QFont()
+        font.setFamily("Fixedsys")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.label_18.setFont(font)
+        self.label_18.setStyleSheet("color: rgb(0, 170, 127);")
+        self.label_18.setObjectName("label_18")
+        self.label_17 = QtWidgets.QLabel(self.frame)
+        self.label_17.setGeometry(QtCore.QRect(10, 460, 81, 81))
+        self.label_17.setText("")
+        self.label_17.setPixmap(QtGui.QPixmap("gui-elements\\../resources/exit.png"))
+        self.label_17.setScaledContents(True)
+        self.label_17.setObjectName("label_17")
         self.horizontalLayout.addWidget(self.frame)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.layoutWidget)
-        self.label.setMaximumSize(QtCore.QSize(16777215, 150))
+        self.label_1 = QtWidgets.QLabel(self.layoutWidget)
+        self.label_1.setMaximumSize(QtCore.QSize(16777215, 150))
         font = QtGui.QFont()
         font.setFamily("Arial Black")
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
-        self.label.setFont(font)
-        self.label.setStyleSheet("color: rgb(170, 170, 255);")
-        self.label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
-        self.label_4 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_4.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setFamily("Bahnschrift")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setItalic(True)
-        font.setUnderline(True)
-        font.setWeight(75)
-        self.label_4.setFont(font)
-        self.label_4.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_4.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout.addWidget(self.label_4)
-        self.label_3 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_3.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setFamily("Bahnschrift")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setItalic(True)
-        font.setUnderline(True)
-        font.setWeight(75)
-        self.label_3.setFont(font)
-        self.label_3.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_3.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
+        self.label_1.setFont(font)
+        self.label_1.setStyleSheet("color: rgb(170, 170, 255);")
+        self.label_1.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.label_1.setObjectName("label_1")
+        self.verticalLayout.addWidget(self.label_1)
         self.label_2 = QtWidgets.QLabel(self.layoutWidget)
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
         font = QtGui.QFont()
@@ -145,15 +128,12 @@ class UiMainWindow(object):
         font.setUnderline(True)
         font.setWeight(75)
         self.label_2.setFont(font)
-        self.label_2.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_2.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_2.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
-        self.label_8 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_8.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.label_3 = QtWidgets.QLabel(self.layoutWidget)
+        self.label_3.setMaximumSize(QtCore.QSize(16777215, 50))
         font = QtGui.QFont()
         font.setFamily("Bahnschrift")
         font.setPointSize(14)
@@ -161,14 +141,39 @@ class UiMainWindow(object):
         font.setItalic(True)
         font.setUnderline(True)
         font.setWeight(75)
-        self.label_8.setFont(font)
-        self.label_8.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_8.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_8.setObjectName("label_8")
-        self.verticalLayout.addWidget(self.label_8)
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout.addWidget(self.label_3)
+        self.label_4 = QtWidgets.QLabel(self.layoutWidget)
+        self.label_4.setMaximumSize(QtCore.QSize(16777215, 50))
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setUnderline(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout.addWidget(self.label_4)
+        self.label_5 = QtWidgets.QLabel(self.layoutWidget)
+        self.label_5.setMaximumSize(QtCore.QSize(16777215, 50))
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(True)
+        font.setUnderline(True)
+        font.setWeight(75)
+        self.label_5.setFont(font)
+        self.label_5.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_5.setObjectName("label_5")
+        self.verticalLayout.addWidget(self.label_5)
         self.label_6 = QtWidgets.QLabel(self.layoutWidget)
         self.label_6.setMaximumSize(QtCore.QSize(16777215, 50))
         font = QtGui.QFont()
@@ -179,11 +184,8 @@ class UiMainWindow(object):
         font.setUnderline(True)
         font.setWeight(75)
         self.label_6.setFont(font)
-        self.label_6.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_6.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_6.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_6.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_6.setObjectName("label_6")
         self.verticalLayout.addWidget(self.label_6)
         self.label_7 = QtWidgets.QLabel(self.layoutWidget)
@@ -196,15 +198,12 @@ class UiMainWindow(object):
         font.setUnderline(True)
         font.setWeight(75)
         self.label_7.setFont(font)
-        self.label_7.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_7.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.label_7.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_7.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_7.setObjectName("label_7")
         self.verticalLayout.addWidget(self.label_7)
-        self.label_10 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_10.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.label_8 = QtWidgets.QLabel(self.layoutWidget)
+        self.label_8.setMaximumSize(QtCore.QSize(16777215, 50))
         font = QtGui.QFont()
         font.setFamily("Bahnschrift")
         font.setPointSize(14)
@@ -212,38 +211,18 @@ class UiMainWindow(object):
         font.setItalic(True)
         font.setUnderline(True)
         font.setWeight(75)
-        self.label_10.setFont(font)
-        self.label_10.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_10.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_10.setObjectName("label_10")
-        self.verticalLayout.addWidget(self.label_10)
-        self.label_9 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_9.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setFamily("Bahnschrift")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setItalic(True)
-        font.setUnderline(True)
-        font.setWeight(75)
-        self.label_9.setFont(font)
-        self.label_9.setStyleSheet(
-            "background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, "
-            "stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));"
-        )
-        self.label_9.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-        self.label_9.setObjectName("label_9")
-        self.verticalLayout.addWidget(self.label_9)
+        self.label_8.setFont(font)
+        self.label_8.setStyleSheet("background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));")
+        self.label_8.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_8.setObjectName("label_8")
+        self.verticalLayout.addWidget(self.label_8)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_5 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_5.setStyleSheet("")
-        self.label_5.setText("")
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_2.addWidget(self.label_5)
+        self.label_dummy = QtWidgets.QLabel(self.layoutWidget)
+        self.label_dummy.setStyleSheet("")
+        self.label_dummy.setText("")
+        self.label_dummy.setObjectName("label_dummy")
+        self.verticalLayout_2.addWidget(self.label_dummy)
         self.verticalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_3.addLayout(self.verticalLayout)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
@@ -268,52 +247,16 @@ class UiMainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_12.setText(_translate("MainWindow", "DWMA"))
-        self.label_14.setText(_translate("MainWindow", "LOG IN"))
-        self.label_16.setText(_translate("MainWindow", "SIGN UP"))
-        self.label.setText(_translate(
-            "MainWindow",
-            "<html><head/><body><p align=\"center\">Оконное GUI-приложение</p>"
-            "<p align=\"center\">для менеджера оптовой торговли</p></body></html>"
-        ))
-        self.label_4.setText(_translate(
-            "MainWindow",
-            "<html><head/><body><p align=\"center\">"
-            "Открыть категории товаров на складах</p></body></html>"
-        ))
-        self.label_3.setText(_translate(
-            "MainWindow",
-            "<html><head/><body><p align=\"center\">"
-            "Открыть товары на складах</p></body></html>"
-        ))
-        self.label_2.setText(_translate(
-            "MainWindow",
-            "<html><head/><body><p align=\"center\">"
-            "Открыть заказы клиентов</p></body></html>"
-        ))
-        self.label_8.setText(
-            _translate(
-                "MainWindow", "<html><head/><body><p align=\"center\">"
-                              "Открыть клиентов</p></body></html>"
-            ))
-        self.label_6.setText(
-            _translate(
-                "MainWindow", "<html><head/><body><p align=\"center\">"
-                              "Открыть менеджеров</p></body></html>"
-            ))
-        self.label_7.setText(
-            _translate(
-                "MainWindow", "<html><head/><body><p align=\"center\">"
-                              "Открыть склады</p></body></html>"
-            ))
-        self.label_10.setText(
-            _translate(
-                "MainWindow", "<html><head/><body><p align=\"center\">"
-                              "Открыть поставки</p></body></html>"
-            ))
-        self.label_9.setText(
-            _translate(
-                "MainWindow", "<html><head/><body><p align=\"center\">"
-                              "Открыть поставщиков</p></body></html>"
-            ))
+        self.label_14.setText(_translate("MainWindow", "ВОЙТИ"))
+        self.label_16.setText(_translate("MainWindow", "ЗАРЕГАТЬСЯ"))
+        self.label_18.setText(_translate("MainWindow", "ВЫЙТИ"))
+        self.label_1.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Оконное GUI-приложение</p><p align=\"center\">для менеджера оптовой торговли</p></body></html>"))
+        self.label_2.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Клиенты</p></body></html>"))
+        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Менеджеры</p></body></html>"))
+        self.label_4.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Заказы</p></body></html>"))
+        self.label_5.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Товары</p></body></html>"))
+        self.label_6.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Поставки</p></body></html>"))
+        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Поставщики</p></body></html>"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Склады</p></body></html>"))
         self.menuMenu.setTitle(_translate("MainWindow", "Меню"))
         self.action.setText(_translate("MainWindow", "Меню"))

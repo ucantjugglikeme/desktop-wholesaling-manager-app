@@ -52,12 +52,12 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="label_17">
+      <widget class="QLabel" name="label_go_back">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>10</y>
-         <width>71</width>
+         <width>51</width>
          <height>21</height>
         </rect>
        </property>
@@ -74,7 +74,7 @@
         <string notr="true">color: rgb(0, 170, 127);</string>
        </property>
        <property name="text">
-        <string>GO BACK</string>
+        <string>НАЗАД</string>
        </property>
       </widget>
      </widget>
