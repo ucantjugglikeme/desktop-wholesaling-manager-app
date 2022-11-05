@@ -134,7 +134,6 @@ class UiForm(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
         self.label_go_back.setText(_translate("Form", "НАЗАД"))
         self.label_T7_1.setText(_translate("Form", "<html><head/><body><p align=\"center\">Поставщики</p></body></html>"))
         self.label_T7_2.setText(_translate("Form", "<html><head/><body><p align=\"center\">Посмотреть таблицу поставщиков</p></body></html>"))

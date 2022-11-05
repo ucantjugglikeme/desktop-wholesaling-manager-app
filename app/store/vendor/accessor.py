@@ -1,7 +1,10 @@
 from hashlib import sha256
-from sqlalchemy import select
+from typing import List, Any, Tuple
+
+from sqlalchemy import select, insert
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.row import Row
+from sqlalchemy.exc import IntegrityError
 from app.base.base_accessor import BaseAccessor
 from app.vendor.models import VendorModel
 
@@ -40,3 +43,68 @@ class VendorAccessor(BaseAccessor):
         ) for row in raw_res_lst]
 
         return res_lst
+
+    def add_vendor(self, vendor_name: str, vendor_address: str, vendor_number: str, email_address: str | None) -> \
+            list[None] | tuple[str, str, str, str, str | None]:
+        vendor = VendorModel(
+            vendor_name=vendor_name, vendor_address=vendor_address,
+            vendor_number=vendor_number, email_address=email_address
+        )
+
+        with self.app.database.session() as insert_session:
+            insert_session.add(vendor)
+            try:
+                insert_session.commit()
+            except IntegrityError:
+                return []
+
+        res_lst = (str(vendor.vendor_id), vendor_name, vendor_address, vendor_number, email_address)
+        return res_lst
+
+    def update_vendors(
+            self, update_params: list[str], **filter_params: str | None
+    ) -> list[tuple[str, str, str, str, str]]:
+        # TODO: define what should this method return
+
+        print(filter_params)
+
+        filter_values = [
+            comp_stmt for comp_stmt in [
+                VendorModel.vendor_id == filter_params["vendor_id"]
+                if filter_params["vendor_id"] is not None else None,
+                VendorModel.vendor_name == filter_params["vendor_name"]
+                if filter_params["vendor_name"] is not None else None,
+                VendorModel.vendor_address == filter_params["vendor_address"]
+                if filter_params["vendor_address"] is not None else None,
+                VendorModel.vendor_number == filter_params["vendor_number"]
+                if filter_params["vendor_number"] is not None else None,
+                VendorModel.email_address == filter_params["email_address"]
+                if filter_params["email_address"] is not None else None,
+            ]
+            if comp_stmt is not None
+        ]
+
+        print(filter_values)
+
+        update_values = {
+            val_name: value for val_name, value in {
+                "vendor_name": update_params[0] if update_params[0] is not None else None,
+                "vendor_address": update_params[1] if update_params[1] is not None else None,
+                "vendor_number": update_params[2] if update_params[2] is not None else None,
+                "email_address": update_params[3] if update_params[3] is not None else None,
+            }.items() if value is not None
+        }
+
+        print(update_values)
+
+        with self.app.database.session() as update_session:
+            res = update_session.query(VendorModel).filter(*filter_values).update(
+                update_values, synchronize_session="fetch"
+            )
+            if res == 0:
+                print("update failed")
+            else:
+                print("update is ok")
+            update_session.commit()
+
+        return [("", "", "", "", "")]

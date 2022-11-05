@@ -56,7 +56,7 @@ class Ui(QMainWindow):
 
         self.t1_form = T1Form()
         self.list_vendors_table = TableGetVendors()
-        self.spawner = TableMaster(self, self.t1_form, self.list_vendors_table)
+        self.spawner = TableMaster(self, self.t1_form)
 
         self.t7_form = T7Form()
 
@@ -133,7 +133,7 @@ class Ui(QMainWindow):
 
     def go_back(self, widget_name):
         match widget_name:
-            case "get_vendors_table":
+            case "vendors_table":
                 self.t7_form.setupUi(self)
                 self.setCentralWidget(self.t7_form.horizontalLayoutWidgetT7)
                 self.spawner.cur_table_widget_name = ""
@@ -155,6 +155,14 @@ class Ui(QMainWindow):
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
                 self.spawner.spawn_get_vendors_table()
+            case "label_T7_3":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_add_vendors_table()
+            case "label_T7_4":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_mod_vendors_table()
 
     def get_table_labels(self, widget_name) -> list[QLabel]:
         match widget_name:
@@ -175,7 +183,7 @@ class Ui(QMainWindow):
             self.ui.label_5, self.ui.label_6, self.ui.label_7,
             self.ui.label_8, self.ui.label_13, self.ui.label_15,
             self.ui.label_17
-        ] if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
+        ]  # if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
 
         widget_name = self.centralWidget().objectName()
         match widget_name:
