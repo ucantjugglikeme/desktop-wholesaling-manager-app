@@ -1,16 +1,14 @@
 import time
-from typing import TYPE_CHECKING
 import ctypes
 from sys import platform
+from typing import TYPE_CHECKING
 
 from PyQt5.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QLabel,
-    QDialog,
+    QMainWindow, QApplication,
+    QLabel, QDialog,
 )
 from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QMouseEvent, QIcon, QPixmap
+from PyQt5.QtGui import QMouseEvent, QIcon
 
 from generated_uis.mainwnindow_v2 import UiMainWindow
 from generated_uis.table_1_1 import UiForm as T1Form
@@ -21,8 +19,12 @@ from generated_uis.info_dialog import UiDialog as InfoDialog
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 
 from app.ui.table_masters import TableMaster
-from app.back.utils import in_rect, set_up_info_dialog, set_new_main_window
-from app.entities.manager.views import ManagerSignUpView, ManagerLogInView
+from app.back.utils import (
+    in_rect, set_up_info_dialog
+)
+from app.entities.manager.views import (
+    ManagerSignUpView, ManagerLogInView
+)
 
 if TYPE_CHECKING:
     from app import App

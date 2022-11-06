@@ -1,12 +1,15 @@
 from typing import Final, TYPE_CHECKING
 from re import fullmatch
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QDialog, QWidget
+
+from PyQt5.QtWidgets import (
+    QTableWidget, QTableWidgetItem,
+    QDialog
+)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QPixmap
 
 if TYPE_CHECKING:
-    from app.ui.ui import InfoDialog, Ui
-    from app.ui.table_masters import TableMaster
+    from app.ui.ui import InfoDialog
 
 
 def in_rect(p_x: int, p_y: int, r_x: int, r_y: int, r_w: int, r_h: int) -> bool:
@@ -42,13 +45,6 @@ def set_up_info_dialog(info_dialog: QDialog, info_form: "InfoDialog", text: str,
     info_dialog.exec()
 
 
-def set_new_main_window(parent: "Ui", table_form, main_layout: QWidget, func=None):
-    table_form.setupUi(parent)
-    parent.setCentralWidget(main_layout)
-    if func:
-        func()
-
-
 def clear_table_widget(table_widget: QTableWidget):
     for row_ind in range(table_widget.rowCount() - 1, -1, -1):
         table_widget.removeRow(row_ind)
@@ -66,3 +62,15 @@ def fill_table_with_data(data: list[tuple[str, str, str, str, str]], table_widge
             c += 1
         c = 0
         r += 1
+
+
+def add_combo_items(table):
+    items_texts = ["---"]
+    for r in range(0, table.tableWidget.rowCount()):
+        item = table.tableWidget.item(r, 0)
+        items_texts.append(item.text())
+
+    fixed_size = table.comboBox.count()
+    for i in range(0, fixed_size):
+        table.comboBox.removeItem(0)
+    table.comboBox.addItems(items_texts)

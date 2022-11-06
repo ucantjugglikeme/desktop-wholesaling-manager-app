@@ -2,7 +2,9 @@ from hashlib import sha256
 from sqlalchemy import select
 from sqlalchemy.engine import ChunkedIteratorResult
 from app.base.base_accessor import BaseAccessor
-from app.entities.manager.models import ManagerModel, ManagerAuthModel
+from app.entities.manager.models import (
+    ManagerModel, ManagerAuthModel
+)
 from app.back.utils import is_valid_psw
 
 

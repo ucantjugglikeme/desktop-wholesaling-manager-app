@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.ui.ui import Ui
-
 from PyQt5.QtWidgets import QDialog, QLineEdit
 from app.ui.ui import T1Form
 
@@ -12,8 +11,15 @@ from generated_uis.modify_vendors_table import UiFrame as TableModVendors
 from generated_uis.del_vendors_table import UiFrame as TableDelVendors
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
-from app.entities.vendor.views import VendorGetView, VendorAddView, VendorUpdateView, VendorDeleteView
-from app.back.utils import clear_table_widget, fill_table_with_data, set_up_info_dialog
+
+from app.entities.vendor.views import (
+    VendorGetView, VendorAddView,
+    VendorUpdateView, VendorDeleteView
+)
+from app.back.utils import (
+    clear_table_widget, fill_table_with_data,
+    set_up_info_dialog, add_combo_items
+)
 
 
 class TableMaster:
@@ -36,32 +42,28 @@ class TableMaster:
     def set_signals(self):
         self.dialog_mod_vendor_form.pushButton.clicked.connect(self.modifyVendorClickDialogEvent)
 
-    def spawn_any_table(self, table):
-        pass
-
-    def spawn_get_table(self, table):
-        pass
-
-    def spawn_get_vendors_table(self):
+    def spawn_table(self, table, table_name, headers: list[str]):
         # setting up widgets
-        self.table_get_vendor.setupUi(self.parent)
-        self.base_form.verticalLayoutT1.addWidget(self.table_get_vendor.horizontalLayoutWidget)
+        table.setupUi(self.parent)
+        self.base_form.verticalLayoutT1.addWidget(table.horizontalLayoutWidget)
         self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
-        self.cur_table_widget_name = "vendors_table"
+        self.cur_table_widget_name = table_name
 
         # setting up table
-        self.table_get_vendor.tableWidget.setColumnCount(5)
-        self.table_get_vendor.tableWidget.setHorizontalHeaderLabels([
+        table.tableWidget.setColumnCount(len(headers))
+        table.tableWidget.setHorizontalHeaderLabels(headers)
+        table.tableWidget.resizeColumnsToContents()
+
+    def spawn_get_vendors_table(self):
+        headers = [
             "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
             "Контактный телефон", "Электронная почта E-mail"
-        ])
-        self.table_get_vendor.tableWidget.resizeColumnsToContents()
+        ]
+        self.spawn_table(self.table_get_vendor, "vendors_table", headers)
 
         lines = (
-            self.table_get_vendor.lineEdit_3,
-            self.table_get_vendor.lineEdit_4,
-            self.table_get_vendor.lineEdit_5,
-            self.table_get_vendor.lineEdit_6,
+            self.table_get_vendor.lineEdit_3, self.table_get_vendor.lineEdit_4,
+            self.table_get_vendor.lineEdit_5, self.table_get_vendor.lineEdit_6,
             self.table_get_vendor.lineEdit_7,
         )
         self.table_get_vendor.pushButton.clicked.connect(
@@ -69,85 +71,47 @@ class TableMaster:
         )
 
     def spawn_add_vendors_table(self):
-        # setting up widgets
-        self.table_add_vendor.setupUi(self.parent)
-        self.base_form.verticalLayoutT1.addWidget(self.table_add_vendor.horizontalLayoutWidget)
-        self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
-        self.cur_table_widget_name = "vendors_table"
-
-        # setting up table
-        self.table_add_vendor.tableWidget.setColumnCount(5)
-        self.table_add_vendor.tableWidget.setHorizontalHeaderLabels([
+        headers = [
             "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
             "Контактный телефон", "Электронная почта E-mail"
-        ])
-        self.table_add_vendor.tableWidget.resizeColumnsToContents()
+        ]
+        self.spawn_table(self.table_add_vendor, "vendors_table", headers)
 
         self.table_add_vendor.pushButton.clicked.connect(self.addVendorClickEvent)
 
     def spawn_mod_vendors_table(self):
-        # setting up widgets
-        self.table_mod_vendor.setupUi(self.parent)
-        self.base_form.verticalLayoutT1.addWidget(self.table_mod_vendor.horizontalLayoutWidget)
-        self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
-        self.cur_table_widget_name = "vendors_table"
-
-        # setting up table
-        self.table_mod_vendor.tableWidget.setColumnCount(5)
-        self.table_mod_vendor.tableWidget.setHorizontalHeaderLabels([
+        headers = [
             "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
             "Контактный телефон", "Электронная почта E-mail"
-        ])
-        self.table_mod_vendor.tableWidget.resizeColumnsToContents()
+        ]
+        self.spawn_table(self.table_mod_vendor, "vendors_table", headers)
 
         lines = (
-            None,
-            self.table_mod_vendor.lineEdit_4,
-            self.table_mod_vendor.lineEdit_5,
-            self.table_mod_vendor.lineEdit_6,
-            self.table_mod_vendor.lineEdit_7,
+            None, self.table_mod_vendor.lineEdit_4, self.table_mod_vendor.lineEdit_5,
+            self.table_mod_vendor.lineEdit_6, self.table_mod_vendor.lineEdit_7,
         )
         self.table_mod_vendor.comboBox.addItem("---")
         self.table_mod_vendor.pushButton.clicked.connect(
-            lambda: self.listVendorsClickedEvent(self.table_mod_vendor, lines, lambda: self.add_combo_items())
+            lambda: self.listVendorsClickedEvent(
+                self.table_mod_vendor, lines, lambda: add_combo_items(self.table_mod_vendor)
+            )
         )
         self.table_mod_vendor.pushButton_2.clicked.connect(self.modifyVendorClickEvent)
 
     def spawn_delete_vendors_table(self):
-        # setting up widgets
-        self.table_del_vendor.setupUi(self.parent)
-        self.base_form.verticalLayoutT1.addWidget(self.table_del_vendor.horizontalLayoutWidget)
-        self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
-        self.cur_table_widget_name = "vendors_table"
-
-        # setting up table
-        self.table_del_vendor.tableWidget.setColumnCount(5)
-        self.table_del_vendor.tableWidget.setHorizontalHeaderLabels([
+        headers = [
             "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
             "Контактный телефон", "Электронная почта E-mail"
-        ])
-        self.table_del_vendor.tableWidget.resizeColumnsToContents()
+        ]
+        self.spawn_table(self.table_del_vendor, "vendors_table", headers)
 
         lines = (
-            self.table_del_vendor.lineEdit_3,
-            self.table_del_vendor.lineEdit_4,
-            self.table_del_vendor.lineEdit_5,
-            self.table_del_vendor.lineEdit_6,
+            self.table_del_vendor.lineEdit_3, self.table_del_vendor.lineEdit_4,
+            self.table_del_vendor.lineEdit_5, self.table_del_vendor.lineEdit_6,
             self.table_del_vendor.lineEdit_7,
         )
         self.listVendorsClickedEvent(self.table_del_vendor, lines)
         self.table_del_vendor.pushButton.clicked.connect(self.deleteVendorClickEvent)
-
-    def add_combo_items(self):
-        items_texts = ["---"]
-        for r in range(0, self.table_mod_vendor.tableWidget.rowCount()):
-            item = self.table_mod_vendor.tableWidget.item(r, 0)
-            items_texts.append(item.text())
-
-        fixed_size = self.table_mod_vendor.comboBox.count()
-        for i in range(0, fixed_size):
-            self.table_mod_vendor.comboBox.removeItem(0)
-        self.table_mod_vendor.comboBox.addItems(items_texts)
 
     def listVendorsClickedEvent(self, table, lines: tuple, func=None):
         if table.tableWidget.rowCount() > 0:
@@ -169,10 +133,8 @@ class TableMaster:
 
         filter_params = [
             line.text() if (line.text() != "") else None for line in (
-                self.table_add_vendor.lineEdit_4,
-                self.table_add_vendor.lineEdit_5,
-                self.table_add_vendor.lineEdit_6,
-                self.table_add_vendor.lineEdit_7,
+                self.table_add_vendor.lineEdit_4, self.table_add_vendor.lineEdit_5,
+                self.table_add_vendor.lineEdit_6, self.table_add_vendor.lineEdit_7,
             )
         ]
 
@@ -205,9 +167,7 @@ class TableMaster:
         ]
         update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
 
-        filter_values = [
-            str(vendor_id), None, None, None, None
-        ]
+        filter_values = [str(vendor_id), None, None, None, None]
 
         vendor_upd = VendorUpdateView(self.parent.app)
         response_data = vendor_upd.update(filter_values, update_values)
@@ -230,14 +190,14 @@ class TableMaster:
         update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
         filter_values = [
             str(vendor_id) if vendor_id is not None else None,
-            self.dialog_mod_vendor_form.lineEdit.text() if self.dialog_mod_vendor_form.lineEdit.text() != ""
-            else None,
-            self.dialog_mod_vendor_form.lineEdit_2.text() if self.dialog_mod_vendor_form.lineEdit_2.text() != ""
-            else None,
-            self.dialog_mod_vendor_form.lineEdit_3.text() if self.dialog_mod_vendor_form.lineEdit_3.text() != ""
-            else None,
-            self.dialog_mod_vendor_form.lineEdit_4.text() if self.dialog_mod_vendor_form.lineEdit_4.text() != ""
-            else None,
+            self.dialog_mod_vendor_form.lineEdit.text()
+            if self.dialog_mod_vendor_form.lineEdit.text() != "" else None,
+            self.dialog_mod_vendor_form.lineEdit_2.text()
+            if self.dialog_mod_vendor_form.lineEdit_2.text() != "" else None,
+            self.dialog_mod_vendor_form.lineEdit_3.text()
+            if self.dialog_mod_vendor_form.lineEdit_3.text() != "" else None,
+            self.dialog_mod_vendor_form.lineEdit_4.text()
+            if self.dialog_mod_vendor_form.lineEdit_4.text() != "" else None,
         ]
 
         vendor_upd = VendorUpdateView(self.parent.app)
