@@ -13,7 +13,7 @@ from generated_uis.modify_vendors_table import UiFrame as TableModVendors
 from generated_uis.del_vendors_table import UiFrame as TableDelVendors
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
-from app.entities.vendor import VendorGetView, VendorAddView, VendorUpdateView, VendorDeleteView
+from app.entities.vendor.views import VendorGetView, VendorAddView, VendorUpdateView, VendorDeleteView
 from app.back.utils import clear_table_widget, fill_table_with_data
 
 

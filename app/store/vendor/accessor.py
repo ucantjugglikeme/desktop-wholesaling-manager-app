@@ -3,7 +3,7 @@ from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.exc import IntegrityError, ProgrammingError, OperationalError, DataError
 from app.base.base_accessor import BaseAccessor
-from app.entities.vendor import VendorModel
+from app.entities.vendor.models import VendorModel
 
 
 class VendorAccessor(BaseAccessor):

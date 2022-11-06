@@ -22,7 +22,7 @@ from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 
 from app.ui.table_masters import TableMaster
 from app.back.utils import in_rect
-from app.entities.manager import ManagerSignUpView, ManagerLogInView
+from app.entities.manager.views import ManagerSignUpView, ManagerLogInView
 
 if TYPE_CHECKING:
     from app import App
