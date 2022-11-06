@@ -4,14 +4,17 @@ if TYPE_CHECKING:
     from app.ui.ui import Ui
 
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QLineEdit
 from app.ui.ui import T1Form
+
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 from generated_uis.add_vendors_table import UiFrame as TableAddVendors
 from generated_uis.modify_vendors_table import UiFrame as TableModVendors
+from generated_uis.del_vendors_table import UiFrame as TableDelVendors
+
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from generated_uis.get_vendors_table_widget import UiFrame as TableGetVendorsWidget
-from app.vendor.views import VendorGetView, VendorAddView, VendorUpdateView
+from app.vendor.views import VendorGetView, VendorAddView, VendorUpdateView, VendorDeleteView
 from app.back.utils import clear_table_widget, fill_table_with_data
 
 
@@ -24,6 +27,7 @@ class TableMaster:
         self.table_get_vendor = TableGetVendors()
         self.table_add_vendor = TableAddVendors()
         self.table_mod_vendor = TableModVendors()
+        self.table_del_vendor = TableDelVendors()
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -105,6 +109,31 @@ class TableMaster:
         )
         self.table_mod_vendor.pushButton_2.clicked.connect(self.modifyVendorClickEvent)
 
+    def spawn_delete_vendors_table(self):
+        # setting up widgets
+        self.table_del_vendor.setupUi(self.parent)
+        self.base_form.verticalLayoutT1.addWidget(self.table_del_vendor.horizontalLayoutWidget)
+        self.base_form.verticalLayoutT1.removeWidget(self.base_form.label)
+        self.cur_table_widget_name = "vendors_table"
+
+        # setting up table
+        self.table_del_vendor.tableWidget.setColumnCount(5)
+        self.table_del_vendor.tableWidget.setHorizontalHeaderLabels([
+            "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
+            "Контактный телефон", "Электронная почта E-mail"
+        ])
+        self.table_del_vendor.tableWidget.resizeColumnsToContents()
+
+        lines = (
+            self.table_del_vendor.lineEdit_3,
+            self.table_del_vendor.lineEdit_4,
+            self.table_del_vendor.lineEdit_5,
+            self.table_del_vendor.lineEdit_6,
+            self.table_del_vendor.lineEdit_7,
+        )
+        self.listVendorsClickedEvent(self.table_del_vendor, lines)
+        self.table_del_vendor.pushButton.clicked.connect(self.deleteVendorClickEvent)
+
     def add_combo_items(self):
         items_texts = ["---"]
         for r in range(0, self.table_mod_vendor.tableWidget.rowCount()):
@@ -157,8 +186,6 @@ class TableMaster:
         fill_table_with_data(response_data, self.table_add_vendor.tableWidget)
 
     def modifyVendorClickEvent(self):
-        # TODO: testing
-
         vendor_id = int(self.table_mod_vendor.comboBox.currentText()) \
             if self.table_mod_vendor.comboBox.currentText() != "---" else None
 
@@ -187,8 +214,6 @@ class TableMaster:
         self.parent.info_dialog.exec()
 
     def modifyVendorClickDialogEvent(self):
-        # TODO: testing
-
         vendor_id = int(self.table_mod_vendor.comboBox.currentText()) \
             if self.table_mod_vendor.comboBox.currentText() != "---" else None
 
@@ -213,6 +238,30 @@ class TableMaster:
 
         vendor_upd = VendorUpdateView(self.parent.app)
         response_data = vendor_upd.update(filter_values, update_values)
+
+        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
+        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
+        self.parent.info_form.label_2.setText(response_data[2])
+        self.parent.info_dialog.exec()
+        self.dialog_mod_vendor.close()
+
+    def deleteVendorClickEvent(self):
+        lines = (
+            self.table_del_vendor.lineEdit_3,
+            self.table_del_vendor.lineEdit_4,
+            self.table_del_vendor.lineEdit_5,
+            self.table_del_vendor.lineEdit_6,
+            self.table_del_vendor.lineEdit_7,
+        )
+
+        delete_params = [line.text() if (line.text() != "") else None for line in lines]
+
+        vendor_get = VendorDeleteView(self.parent.app)
+        response_data = vendor_get.delete(delete_params)
+
+        self.listVendorsClickedEvent(
+            self.table_del_vendor, (QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit())
+        )
 
         self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
         self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))

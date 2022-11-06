@@ -1,10 +1,11 @@
 from hashlib import sha256
 from typing import List, Any, Tuple
 
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, delete
 from sqlalchemy.engine import ChunkedIteratorResult
+from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.engine.row import Row
-from sqlalchemy.exc import IntegrityError, ProgrammingError
+from sqlalchemy.exc import IntegrityError, ProgrammingError, OperationalError, DataError
 from app.base.base_accessor import BaseAccessor
 from app.vendor.models import VendorModel
 
@@ -100,9 +101,53 @@ class VendorAccessor(BaseAccessor):
                     f"{self.app.m_win.app_dir}/resources/error.png",
                     "Вы не предоставили данные для изменения строк.\n0 строк было изменено"
                 )
+            except DataError:
+                return (
+                    f"{self.app.m_win.app_dir}/resources/error-icon.png",
+                    f"{self.app.m_win.app_dir}/resources/error.png",
+                    "Введены некорректные данные!"
+                )
             if res == 0:
                 icon_path = f"{self.app.m_win.app_dir}/resources/warning-icon.png"
                 image_path = f"{self.app.m_win.app_dir}/resources/warning.png"
             update_session.commit()
 
         return icon_path, image_path, f"{res} строк было изменено"
+
+    def delete_vendors(self, **query_params: str | None) -> tuple[str, str, str]:
+        filter_params = [
+            comp_stmt for comp_stmt in [
+                VendorModel.vendor_id == query_params["vendor_id"]
+                if query_params["vendor_id"] is not None else None,
+                VendorModel.vendor_name == query_params["vendor_name"]
+                if query_params["vendor_name"] is not None else None,
+                VendorModel.vendor_address == query_params["vendor_address"]
+                if query_params["vendor_address"] is not None else None,
+                VendorModel.vendor_number == query_params["vendor_number"]
+                if query_params["vendor_number"] is not None else None,
+                VendorModel.email_address == query_params["email_address"]
+                if query_params["email_address"] is not None else None,
+            ]
+            if comp_stmt is not None
+        ]
+
+        delete_query = delete(VendorModel).where(*filter_params)
+        with self.app.database.session() as delete_session:
+            try:
+                res: LegacyCursorResult = delete_session.execute(delete_query)
+            except OperationalError:
+                icon_path = f"{self.app.m_win.app_dir}/resources/error-icon.png"
+                image_path = f"{self.app.m_win.app_dir}/resources/error.png"
+                text = f"Введены некорректные данные!"
+                return icon_path, image_path, text
+            rowcount = res.rowcount
+            delete_session.commit()
+
+        icon_path = f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png" if rowcount > 0 \
+            else f"{self.app.m_win.app_dir}/resources/warning-icon.png"
+
+        image_path = f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png" if rowcount > 0 \
+            else f"{self.app.m_win.app_dir}/resources/warning.png"
+
+        text = f"{rowcount} строк было удалено!"
+        return icon_path, image_path, text

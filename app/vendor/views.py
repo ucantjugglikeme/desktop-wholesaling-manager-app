@@ -46,3 +46,18 @@ class VendorUpdateView:
             "email_address": filter_vals[4],
         }
         return self.app.store.vendors.update_vendors(upd_params, **filter_params)
+
+
+class VendorDeleteView:
+    def __init__(self, app: "App"):
+        self.app = app
+
+    def delete(self, params: list[str | None]) -> tuple[str, str, str]:
+        query_params = {
+            "vendor_id": params[0],
+            "vendor_name": params[1],
+            "vendor_address": params[2],
+            "vendor_number": params[3],
+            "email_address": params[4],
+        }
+        return self.app.store.vendors.delete_vendors(**query_params)
