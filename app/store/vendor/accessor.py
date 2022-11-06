@@ -1,13 +1,9 @@
-from hashlib import sha256
-from typing import List, Any, Tuple
-
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select, delete
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
-from sqlalchemy.engine.row import Row
 from sqlalchemy.exc import IntegrityError, ProgrammingError, OperationalError, DataError
 from app.base.base_accessor import BaseAccessor
-from app.vendor.models import VendorModel
+from app.entities.vendor import VendorModel
 
 
 class VendorAccessor(BaseAccessor):

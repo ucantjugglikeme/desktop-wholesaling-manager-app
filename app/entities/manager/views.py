@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app import App
-    from app.manager.models import ManagerModel
+    from app.entities.manager.models import ManagerModel
 
 
 class ManagerLogInView:

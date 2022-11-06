@@ -20,14 +20,13 @@ from generated_uis.signup_dialog import UiDialog as SignUpDialog
 from generated_uis.info_dialog import UiDialog as InfoDialog
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 
-from app.ui.signals import LabelSignal
 from app.ui.table_masters import TableMaster
 from app.back.utils import in_rect
-from app.manager.views import ManagerSignUpView, ManagerLogInView
+from app.entities.manager import ManagerSignUpView, ManagerLogInView
 
 if TYPE_CHECKING:
     from app import App
-    from app.manager.models import ManagerAuth
+    from app.entities.manager.models import ManagerAuth
 
 
 class Ui(QMainWindow):
