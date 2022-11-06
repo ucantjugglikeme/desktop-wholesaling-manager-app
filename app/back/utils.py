@@ -1,7 +1,12 @@
-from typing import Final
+from typing import Final, TYPE_CHECKING
 from re import fullmatch
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QDialog, QWidget
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QPixmap
+
+if TYPE_CHECKING:
+    from app.ui.ui import InfoDialog, Ui
+    from app.ui.table_masters import TableMaster
 
 
 def in_rect(p_x: int, p_y: int, r_x: int, r_y: int, r_w: int, r_h: int) -> bool:
@@ -28,6 +33,20 @@ def is_valid_psw(password: str) -> bool:
     """
     pattern = '(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$'
     return fullmatch(pattern, password) is not None
+
+
+def set_up_info_dialog(info_dialog: QDialog, info_form: "InfoDialog", text: str, icon_path: str, img_path: str):
+    info_form.label_2.setText(text)
+    info_dialog.setWindowIcon(QIcon(icon_path))
+    info_form.label.setPixmap(QPixmap(img_path).scaled(100, 100))
+    info_dialog.exec()
+
+
+def set_new_main_window(parent: "Ui", table_form, main_layout: QWidget, func=None):
+    table_form.setupUi(parent)
+    parent.setCentralWidget(main_layout)
+    if func:
+        func()
 
 
 def clear_table_widget(table_widget: QTableWidget):

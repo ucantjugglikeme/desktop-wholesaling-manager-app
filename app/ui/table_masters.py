@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.ui.ui import Ui
 
-from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog, QLineEdit
 from app.ui.ui import T1Form
 
@@ -14,7 +13,7 @@ from generated_uis.del_vendors_table import UiFrame as TableDelVendors
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from app.entities.vendor.views import VendorGetView, VendorAddView, VendorUpdateView, VendorDeleteView
-from app.back.utils import clear_table_widget, fill_table_with_data
+from app.back.utils import clear_table_widget, fill_table_with_data, set_up_info_dialog
 
 
 class TableMaster:
@@ -36,6 +35,12 @@ class TableMaster:
 
     def set_signals(self):
         self.dialog_mod_vendor_form.pushButton.clicked.connect(self.modifyVendorClickDialogEvent)
+
+    def spawn_any_table(self, table):
+        pass
+
+    def spawn_get_table(self, table):
+        pass
 
     def spawn_get_vendors_table(self):
         # setting up widgets
@@ -175,11 +180,11 @@ class TableMaster:
         response_data = vendor_add.add(filter_params)
 
         if not response_data[0]:
-            self.parent.info_dialog.setWindowIcon(QIcon(f"{self.parent.app.m_win.app_dir}/resources/error-icon.png"))
-            self.parent.info_form.label.setPixmap(QPixmap(f"{self.parent.app.m_win.app_dir}/resources/error.png").
-                                                  scaled(100, 100))
-            self.parent.info_form.label_2.setText("Нарушена целостность таблицы. Проверьте введенные данные")
-            self.parent.info_dialog.exec()
+            set_up_info_dialog(
+                self.parent.info_dialog, self.parent.info_form,
+                "Нарушена целостность таблицы. Проверьте введенные данные",
+                self.parent.err_icon, self.parent.err_img
+            )
             return
 
         fill_table_with_data(response_data, self.table_add_vendor.tableWidget)
@@ -207,10 +212,10 @@ class TableMaster:
         vendor_upd = VendorUpdateView(self.parent.app)
         response_data = vendor_upd.update(filter_values, update_values)
 
-        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
-        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
-        self.parent.info_form.label_2.setText(response_data[2])
-        self.parent.info_dialog.exec()
+        set_up_info_dialog(
+            self.parent.info_dialog, self.parent.info_form,
+            response_data[0], response_data[1], response_data[2]
+        )
 
     def modifyVendorClickDialogEvent(self):
         vendor_id = int(self.table_mod_vendor.comboBox.currentText()) \
@@ -238,11 +243,10 @@ class TableMaster:
         vendor_upd = VendorUpdateView(self.parent.app)
         response_data = vendor_upd.update(filter_values, update_values)
 
-        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
-        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
-        self.parent.info_form.label_2.setText(response_data[2])
-        self.parent.info_dialog.exec()
-        self.dialog_mod_vendor.close()
+        set_up_info_dialog(
+            self.parent.info_dialog, self.parent.info_form,
+            response_data[0], response_data[1], response_data[2]
+        )
 
     def deleteVendorClickEvent(self):
         lines = (
@@ -262,8 +266,7 @@ class TableMaster:
             self.table_del_vendor, (QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit())
         )
 
-        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
-        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
-        self.parent.info_form.label_2.setText(response_data[2])
-        self.parent.info_dialog.exec()
-        self.dialog_mod_vendor.close()
+        set_up_info_dialog(
+            self.parent.info_dialog, self.parent.info_form,
+            response_data[0], response_data[1], response_data[2]
+        )

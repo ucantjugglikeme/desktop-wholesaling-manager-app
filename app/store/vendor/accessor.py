@@ -84,8 +84,8 @@ class VendorAccessor(BaseAccessor):
             }.items() if value is not None
         }
 
-        icon_path = f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png"
-        image_path = f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png"
+        icon_path = self.app.m_win.ok_icon
+        image_path = self.app.m_win.ok_img
         with self.app.database.session() as update_session:
             try:
                 res = update_session.query(VendorModel).filter(*filter_values).update(
@@ -93,22 +93,20 @@ class VendorAccessor(BaseAccessor):
                 )
             except ProgrammingError:
                 return (
-                    f"{self.app.m_win.app_dir}/resources/error-icon.png",
-                    f"{self.app.m_win.app_dir}/resources/error.png",
-                    "Вы не предоставили данные для изменения строк.\n0 строк было изменено"
+                    "Вы не предоставили данные для изменения строк.\n0 строк было изменено",
+                    self.app.m_win.err_icon, self.app.m_win.err_img
                 )
             except DataError:
                 return (
-                    f"{self.app.m_win.app_dir}/resources/error-icon.png",
-                    f"{self.app.m_win.app_dir}/resources/error.png",
-                    "Введены некорректные данные!"
+                    "Введены некорректные данные!",
+                    self.app.m_win.err_icon, self.app.m_win.err_img
                 )
             if res == 0:
-                icon_path = f"{self.app.m_win.app_dir}/resources/warning-icon.png"
-                image_path = f"{self.app.m_win.app_dir}/resources/warning.png"
+                icon_path = self.app.m_win.warn_icon
+                image_path = self.app.m_win.warn_img
             update_session.commit()
 
-        return icon_path, image_path, f"{res} строк было изменено"
+        return f"{res} строк было изменено", icon_path, image_path
 
     def delete_vendors(self, **query_params: str | None) -> tuple[str, str, str]:
         filter_params = [
@@ -132,18 +130,14 @@ class VendorAccessor(BaseAccessor):
             try:
                 res: LegacyCursorResult = delete_session.execute(delete_query)
             except OperationalError:
-                icon_path = f"{self.app.m_win.app_dir}/resources/error-icon.png"
-                image_path = f"{self.app.m_win.app_dir}/resources/error.png"
+                icon_path = self.app.m_win.err_icon
+                image_path = self.app.m_win.err_img
                 text = f"Введены некорректные данные!"
-                return icon_path, image_path, text
+                return text, icon_path, image_path
             rowcount = res.rowcount
             delete_session.commit()
 
-        icon_path = f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png" if rowcount > 0 \
-            else f"{self.app.m_win.app_dir}/resources/warning-icon.png"
-
-        image_path = f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png" if rowcount > 0 \
-            else f"{self.app.m_win.app_dir}/resources/warning.png"
-
+        icon_path = self.app.m_win.ok_icon if rowcount > 0 else self.app.m_win.warn_icon
+        image_path = self.app.m_win.ok_img if rowcount > 0 else self.app.m_win.warn_img
         text = f"{rowcount} строк было удалено!"
-        return icon_path, image_path, text
+        return text, icon_path, image_path

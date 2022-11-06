@@ -21,7 +21,7 @@ from generated_uis.info_dialog import UiDialog as InfoDialog
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 
 from app.ui.table_masters import TableMaster
-from app.back.utils import in_rect
+from app.back.utils import in_rect, set_up_info_dialog, set_new_main_window
 from app.entities.manager.views import ManagerSignUpView, ManagerLogInView
 
 if TYPE_CHECKING:
@@ -65,6 +65,13 @@ class Ui(QMainWindow):
 
         self.manager: "ManagerAuth" | None = None
 
+        self.err_img = f"{self.app_dir}/resources/error.png"
+        self.err_icon = f"{self.app_dir}/resources/error-icon.png"
+        self.warn_img = f"{self.app_dir}/resources/warning-v2.png"
+        self.warn_icon = f"{self.app_dir}/resources/warning-icon.png"
+        self.ok_img = f"{self.app_dir}/resources/ok-mark-v2.png"
+        self.ok_icon = f"{self.app_dir}/resources/ok-mark-icon.png"
+
     def set_properties(self):
         self.setWindowTitle("DWMA")
         self.setMinimumSize(800, 600)
@@ -103,28 +110,29 @@ class Ui(QMainWindow):
         match label.objectName():
             case "label_13":
                 if self.manager:
-                    self.info_form.label_2.setText("Вы уже авторизовались")
-                    self.info_dialog.setWindowIcon(QIcon(f"{self.app.m_win.app_dir}/resources/error-icon.png"))
-                    self.info_form.label.setPixmap(QPixmap(f"{self.app.m_win.app_dir}/resources/error.png").
-                                                   scaled(100, 100))
-                    self.info_dialog.exec()
+                    set_up_info_dialog(
+                        self.info_dialog, self.info_form,
+                        text="Вы уже аворизовались",
+                        icon_path=self.err_icon, img_path=self.err_img
+                    )
                 else:
                     self.login_dialog.exec()
             case "label_15":
                 self.signup_dialog.exec()
             case "label_17":
                 if not self.manager:
-                    self.info_form.label_2.setText("Вы ещё не вошли, чтобы выходить")
-                    self.info_dialog.setWindowIcon(QIcon(f"{self.app.m_win.app_dir}/resources/error-icon.png"))
-                    self.info_form.label.setPixmap(QPixmap(f"{self.app.m_win.app_dir}/resources/error.png").
-                                                   scaled(100, 100))
+                    set_up_info_dialog(
+                        self.info_dialog, self.info_form,
+                        text="Вы ещё не вошли, чтобы выходить",
+                        icon_path=self.err_icon, img_path=self.err_img
+                    )
                 else:
-                    self.info_form.label_2.setText("Вы вышли из учетной записи")
-                    self.info_dialog.setWindowIcon(QIcon(f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png"))
-                    self.info_form.label.setPixmap(QPixmap(f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png").
-                                                   scaled(100, 100))
+                    set_up_info_dialog(
+                        self.info_dialog, self.info_form,
+                        text="Вы вышли из учетной записи",
+                        icon_path=self.ok_icon, img_path=self.ok_img
+                    )
                     self.manager = None
-                self.info_dialog.exec()
             case "label_go_back":
                 self.go_back(self.spawner.cur_table_widget_name)
             case _:
@@ -147,9 +155,6 @@ class Ui(QMainWindow):
             case "label_7":
                 self.t7_form.setupUi(self)
                 self.setCentralWidget(self.t7_form.horizontalLayoutWidgetT7)
-            case "label_9":
-                self.spawner.spawn_get_vendors_table()
-                # self.listVendorsClickedEvent()
             case "label_T7_2":
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
@@ -206,11 +211,7 @@ class Ui(QMainWindow):
 
     def loginClickedEvent(self):
         if self.manager:
-            self.info_form.label_2.setText("Вы уже авторизовались")
-            self.info_dialog.setWindowIcon(QIcon(f"{self.app.m_win.app_dir}/resources/error-icon.png"))
-            self.info_form.label.setPixmap(QPixmap(f"{self.app.m_win.app_dir}/resources/error.png").
-                                           scaled(100, 100))
-            self.info_dialog.exec()
+            set_up_info_dialog(self.info_dialog, self.info_form, "Вы уже авторизовались", self.err_icon, self.err_img)
             return
 
         data = (
@@ -222,10 +223,10 @@ class Ui(QMainWindow):
         response_data = manager_login.login(data)
         self.manager = response_data[3]
 
-        self.info_dialog.setWindowIcon(QIcon(response_data[0]))
-        self.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
-        self.info_form.label_2.setText(response_data[2])
-        self.info_dialog.exec()
+        set_up_info_dialog(
+            self.info_dialog, self.info_form,
+            text=response_data[0], icon_path=response_data[1], img_path=response_data[2]
+        )
 
     def signupClickedEvent(self):
         data = (
@@ -237,10 +238,10 @@ class Ui(QMainWindow):
         manager_signup = ManagerSignUpView(self.app)
         response_data = manager_signup.signup(data)
 
-        self.info_dialog.setWindowIcon(QIcon(response_data[0]))
-        self.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
-        self.info_form.label_2.setText(response_data[2])
-        self.info_dialog.exec()
+        set_up_info_dialog(
+            self.info_dialog, self.info_form,
+            text=response_data[0], icon_path=response_data[1], img_path=response_data[2]
+        )
 
     def okInfoDialogClickedEvent(self):
         self.info_dialog.close()
