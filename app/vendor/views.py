@@ -37,8 +37,7 @@ class VendorUpdateView:
     def __init__(self, app: "App"):
         self.app = app
 
-    def update(self, filter_vals: list[str | None], upd_params: list[str | None]) -> \
-            list[tuple[str, str, str, str, str]] | list[tuple[None]]:
+    def update(self, filter_vals: list[str | None], upd_params: list[str | None]) -> tuple[str, str, str]:
         filter_params = {
             "vendor_id": filter_vals[0],
             "vendor_name": filter_vals[1],

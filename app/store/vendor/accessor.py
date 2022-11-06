@@ -4,7 +4,7 @@ from typing import List, Any, Tuple
 from sqlalchemy import select, insert
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.row import Row
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, ProgrammingError
 from app.base.base_accessor import BaseAccessor
 from app.vendor.models import VendorModel
 
@@ -61,13 +61,7 @@ class VendorAccessor(BaseAccessor):
         res_lst = (str(vendor.vendor_id), vendor_name, vendor_address, vendor_number, email_address)
         return res_lst
 
-    def update_vendors(
-            self, update_params: list[str], **filter_params: str | None
-    ) -> list[tuple[str, str, str, str, str]]:
-        # TODO: define what should this method return
-
-        print(filter_params)
-
+    def update_vendors(self, update_params: list[str], **filter_params: str | None) -> tuple[str, str, str]:
         filter_values = [
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == filter_params["vendor_id"]
@@ -84,8 +78,6 @@ class VendorAccessor(BaseAccessor):
             if comp_stmt is not None
         ]
 
-        print(filter_values)
-
         update_values = {
             val_name: value for val_name, value in {
                 "vendor_name": update_params[0] if update_params[0] is not None else None,
@@ -95,16 +87,22 @@ class VendorAccessor(BaseAccessor):
             }.items() if value is not None
         }
 
-        print(update_values)
-
+        icon_path = f"{self.app.m_win.app_dir}/resources/ok-mark-icon.png"
+        image_path = f"{self.app.m_win.app_dir}/resources/ok-mark-v2.png"
         with self.app.database.session() as update_session:
-            res = update_session.query(VendorModel).filter(*filter_values).update(
-                update_values, synchronize_session="fetch"
-            )
+            try:
+                res = update_session.query(VendorModel).filter(*filter_values).update(
+                    update_values, synchronize_session="fetch"
+                )
+            except ProgrammingError:
+                return (
+                    f"{self.app.m_win.app_dir}/resources/error-icon.png",
+                    f"{self.app.m_win.app_dir}/resources/error.png",
+                    "Вы не предоставили данные для изменения строк.\n0 строк было изменено"
+                )
             if res == 0:
-                print("update failed")
-            else:
-                print("update is ok")
+                icon_path = f"{self.app.m_win.app_dir}/resources/warning-icon.png"
+                image_path = f"{self.app.m_win.app_dir}/resources/warning.png"
             update_session.commit()
 
-        return [("", "", "", "", "")]
+        return icon_path, image_path, f"{res} строк было изменено"

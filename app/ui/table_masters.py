@@ -179,7 +179,12 @@ class TableMaster:
         ]
 
         vendor_upd = VendorUpdateView(self.parent.app)
-        vendor_upd.update(filter_values, update_values)
+        response_data = vendor_upd.update(filter_values, update_values)
+
+        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
+        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
+        self.parent.info_form.label_2.setText(response_data[2])
+        self.parent.info_dialog.exec()
 
     def modifyVendorClickDialogEvent(self):
         # TODO: testing
@@ -207,6 +212,10 @@ class TableMaster:
         ]
 
         vendor_upd = VendorUpdateView(self.parent.app)
-        vendor_upd.update(filter_values, update_values)
+        response_data = vendor_upd.update(filter_values, update_values)
 
+        self.parent.info_dialog.setWindowIcon(QIcon(response_data[0]))
+        self.parent.info_form.label.setPixmap(QPixmap(response_data[1]).scaled(100, 100))
+        self.parent.info_form.label_2.setText(response_data[2])
+        self.parent.info_dialog.exec()
         self.dialog_mod_vendor.close()
