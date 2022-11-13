@@ -22,7 +22,7 @@
      <height>671</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayoutT6">
+   <layout class="QHBoxLayout" name="horizontalLayoutT7">
     <item>
      <widget class="QFrame" name="frameT7">
       <property name="sizePolicy">
@@ -86,7 +86,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QLabel" name="label_T6_1">
+           <widget class="QLabel" name="label_T7_1">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -105,7 +105,7 @@
              <string notr="true">color: rgb(170, 170, 255);</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Поставщики&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Склады&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -113,7 +113,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_T6_2">
+           <widget class="QLabel" name="label_T7_2">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -134,7 +134,7 @@
              <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Посмотреть таблицу поставщиков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Посмотреть таблицу складов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -142,7 +142,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_T6_3">
+           <widget class="QLabel" name="label_T7_3">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -163,7 +163,7 @@
              <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Добавить записи в таблицу поставщиков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Добавить записи в таблицу складов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -171,7 +171,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_T6_4">
+           <widget class="QLabel" name="label_T7_4">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -192,7 +192,7 @@
              <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Изменить записи в таблице поставщиков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Изменить записи в таблице складов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -200,7 +200,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_T6_5">
+           <widget class="QLabel" name="label_T7_5">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -221,7 +221,7 @@
              <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Удалить записи из таблицы поставщиков&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Удалить записи из таблицы складов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

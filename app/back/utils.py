@@ -60,7 +60,7 @@ def fill_table_with_data(data: list[tuple[str, str, str, str, str]], table_widge
         table_widget.setRowCount(0)
     else:
         table_widget.setRowCount(len(data))
-    
+
     r, c = 0, 0
     for row in data:
         for field in row:
@@ -125,7 +125,37 @@ def get_vendors_update_values(table_mod_vendor):
     return update_values
 
 
+def get_warehouses_update_values(table_mod_warehouse):
+    fields = [(table_mod_warehouse.lineEdit_4.text(), table_mod_warehouse.checkBox.checkState()), ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
+def get_vendors_filter_values(dialog_mod_vendor_form):
+    filter_values = [
+        None,
+        dialog_mod_vendor_form.lineEdit.text() if dialog_mod_vendor_form.lineEdit.text() != "" else None,
+        dialog_mod_vendor_form.lineEdit_2.text() if dialog_mod_vendor_form.lineEdit_2.text() != "" else None,
+        dialog_mod_vendor_form.lineEdit_3.text() if dialog_mod_vendor_form.lineEdit_3.text() != "" else None,
+        dialog_mod_vendor_form.lineEdit_4.text() if dialog_mod_vendor_form.lineEdit_4.text() != "" else None,
+    ]
+    return filter_values
+
+
+def get_warehouses_filter_values(dialog_mod_warehouse_form):
+    filter_values = [
+        None, dialog_mod_warehouse_form.lineEdit.text() if dialog_mod_warehouse_form.lineEdit.text() != "" else None,
+    ]
+    return filter_values
+
+
 def modify_vendors(VendorUpdateView, filter_values, update_values, ui):
     vendor_upd = VendorUpdateView(ui.app)
     response_data = vendor_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
+
+
+def modify_warehouses(WarehouseUpdateView, filter_values, update_values, ui):
+    warehouse_upd = WarehouseUpdateView(ui.app)
+    response_data = warehouse_upd.update(filter_values, update_values)
     set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
