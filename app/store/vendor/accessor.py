@@ -1,3 +1,5 @@
+from typing import List, Any, Tuple
+
 from sqlalchemy import select, delete
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
@@ -7,6 +9,7 @@ from sqlalchemy.exc import (
 )
 from app.base.base_accessor import BaseAccessor
 from app.entities.vendor.models import VendorModel
+from app.back.utils import check_number_if_exists, is_valid_number
 
 
 class VendorAccessor(BaseAccessor):
@@ -46,6 +49,9 @@ class VendorAccessor(BaseAccessor):
 
     def add_vendor(self, vendor_name: str, vendor_address: str, vendor_number: str, email_address: str | None) -> \
             list[None] | tuple[str, str, str, str, str | None]:
+        if vendor_number is not None and not is_valid_number(vendor_number):
+            return []
+
         vendor = VendorModel(
             vendor_name=vendor_name, vendor_address=vendor_address,
             vendor_number=vendor_number, email_address=email_address
@@ -57,11 +63,13 @@ class VendorAccessor(BaseAccessor):
                 insert_session.commit()
             except IntegrityError:
                 return []
+            except ProgrammingError:
+                return []
 
         res_lst = (str(vendor.vendor_id), vendor_name, vendor_address, vendor_number, email_address)
         return res_lst
 
-    def update_vendors(self, update_params: list[str], **filter_params: str | None) -> tuple[str, str, str]:
+    def update_vendors(self, update_params: list[str], **filter_params: str | None) -> int | None:
         filter_values = [
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == filter_params["vendor_id"]
@@ -87,31 +95,26 @@ class VendorAccessor(BaseAccessor):
             }.items() if value is not None
         }
 
-        icon_path = self.app.m_win.ok_icon
-        image_path = self.app.m_win.ok_img
+        resp = check_number_if_exists(update_values, self.app)
+        if resp is not None:
+            return None
+
         with self.app.database.session() as update_session:
             try:
                 res = update_session.query(VendorModel).filter(*filter_values).update(
                     update_values, synchronize_session="fetch"
                 )
             except ProgrammingError:
-                return (
-                    "Вы не предоставили данные для изменения строк.\n0 строк было изменено",
-                    self.app.m_win.err_icon, self.app.m_win.err_img
-                )
+                return None
             except DataError:
-                return (
-                    "Введены некорректные данные!",
-                    self.app.m_win.err_icon, self.app.m_win.err_img
-                )
-            if res == 0:
-                icon_path = self.app.m_win.warn_icon
-                image_path = self.app.m_win.warn_img
+                return None
+            except IntegrityError:
+                return None
             update_session.commit()
 
-        return f"{res} строк было изменено", icon_path, image_path
+        return res
 
-    def delete_vendors(self, **query_params: str | None) -> tuple[str, str, str]:
+    def delete_vendors(self, **query_params: str | None) -> int | None:
         filter_params = [
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == query_params["vendor_id"]
@@ -133,14 +136,8 @@ class VendorAccessor(BaseAccessor):
             try:
                 res: LegacyCursorResult = delete_session.execute(delete_query)
             except OperationalError:
-                icon_path = self.app.m_win.err_icon
-                image_path = self.app.m_win.err_img
-                text = f"Введены некорректные данные!"
-                return text, icon_path, image_path
+                return None
             rowcount = res.rowcount
             delete_session.commit()
 
-        icon_path = self.app.m_win.ok_icon if rowcount > 0 else self.app.m_win.warn_icon
-        image_path = self.app.m_win.ok_img if rowcount > 0 else self.app.m_win.warn_img
-        text = f"{rowcount} строк было удалено!"
-        return text, icon_path, image_path
+        return rowcount

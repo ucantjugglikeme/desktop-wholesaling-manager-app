@@ -403,35 +403,6 @@
             <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Поставки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Bahnschrift</family>
-             <pointsize>14</pointsize>
-             <weight>75</weight>
-             <italic>true</italic>
-             <bold>true</bold>
-             <underline>true</underline>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: qconicalgradient(cx:0.601797, cy:1, angle:252.7, stop:0.477273 rgba(255, 183, 122, 255), stop:0.801136 rgba(164, 216, 50, 255));</string>
-           </property>
-           <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Поставщики&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
@@ -440,7 +411,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="label_7">
            <property name="maximumSize">
             <size>
              <width>16777215</width>

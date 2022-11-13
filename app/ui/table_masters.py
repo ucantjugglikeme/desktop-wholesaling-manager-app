@@ -12,14 +12,14 @@ from generated_uis.del_vendors_table import UiFrame as TableDelVendors
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 
-from app.entities.vendor.views import (
-    VendorGetView, VendorAddView,
-    VendorUpdateView, VendorDeleteView
-)
-from app.back.utils import (
-    clear_table_widget, fill_table_with_data,
-    set_up_info_dialog, add_combo_items
-)
+from app.entities.vendor.views import *
+from app.back.utils import *
+
+
+VENDOR_HANDLERS = [
+    "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
+    "Контактный телефон", "Электронная почта E-mail"
+]
 
 
 class TableMaster:
@@ -42,6 +42,8 @@ class TableMaster:
     def set_signals(self):
         self.dialog_mod_vendor_form.pushButton.clicked.connect(self.modifyVendorClickDialogEvent)
 
+    # TABLES SPAWN POINT ------------------------------------------------------------------------
+
     def spawn_table(self, table, table_name, headers: list[str]):
         # setting up widgets
         table.setupUi(self.parent)
@@ -55,10 +57,7 @@ class TableMaster:
         table.tableWidget.resizeColumnsToContents()
 
     def spawn_get_vendors_table(self):
-        headers = [
-            "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
-            "Контактный телефон", "Электронная почта E-mail"
-        ]
+        headers = VENDOR_HANDLERS
         self.spawn_table(self.table_get_vendor, "vendors_table", headers)
 
         lines = (
@@ -71,19 +70,13 @@ class TableMaster:
         )
 
     def spawn_add_vendors_table(self):
-        headers = [
-            "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
-            "Контактный телефон", "Электронная почта E-mail"
-        ]
+        headers = VENDOR_HANDLERS
         self.spawn_table(self.table_add_vendor, "vendors_table", headers)
 
         self.table_add_vendor.pushButton.clicked.connect(self.addVendorClickEvent)
 
     def spawn_mod_vendors_table(self):
-        headers = [
-            "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
-            "Контактный телефон", "Электронная почта E-mail"
-        ]
+        headers = VENDOR_HANDLERS
         self.spawn_table(self.table_mod_vendor, "vendors_table", headers)
 
         lines = (
@@ -99,10 +92,7 @@ class TableMaster:
         self.table_mod_vendor.pushButton_2.clicked.connect(self.modifyVendorClickEvent)
 
     def spawn_delete_vendors_table(self):
-        headers = [
-            "ID поставщика", "Наименование организации / ФИО", "Адрес поставщика",
-            "Контактный телефон", "Электронная почта E-mail"
-        ]
+        headers = VENDOR_HANDLERS
         self.spawn_table(self.table_del_vendor, "vendors_table", headers)
 
         lines = (
@@ -112,6 +102,8 @@ class TableMaster:
         )
         self.listVendorsClickedEvent(self.table_del_vendor, lines)
         self.table_del_vendor.pushButton.clicked.connect(self.deleteVendorClickEvent)
+
+    # EVENTS ------------------------------------------------------------------------------------------------
 
     def listVendorsClickedEvent(self, table, lines: tuple, func=None):
         if table.tableWidget.rowCount() > 0:
@@ -140,16 +132,7 @@ class TableMaster:
 
         vendor_add = VendorAddView(self.parent.app)
         response_data = vendor_add.add(filter_params)
-
-        if not response_data[0]:
-            set_up_info_dialog(
-                self.parent.info_dialog, self.parent.info_form,
-                "Нарушена целостность таблицы. Проверьте введенные данные",
-                self.parent.err_icon, self.parent.err_img
-            )
-            return
-
-        fill_table_with_data(response_data, self.table_add_vendor.tableWidget)
+        fill_table_with_data([response_data], self.table_add_vendor.tableWidget)
 
     def modifyVendorClickEvent(self):
         vendor_id = int(self.table_mod_vendor.comboBox.currentText()) \
@@ -159,35 +142,16 @@ class TableMaster:
             self.dialog_mod_vendor.exec()
             return
 
-        fields = [
-            (self.table_mod_vendor.lineEdit_4.text(), self.table_mod_vendor.checkBox.checkState()),
-            (self.table_mod_vendor.lineEdit_5.text(), self.table_mod_vendor.checkBox_2.checkState()),
-            (self.table_mod_vendor.lineEdit_6.text(), self.table_mod_vendor.checkBox_3.checkState()),
-            (self.table_mod_vendor.lineEdit_7.text(), self.table_mod_vendor.checkBox_4.checkState()),
-        ]
-        update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
-
+        update_values = get_vendors_update_values(self.table_mod_vendor)
         filter_values = [str(vendor_id), None, None, None, None]
 
-        vendor_upd = VendorUpdateView(self.parent.app)
-        response_data = vendor_upd.update(filter_values, update_values)
-
-        set_up_info_dialog(
-            self.parent.info_dialog, self.parent.info_form,
-            response_data[0], response_data[1], response_data[2]
-        )
+        modify_vendors(VendorUpdateView, filter_values, update_values, self.parent)
 
     def modifyVendorClickDialogEvent(self):
         vendor_id = int(self.table_mod_vendor.comboBox.currentText()) \
             if self.table_mod_vendor.comboBox.currentText() != "---" else None
 
-        fields = [
-            (self.table_mod_vendor.lineEdit_4.text(), self.table_mod_vendor.checkBox.checkState()),
-            (self.table_mod_vendor.lineEdit_5.text(), self.table_mod_vendor.checkBox_2.checkState()),
-            (self.table_mod_vendor.lineEdit_6.text(), self.table_mod_vendor.checkBox_3.checkState()),
-            (self.table_mod_vendor.lineEdit_7.text(), self.table_mod_vendor.checkBox_4.checkState()),
-        ]
-        update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+        update_values = get_vendors_update_values(self.table_mod_vendor)
         filter_values = [
             str(vendor_id) if vendor_id is not None else None,
             self.dialog_mod_vendor_form.lineEdit.text()
@@ -200,20 +164,12 @@ class TableMaster:
             if self.dialog_mod_vendor_form.lineEdit_4.text() != "" else None,
         ]
 
-        vendor_upd = VendorUpdateView(self.parent.app)
-        response_data = vendor_upd.update(filter_values, update_values)
-
-        set_up_info_dialog(
-            self.parent.info_dialog, self.parent.info_form,
-            response_data[0], response_data[1], response_data[2]
-        )
+        modify_vendors(VendorUpdateView, filter_values, update_values, self.parent)
 
     def deleteVendorClickEvent(self):
         lines = (
-            self.table_del_vendor.lineEdit_3,
-            self.table_del_vendor.lineEdit_4,
-            self.table_del_vendor.lineEdit_5,
-            self.table_del_vendor.lineEdit_6,
+            self.table_del_vendor.lineEdit_3, self.table_del_vendor.lineEdit_4,
+            self.table_del_vendor.lineEdit_5, self.table_del_vendor.lineEdit_6,
             self.table_del_vendor.lineEdit_7,
         )
 

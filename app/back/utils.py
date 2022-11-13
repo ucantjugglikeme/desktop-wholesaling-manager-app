@@ -38,6 +38,11 @@ def is_valid_psw(password: str) -> bool:
     return fullmatch(pattern, password) is not None
 
 
+def is_valid_number(phone_number: str) -> bool:
+    pattern = '[78][0-9]{10}'
+    return fullmatch(pattern, phone_number) is not None
+
+
 def set_up_info_dialog(info_dialog: QDialog, info_form: "InfoDialog", text: str, icon_path: str, img_path: str):
     info_form.label_2.setText(text)
     info_dialog.setWindowIcon(QIcon(icon_path))
@@ -51,7 +56,11 @@ def clear_table_widget(table_widget: QTableWidget):
 
 
 def fill_table_with_data(data: list[tuple[str, str, str, str, str]], table_widget: QTableWidget):
-    table_widget.setRowCount(len(data))
+    if len(data) == 1 and not data[0]:
+        table_widget.setRowCount(0)
+    else:
+        table_widget.setRowCount(len(data))
+    
     r, c = 0, 0
     for row in data:
         for field in row:
@@ -74,3 +83,49 @@ def add_combo_items(table):
     for i in range(0, fixed_size):
         table.comboBox.removeItem(0)
     table.comboBox.addItems(items_texts)
+
+
+def check_number_if_exists(update_values, app):
+    try:
+        if not is_valid_number(update_values["vendor_number"]):
+            icon_path = app.m_win.err_icon
+            image_path = app.m_win.err_img
+            return f"Введены некорректные данные!", icon_path, image_path
+        else:
+            return None
+    except KeyError:
+        return None
+
+
+def define_info_dialog(rows: int | None, ui):
+    icon_path = ui.ok_icon
+    img_path = ui.ok_img
+
+    match rows:
+        case None:
+            icon_path = ui.err_icon
+            img_path = ui.err_img
+        case 0:
+            icon_path = ui.warn_icon
+            img_path = ui.warn_img
+        case _:
+            pass
+
+    return icon_path, img_path
+
+
+def get_vendors_update_values(table_mod_vendor):
+    fields = [
+        (table_mod_vendor.lineEdit_4.text(), table_mod_vendor.checkBox.checkState()),
+        (table_mod_vendor.lineEdit_5.text(), table_mod_vendor.checkBox_2.checkState()),
+        (table_mod_vendor.lineEdit_6.text(), table_mod_vendor.checkBox_3.checkState()),
+        (table_mod_vendor.lineEdit_7.text(), table_mod_vendor.checkBox_4.checkState()),
+    ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
+def modify_vendors(VendorUpdateView, filter_values, update_values, ui):
+    vendor_upd = VendorUpdateView(ui.app)
+    response_data = vendor_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])

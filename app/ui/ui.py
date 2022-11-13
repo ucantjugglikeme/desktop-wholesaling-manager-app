@@ -59,7 +59,7 @@ class Ui(QMainWindow):
         self.list_vendors_table = TableGetVendors()
         self.spawner = TableMaster(self, self.t1_form)
 
-        self.t7_form = T7Form()
+        self.t6_form = T7Form()
 
         # Setting up application
         self.set_properties()
@@ -143,8 +143,8 @@ class Ui(QMainWindow):
     def go_back(self, widget_name):
         match widget_name:
             case "vendors_table":
-                self.t7_form.setupUi(self)
-                self.setCentralWidget(self.t7_form.horizontalLayoutWidgetT7)
+                self.t6_form.setupUi(self)
+                self.setCentralWidget(self.t6_form.horizontalLayoutWidgetT7)
                 self.spawner.cur_table_widget_name = ""
             case _:
                 saved_size = QSize(self.width(), self.height())
@@ -154,9 +154,9 @@ class Ui(QMainWindow):
 
     def define_clicked_label_actions(self, label: QLabel):
         match label.objectName():
-            case "label_7":
-                self.t7_form.setupUi(self)
-                self.setCentralWidget(self.t7_form.horizontalLayoutWidgetT7)
+            case "label_6":
+                self.t6_form.setupUi(self)
+                self.setCentralWidget(self.t6_form.horizontalLayoutWidgetT7)
             case "label_T7_2":
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
@@ -178,9 +178,9 @@ class Ui(QMainWindow):
         match widget_name:
             case "horizontalLayoutWidgetT7":
                 return [
-                    self.t7_form.label_T7_2, self.t7_form.label_T7_3,
-                    self.t7_form.label_T7_4, self.t7_form.label_T7_5,
-                    self.t7_form.label_go_back
+                    self.t6_form.label_T7_2, self.t6_form.label_T7_3,
+                    self.t6_form.label_T7_4, self.t6_form.label_T7_5,
+                    self.t6_form.label_go_back
                 ]
             case "horizontalLayoutWidgetT":
                 return [self.t1_form.label_go_back]
@@ -191,8 +191,7 @@ class Ui(QMainWindow):
         labels = [
             self.ui.label_2, self.ui.label_3, self.ui.label_4,
             self.ui.label_5, self.ui.label_6, self.ui.label_7,
-            self.ui.label_8, self.ui.label_13, self.ui.label_15,
-            self.ui.label_17
+            self.ui.label_13, self.ui.label_15, self.ui.label_17
         ]  # if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
 
         widget_name = self.centralWidget().objectName()
