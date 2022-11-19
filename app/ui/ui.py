@@ -12,6 +12,7 @@ from PyQt5.QtGui import QMouseEvent, QIcon
 
 from generated_uis.mainwnindow_v2 import UiMainWindow
 from generated_uis.table_1_1 import UiForm as T1Form
+from generated_uis.product_menu import UiForm as T5Form
 from generated_uis.vendor_menu import UiForm as T6Form
 from generated_uis.warehouse_menu import UiForm as T7Form
 from generated_uis.login_dialog import UiDialog as LogInDialog
@@ -60,6 +61,7 @@ class Ui(QMainWindow):
         self.list_vendors_table = TableGetVendors()
         self.spawner = TableMaster(self, self.t1_form)
 
+        self.t5_form = T5Form()
         self.t6_form = T6Form()
         self.t7_form = T7Form()
 
@@ -144,6 +146,10 @@ class Ui(QMainWindow):
 
     def go_back(self, widget_name):
         match widget_name:
+            case "products_table":
+                self.t5_form.setupUi(self)
+                self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
+                self.spawner.cur_table_widget_name = ""
             case "vendors_table":
                 self.t6_form.setupUi(self)
                 self.setCentralWidget(self.t6_form.horizontalLayoutWidgetT6)
@@ -160,6 +166,13 @@ class Ui(QMainWindow):
 
     def define_clicked_label_actions(self, label: QLabel):
         match label.objectName():
+            case "label_5":
+                self.t5_form.setupUi(self)
+                self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
+            case "label_T5_2":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_get_product_table()
             case "label_6":
                 self.t6_form.setupUi(self)
                 self.setCentralWidget(self.t6_form.horizontalLayoutWidgetT6)
@@ -201,6 +214,12 @@ class Ui(QMainWindow):
 
     def get_table_labels(self, widget_name) -> list[QLabel]:
         match widget_name:
+            case "horizontalLayoutWidgetT5":
+                return [
+                    self.t5_form.label_T5_2, self.t5_form.label_T5_3,
+                    self.t5_form.label_T5_4, self.t5_form.label_T5_5,
+                    self.t5_form.label_go_back
+                ]
             case "horizontalLayoutWidgetT6":
                 return [
                     self.t6_form.label_T6_2, self.t6_form.label_T6_3,

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from app.store.database.sqlalchemy_base import db
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     BigInteger,
@@ -24,6 +25,7 @@ class VendorModel(db):
     vendor_address = Column(TEXT, nullable=False)
     vendor_number = Column(TEXT, nullable=False)
     email_address = Column(TEXT, nullable=True)
+    product = relationship("ProductModel", backref="Vendor")
 
     def __repr__(self):
         return f"<VendorModel(" \

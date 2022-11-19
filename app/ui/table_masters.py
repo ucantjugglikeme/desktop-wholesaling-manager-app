@@ -15,11 +15,14 @@ from generated_uis.add_warehouses_table import UiFrame as TableAddWarehouses
 from generated_uis.modify_warehouses_table import UiFrame as TableModWarehouses
 from generated_uis.del_warehouses_table import UiFrame as TableDelWarehouses
 
+from generated_uis.get_products_table import UiFrame as TableGetProducts
+
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from generated_uis.update_warehouses_dialog import UiDialog as DialogModWarehouses
 
 from app.entities.vendor.views import *
 from app.entities.warehouse.views import *
+from app.entities.product.views import *
 from app.back.utils import *
 
 
@@ -28,6 +31,11 @@ VENDOR_HANDLERS = [
     "Контактный телефон", "Электронная почта E-mail"
 ]
 WAREHOUSE_HANDLERS = ["ID склада", "Адрес склада"]
+PRODUCT_HANDLERS = [
+    "ID товара", "Наименование товара", "Стоимость товара", "Кол-во товара",
+    "ID категории товара", "ID склада", "ID поставщика"
+]
+PR_CATEGORY_HANDLERS = ["ID категории товара", "Категория товара"]
 
 
 class TableMaster:
@@ -45,6 +53,8 @@ class TableMaster:
         self.table_add_warehouses = TableAddWarehouses()
         self.table_mod_warehouses = TableModWarehouses()
         self.table_del_warehouses = TableDelWarehouses()
+
+        self.table_get_product = TableGetProducts()
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -67,6 +77,11 @@ class TableMaster:
         table.tableWidget.setColumnCount(len(headers))
         table.tableWidget.setHorizontalHeaderLabels(headers)
         table.tableWidget.resizeColumnsToContents()
+
+    def setup_extra_table(self, tableWidget, headers: list[str]):
+        tableWidget.setColumnCount(len(headers))
+        tableWidget.setHorizontalHeaderLabels(headers)
+        tableWidget.resizeColumnsToContents()
 
     def spawn_get_vendors_table(self):
         headers = VENDOR_HANDLERS
@@ -190,6 +205,22 @@ class TableMaster:
         self.listSmthClickedEvent(self.table_del_warehouses, WarehouseGetView, lines)
         self.table_del_warehouses.pushButton.clicked.connect(
             lambda: self.deleteSmthClickEvent(self.table_del_warehouses, lines, WarehouseDeleteView, WarehouseGetView)
+        )
+
+    def spawn_get_product_table(self):
+        headers = PRODUCT_HANDLERS
+        self.spawn_table(self.table_get_product, "products_table", headers)
+        headers = PR_CATEGORY_HANDLERS
+        self.setup_extra_table(self.table_get_product.tableWidget_2, headers)
+
+        lines = (
+            self.table_get_product.lineEdit_3, self.table_get_product.lineEdit_4,
+            self.table_get_product.lineEdit_5, self.table_get_product.lineEdit_6,
+            self.table_get_product.lineEdit_7, self.table_get_product.lineEdit_8,
+            self.table_get_product.lineEdit_9
+        )
+        self.table_get_product.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_get_product, ProductGetView, lines)
         )
 
     # EVENTS ------------------------------------------------------------------------------------------------
