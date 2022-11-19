@@ -83,3 +83,25 @@ class WarehouseAccessor(BaseAccessor):
             update_session.commit()
 
         return res
+
+    def delete_warehouses(self, **query_params: str | None) -> int | None:
+        filter_params = [
+            comp_stmt for comp_stmt in [
+                WarehouseModel.warehouse_id == query_params["warehouse_id"]
+                if query_params["warehouse_id"] is not None else None,
+                WarehouseModel.warehouse_address == query_params["warehouse_address"]
+                if query_params["warehouse_address"] is not None else None,
+            ]
+            if comp_stmt is not None
+        ]
+
+        delete_query = delete(WarehouseModel).where(*filter_params)
+        with self.app.database.session() as delete_session:
+            try:
+                res: LegacyCursorResult = delete_session.execute(delete_query)
+            except OperationalError:
+                return None
+            rowcount = res.rowcount
+            delete_session.commit()
+
+        return rowcount

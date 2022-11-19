@@ -13,6 +13,7 @@ from generated_uis.del_vendors_table import UiFrame as TableDelVendors
 from generated_uis.get_warehouses_table import UiFrame as TableGetWarehouses
 from generated_uis.add_warehouses_table import UiFrame as TableAddWarehouses
 from generated_uis.modify_warehouses_table import UiFrame as TableModWarehouses
+from generated_uis.del_warehouses_table import UiFrame as TableDelWarehouses
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from generated_uis.update_warehouses_dialog import UiDialog as DialogModWarehouses
@@ -43,6 +44,7 @@ class TableMaster:
         self.table_get_warehouses = TableGetWarehouses()
         self.table_add_warehouses = TableAddWarehouses()
         self.table_mod_warehouses = TableModWarehouses()
+        self.table_del_warehouses = TableDelWarehouses()
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -109,13 +111,13 @@ class TableMaster:
 
         filter_values = [None, None, None, None, None]
         self.dialog_mod_vendor_form.pushButton.clicked.connect(
-            lambda: self.modifyVendorClickDialogEvent(
+            lambda: self.modifySmthClickDialogEvent(
                 self.table_mod_vendor, self.dialog_mod_vendor_form, get_vendors_update_values,
                 get_vendors_filter_values, modify_vendors, VendorUpdateView
             )
         )
         self.table_mod_vendor.pushButton_2.clicked.connect(
-            lambda: self.modifyVendorClickEvent(
+            lambda: self.modifySmthClickEvent(
                 self.table_mod_vendor, self.dialog_mod_vendor, get_vendors_update_values, filter_values,
                 modify_vendors, VendorUpdateView
             )
@@ -131,7 +133,9 @@ class TableMaster:
             self.table_del_vendor.lineEdit_7,
         )
         self.listSmthClickedEvent(self.table_del_vendor, VendorGetView, lines)
-        self.table_del_vendor.pushButton.clicked.connect(self.deleteVendorClickEvent)
+        self.table_del_vendor.pushButton.clicked.connect(
+            lambda: self.deleteSmthClickEvent(self.table_del_vendor, lines, VendorDeleteView, VendorGetView)
+        )
 
     def spawn_get_warehouse_table(self):
         headers = WAREHOUSE_HANDLERS
@@ -166,16 +170,26 @@ class TableMaster:
 
         filter_values = [None, None]
         self.dialog_mod_warehouse_form.pushButton.clicked.connect(
-            lambda: self.modifyVendorClickDialogEvent(
+            lambda: self.modifySmthClickDialogEvent(
                 self.table_mod_warehouses, self.dialog_mod_warehouse_form, get_warehouses_update_values,
                 get_warehouses_filter_values, modify_warehouses, WarehouseUpdateView
             )
         )
         self.table_mod_warehouses.pushButton_2.clicked.connect(
-            lambda: self.modifyVendorClickEvent(
+            lambda: self.modifySmthClickEvent(
                 self.table_mod_warehouses, self.dialog_mod_warehouse, get_warehouses_update_values, filter_values,
                 modify_warehouses, WarehouseUpdateView
             )
+        )
+
+    def spawn_del_warehouse_table(self):
+        headers = WAREHOUSE_HANDLERS
+        self.spawn_table(self.table_del_warehouses, "warehouses_table", headers)
+
+        lines = (self.table_del_warehouses.lineEdit_3, self.table_del_warehouses.lineEdit_4)
+        self.listSmthClickedEvent(self.table_del_warehouses, WarehouseGetView, lines)
+        self.table_del_warehouses.pushButton.clicked.connect(
+            lambda: self.deleteSmthClickEvent(self.table_del_warehouses, lines, WarehouseDeleteView, WarehouseGetView)
         )
 
     # EVENTS ------------------------------------------------------------------------------------------------
@@ -204,7 +218,7 @@ class TableMaster:
         response_data = smth_add.add(filter_params)
         fill_table_with_data([response_data], table.tableWidget)
 
-    def modifyVendorClickEvent(self, table, dialog_mod, get_smth_func, filter_values, modify_smth, SmthUpdateView):
+    def modifySmthClickEvent(self, table, dialog_mod, get_smth_func, filter_values, modify_smth, SmthUpdateView):
         smth_id = int(table.comboBox.currentText()) if table.comboBox.currentText() != "---" else None
 
         if not smth_id:
@@ -212,50 +226,29 @@ class TableMaster:
             return
 
         update_values = get_smth_func(table)
-        # filter_values = [str(vendor_id), None, None, None, None]
         filter_values[0] = str(smth_id)
 
-        # modify_vendors(VendorUpdateView, filter_values, update_values, self.parent)
         modify_smth(SmthUpdateView, filter_values, update_values, self.parent)
 
-    def modifyVendorClickDialogEvent(
+    def modifySmthClickDialogEvent(
             self, table, dialog_form, get_smth_func, get_smth_filters, modify_smth, SmthUpdateView
     ):
         smth_id = int(table.comboBox.currentText()) if table.comboBox.currentText() != "---" else None
 
-        # update_values = get_vendors_update_values(self.table_mod_vendor)
         update_values = get_smth_func(table)
-        # filter_values = [
-        #    str(vendor_id) if vendor_id is not None else None,
-        #    self.dialog_mod_vendor_form.lineEdit.text()
-        #    if self.dialog_mod_vendor_form.lineEdit.text() != "" else None,
-        #    self.dialog_mod_vendor_form.lineEdit_2.text()
-        #    if self.dialog_mod_vendor_form.lineEdit_2.text() != "" else None,
-        #    self.dialog_mod_vendor_form.lineEdit_3.text()
-        #    if self.dialog_mod_vendor_form.lineEdit_3.text() != "" else None,
-        #    self.dialog_mod_vendor_form.lineEdit_4.text()
-        #    if self.dialog_mod_vendor_form.lineEdit_4.text() != "" else None,
-        # ]
         filter_values = get_smth_filters(dialog_form)
         filter_values[0] = str(smth_id) if smth_id is not None else None
 
-        # modify_vendors(VendorUpdateView, filter_values, update_values, self.parent)
         modify_smth(SmthUpdateView, filter_values, update_values, self.parent)
 
-    def deleteVendorClickEvent(self):
-        lines = (
-            self.table_del_vendor.lineEdit_3, self.table_del_vendor.lineEdit_4,
-            self.table_del_vendor.lineEdit_5, self.table_del_vendor.lineEdit_6,
-            self.table_del_vendor.lineEdit_7,
-        )
-
+    def deleteSmthClickEvent(self, table, lines: tuple, SmthDeleteView, SmthGetView):
         delete_params = [line.text() if (line.text() != "") else None for line in lines]
 
-        vendor_get = VendorDeleteView(self.parent.app)
-        response_data = vendor_get.delete(delete_params)
+        smth_get = SmthDeleteView(self.parent.app)
+        response_data = smth_get.delete(delete_params)
 
         self.listSmthClickedEvent(
-            self.table_del_vendor, VendorGetView, (QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit())
+            table, SmthGetView, tuple(QLineEdit() for _ in lines)
         )
 
         set_up_info_dialog(

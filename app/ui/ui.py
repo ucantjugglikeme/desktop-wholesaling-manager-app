@@ -194,6 +194,10 @@ class Ui(QMainWindow):
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
                 self.spawner.spawn_mod_warehouses_table()
+            case "label_T7_5":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_del_warehouse_table()
 
     def get_table_labels(self, widget_name) -> list[QLabel]:
         match widget_name:

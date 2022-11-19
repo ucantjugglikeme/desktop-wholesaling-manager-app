@@ -47,3 +47,18 @@ class WarehouseUpdateView:
         text = f'{rows} строк было изменено!' if rows is not None else 'Введены некорректные данные!'
         info = define_info_dialog(rows, self.app.m_win)
         return text, info[0], info[1]
+
+
+class WarehouseDeleteView:
+    def __init__(self, app: "App"):
+        self.app = app
+
+    def delete(self, params: list[str | None]) -> tuple[str, str, str]:
+        query_params = {
+            "warehouse_id": params[0],
+            "warehouse_address": params[1],
+        }
+        rows = self.app.store.warehouses.delete_warehouses(**query_params)
+        text = f'{rows} строк было удалено!' if rows is not None else 'Введены некорректные данные!'
+        info = define_info_dialog(rows, self.app.m_win)
+        return text, info[0], info[1]
