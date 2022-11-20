@@ -64,7 +64,7 @@ class ProductCategoryAddView:
 
     def add(self, params: list) -> tuple[str, str] | list[None]:
         query_params = {"product_category": params[0], }
-        resp_data = self.app.store.products.add_product(**query_params)
+        resp_data = self.app.store.products.add_category(**query_params)
         if not resp_data:
             set_up_info_dialog(
                 self.app.m_win.info_dialog, self.app.m_win.info_form,

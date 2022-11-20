@@ -173,6 +173,18 @@ class Ui(QMainWindow):
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
                 self.spawner.spawn_get_product_table()
+            case "label_T5_3":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_add_products_table()
+            case "label_T5_4":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_mod_products_table()
+            case "label_T5_5":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_del_product_table()
             case "label_6":
                 self.t6_form.setupUi(self)
                 self.setCentralWidget(self.t6_form.horizontalLayoutWidgetT6)

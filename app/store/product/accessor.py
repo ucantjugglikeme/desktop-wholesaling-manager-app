@@ -230,25 +230,15 @@ class ProductAccessor(BaseAccessor):
     def delete_categories(self, **query_params: str | None) -> int | None:
         filter_params = [
             comp_stmt for comp_stmt in [
-                ProductModel.product_id == query_params["product_id"]
-                if query_params["product_id"] is not None else None,
-                ProductModel.product_name == query_params["product_name"]
-                if query_params["product_name"] is not None else None,
-                ProductModel.product_cost == query_params["product_cost"]
-                if query_params["product_cost"] is not None else None,
-                ProductModel.amount == query_params["amount"]
-                if query_params["amount"] is not None else None,
-                ProductModel.product_category_id == query_params["product_category_id"]
+                ProductCategoryModel.product_category_id == query_params["product_category_id"]
                 if query_params["product_category_id"] is not None else None,
-                ProductModel.warehouse_id == query_params["warehouse_id"]
-                if query_params["warehouse_id"] is not None else None,
-                ProductModel.vendor_id == query_params["vendor_id"]
-                if query_params["vendor_id"] is not None else None,
+                ProductCategoryModel.product_category == query_params["product_category"]
+                if query_params["product_category"] is not None else None,
             ]
             if comp_stmt is not None
         ]
 
-        delete_query = delete(ProductModel).where(*filter_params)
+        delete_query = delete(ProductCategoryModel).where(*filter_params)
         with self.app.database.session() as delete_session:
             try:
                 res: LegacyCursorResult = delete_session.execute(delete_query)

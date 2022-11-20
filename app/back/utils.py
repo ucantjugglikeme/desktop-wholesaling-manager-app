@@ -3,7 +3,7 @@ from re import fullmatch
 
 from PyQt5.QtWidgets import (
     QTableWidget, QTableWidgetItem,
-    QDialog
+    QDialog, QComboBox
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QPixmap
@@ -73,16 +73,16 @@ def fill_table_with_data(data: list[tuple[str, str, str, str, str]], table_widge
         r += 1
 
 
-def add_combo_items(table):
+def add_combo_items(combo_box: QComboBox, table_widget: QTableWidget):
     items_texts = ["---"]
-    for r in range(0, table.tableWidget.rowCount()):
-        item = table.tableWidget.item(r, 0)
+    for r in range(0, table_widget.rowCount()):
+        item = table_widget.item(r, 0)
         items_texts.append(item.text())
 
-    fixed_size = table.comboBox.count()
+    fixed_size = combo_box.count()
     for i in range(0, fixed_size):
-        table.comboBox.removeItem(0)
-    table.comboBox.addItems(items_texts)
+        combo_box.removeItem(0)
+    combo_box.addItems(items_texts)
 
 
 def check_number_if_exists(update_values, app):
@@ -125,12 +125,6 @@ def get_vendors_update_values(table_mod_vendor):
     return update_values
 
 
-def get_warehouses_update_values(table_mod_warehouse):
-    fields = [(table_mod_warehouse.lineEdit_4.text(), table_mod_warehouse.checkBox.checkState()), ]
-    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
-    return update_values
-
-
 def get_vendors_filter_values(dialog_mod_vendor_form):
     filter_values = [
         None,
@@ -142,9 +136,54 @@ def get_vendors_filter_values(dialog_mod_vendor_form):
     return filter_values
 
 
+def get_warehouses_update_values(table_mod_warehouse):
+    fields = [(table_mod_warehouse.lineEdit_4.text(), table_mod_warehouse.checkBox.checkState()), ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
 def get_warehouses_filter_values(dialog_mod_warehouse_form):
     filter_values = [
         None, dialog_mod_warehouse_form.lineEdit.text() if dialog_mod_warehouse_form.lineEdit.text() != "" else None,
+    ]
+    return filter_values
+
+
+def get_products_update_values(table_mod_products):
+    fields = [
+        (table_mod_products.lineEdit_4.text(), table_mod_products.checkBox.checkState()),
+        (table_mod_products.lineEdit_5.text(), table_mod_products.checkBox_2.checkState()),
+        (table_mod_products.lineEdit_6.text(), table_mod_products.checkBox_3.checkState()),
+        (table_mod_products.lineEdit_7.text(), table_mod_products.checkBox_4.checkState()),
+        (table_mod_products.lineEdit_9.text(), table_mod_products.checkBox_6.checkState()),
+        (table_mod_products.lineEdit_12.text(), table_mod_products.checkBox_8.checkState()),
+    ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
+def get_products_filter_values(dialog_mod_product_form):
+    filter_values = [
+        None,
+        dialog_mod_product_form.lineEdit.text() if dialog_mod_product_form.lineEdit.text() != "" else None,
+        dialog_mod_product_form.lineEdit_2.text() if dialog_mod_product_form.lineEdit_2.text() != "" else None,
+        dialog_mod_product_form.lineEdit_3.text() if dialog_mod_product_form.lineEdit_3.text() != "" else None,
+        dialog_mod_product_form.lineEdit_4.text() if dialog_mod_product_form.lineEdit_4.text() != "" else None,
+        dialog_mod_product_form.lineEdit_5.text() if dialog_mod_product_form.lineEdit_5.text() != "" else None,
+        dialog_mod_product_form.lineEdit_6.text() if dialog_mod_product_form.lineEdit_6.text() != "" else None,
+    ]
+    return filter_values
+
+
+def get_categories_update_values(table_mod_products):
+    fields = [(table_mod_products.lineEdit_14.text(), table_mod_products.checkBox_10.checkState()), ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
+def get_categories_filter_values(dialog_mod_category_form):
+    filter_values = [
+        None, dialog_mod_category_form.lineEdit.text() if dialog_mod_category_form.lineEdit.text() != "" else None,
     ]
     return filter_values
 
@@ -158,4 +197,16 @@ def modify_vendors(VendorUpdateView, filter_values, update_values, ui):
 def modify_warehouses(WarehouseUpdateView, filter_values, update_values, ui):
     warehouse_upd = WarehouseUpdateView(ui.app)
     response_data = warehouse_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
+
+
+def modify_products(ProductUpdateView, filter_values, update_values, ui):
+    product_upd = ProductUpdateView(ui.app)
+    response_data = product_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
+
+
+def modify_categories(ProductCategoryUpdateView, filter_values, update_values, ui):
+    category_upd = ProductCategoryUpdateView(ui.app)
+    response_data = category_upd.update(filter_values, update_values)
     set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])

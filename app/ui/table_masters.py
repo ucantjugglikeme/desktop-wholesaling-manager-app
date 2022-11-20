@@ -16,9 +16,14 @@ from generated_uis.modify_warehouses_table import UiFrame as TableModWarehouses
 from generated_uis.del_warehouses_table import UiFrame as TableDelWarehouses
 
 from generated_uis.get_products_table import UiFrame as TableGetProducts
+from generated_uis.add_products_table import UiFrame as TableAddProducts
+from generated_uis.modify_products_table import UiFrame as TableModProducts
+from generated_uis.del_products_table import UiFrame as TableDelProducts
 
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from generated_uis.update_warehouses_dialog import UiDialog as DialogModWarehouses
+from generated_uis.update_products_dialog import UiDialog as DialogModProducts
+from generated_uis.update_categories_dialog import UiDialog as DialogModCategories
 
 from app.entities.vendor.views import *
 from app.entities.warehouse.views import *
@@ -49,12 +54,15 @@ class TableMaster:
         self.table_mod_vendor = TableModVendors()
         self.table_del_vendor = TableDelVendors()
 
-        self.table_get_warehouses = TableGetWarehouses()
-        self.table_add_warehouses = TableAddWarehouses()
-        self.table_mod_warehouses = TableModWarehouses()
-        self.table_del_warehouses = TableDelWarehouses()
+        self.table_get_warehouse = TableGetWarehouses()
+        self.table_add_warehouse = TableAddWarehouses()
+        self.table_mod_warehouse = TableModWarehouses()
+        self.table_del_warehouse = TableDelWarehouses()
 
         self.table_get_product = TableGetProducts()
+        self.table_add_product = TableAddProducts()
+        self.table_mod_product = TableModProducts()
+        self.table_del_product = TableDelProducts()
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -63,6 +71,14 @@ class TableMaster:
         self.dialog_mod_warehouse = QDialog(self.parent)
         self.dialog_mod_warehouse_form = DialogModWarehouses()
         self.dialog_mod_warehouse_form.setupUi(self.dialog_mod_warehouse)
+
+        self.dialog_mod_product = QDialog(self.parent)
+        self.dialog_mod_product_form = DialogModProducts()
+        self.dialog_mod_product_form.setupUi(self.dialog_mod_product)
+
+        self.dialog_mod_category = QDialog(self.parent)
+        self.dialog_mod_category_form = DialogModCategories()
+        self.dialog_mod_category_form.setupUi(self.dialog_mod_category)
 
     # TABLES SPAWN POINT ------------------------------------------------------------------------
 
@@ -93,7 +109,7 @@ class TableMaster:
             self.table_get_vendor.lineEdit_7,
         )
         self.table_get_vendor.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_vendor, VendorGetView, lines)
+            lambda: self.listSmthClickedEvent(self.table_get_vendor.tableWidget, VendorGetView, lines)
         )
 
     def spawn_add_vendors_table(self):
@@ -106,7 +122,7 @@ class TableMaster:
         ]
 
         self.table_add_vendor.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_vendor, VendorAddView, filter_lines)
+            lambda: self.addSmthClickEvent(self.table_add_vendor.tableWidget, VendorAddView, filter_lines)
         )
 
     def spawn_mod_vendors_table(self):
@@ -120,21 +136,23 @@ class TableMaster:
         self.table_mod_vendor.comboBox.addItem("---")
         self.table_mod_vendor.pushButton.clicked.connect(
             lambda: self.listSmthClickedEvent(
-                self.table_mod_vendor, VendorGetView, lines, lambda: add_combo_items(self.table_mod_vendor)
+                self.table_mod_vendor.tableWidget, VendorGetView, lines, lambda: add_combo_items(
+                    self.table_mod_vendor.comboBox, self.table_mod_vendor.tableWidget
+                )
             )
         )
 
         filter_values = [None, None, None, None, None]
         self.dialog_mod_vendor_form.pushButton.clicked.connect(
             lambda: self.modifySmthClickDialogEvent(
-                self.table_mod_vendor, self.dialog_mod_vendor_form, get_vendors_update_values,
-                get_vendors_filter_values, modify_vendors, VendorUpdateView
+                self.table_mod_vendor, self.table_mod_vendor.comboBox, self.dialog_mod_vendor_form,
+                get_vendors_update_values, get_vendors_filter_values, modify_vendors, VendorUpdateView
             )
         )
         self.table_mod_vendor.pushButton_2.clicked.connect(
             lambda: self.modifySmthClickEvent(
-                self.table_mod_vendor, self.dialog_mod_vendor, get_vendors_update_values, filter_values,
-                modify_vendors, VendorUpdateView
+                self.table_mod_vendor, self.table_mod_vendor.comboBox, self.dialog_mod_vendor,
+                get_vendors_update_values, filter_values, modify_vendors, VendorUpdateView
             )
         )
 
@@ -147,64 +165,67 @@ class TableMaster:
             self.table_del_vendor.lineEdit_5, self.table_del_vendor.lineEdit_6,
             self.table_del_vendor.lineEdit_7,
         )
-        self.listSmthClickedEvent(self.table_del_vendor, VendorGetView, lines)
+        self.listSmthClickedEvent(self.table_del_vendor.tableWidget, VendorGetView, lines)
         self.table_del_vendor.pushButton.clicked.connect(
-            lambda: self.deleteSmthClickEvent(self.table_del_vendor, lines, VendorDeleteView, VendorGetView)
+            lambda: self.deleteSmthClickEvent(self.table_del_vendor.tableWidget, lines, VendorDeleteView, VendorGetView)
         )
 
     def spawn_get_warehouse_table(self):
         headers = WAREHOUSE_HANDLERS
-        self.spawn_table(self.table_get_warehouses, "warehouses_table", headers)
+        self.spawn_table(self.table_get_warehouse, "warehouses_table", headers)
 
-        lines = (self.table_get_warehouses.lineEdit_3, self.table_get_warehouses.lineEdit_4)
-        self.table_get_warehouses.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_warehouses, WarehouseGetView, lines)
+        lines = (self.table_get_warehouse.lineEdit_3, self.table_get_warehouse.lineEdit_4)
+        self.table_get_warehouse.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_get_warehouse.tableWidget, WarehouseGetView, lines)
         )
 
     def spawn_add_warehouses_table(self):
         headers = WAREHOUSE_HANDLERS
-        self.spawn_table(self.table_add_warehouses, "warehouses_table", headers)
+        self.spawn_table(self.table_add_warehouse, "warehouses_table", headers)
 
-        filter_lines = [self.table_add_warehouses.lineEdit_4]
+        filter_lines = [self.table_add_warehouse.lineEdit_4]
 
-        self.table_add_warehouses.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_warehouses, WarehouseAddView, filter_lines)
+        self.table_add_warehouse.pushButton.clicked.connect(
+            lambda: self.addSmthClickEvent(self.table_add_warehouse.tableWidget, WarehouseAddView, filter_lines)
         )
 
     def spawn_mod_warehouses_table(self):
         headers = WAREHOUSE_HANDLERS
-        self.spawn_table(self.table_mod_warehouses, "warehouses_table", headers)
+        self.spawn_table(self.table_mod_warehouse, "warehouses_table", headers)
 
-        lines = (None, self.table_mod_warehouses.lineEdit_4,)
-        self.table_mod_warehouses.comboBox.addItem("---")
-        self.table_mod_warehouses.pushButton.clicked.connect(
+        lines = (None, self.table_mod_warehouse.lineEdit_4,)
+        self.table_mod_warehouse.comboBox.addItem("---")
+        self.table_mod_warehouse.pushButton.clicked.connect(
             lambda: self.listSmthClickedEvent(
-                self.table_mod_warehouses, WarehouseGetView, lines, lambda: add_combo_items(self.table_mod_warehouses)
+                self.table_mod_warehouse.tableWidget, WarehouseGetView,
+                lines, lambda: add_combo_items(self.table_mod_warehouse.comboBox, self.table_mod_warehouse.tableWidget)
             )
         )
 
         filter_values = [None, None]
         self.dialog_mod_warehouse_form.pushButton.clicked.connect(
             lambda: self.modifySmthClickDialogEvent(
-                self.table_mod_warehouses, self.dialog_mod_warehouse_form, get_warehouses_update_values,
-                get_warehouses_filter_values, modify_warehouses, WarehouseUpdateView
+                self.table_mod_warehouse, self.table_mod_warehouse.comboBox, self.dialog_mod_warehouse_form,
+                get_warehouses_update_values, get_warehouses_filter_values, modify_warehouses, WarehouseUpdateView
             )
         )
-        self.table_mod_warehouses.pushButton_2.clicked.connect(
+        self.table_mod_warehouse.pushButton_2.clicked.connect(
             lambda: self.modifySmthClickEvent(
-                self.table_mod_warehouses, self.dialog_mod_warehouse, get_warehouses_update_values, filter_values,
-                modify_warehouses, WarehouseUpdateView
+                self.table_mod_warehouse, self.table_mod_warehouse.comboBox, self.dialog_mod_warehouse,
+                get_warehouses_update_values, filter_values, modify_warehouses, WarehouseUpdateView
             )
         )
 
     def spawn_del_warehouse_table(self):
         headers = WAREHOUSE_HANDLERS
-        self.spawn_table(self.table_del_warehouses, "warehouses_table", headers)
+        self.spawn_table(self.table_del_warehouse, "warehouses_table", headers)
 
-        lines = (self.table_del_warehouses.lineEdit_3, self.table_del_warehouses.lineEdit_4)
-        self.listSmthClickedEvent(self.table_del_warehouses, WarehouseGetView, lines)
-        self.table_del_warehouses.pushButton.clicked.connect(
-            lambda: self.deleteSmthClickEvent(self.table_del_warehouses, lines, WarehouseDeleteView, WarehouseGetView)
+        lines = (self.table_del_warehouse.lineEdit_3, self.table_del_warehouse.lineEdit_4)
+        self.listSmthClickedEvent(self.table_del_warehouse.tableWidget, WarehouseGetView, lines)
+        self.table_del_warehouse.pushButton.clicked.connect(
+            lambda: self.deleteSmthClickEvent(
+                self.table_del_warehouse.tableWidget, lines, WarehouseDeleteView, WarehouseGetView
+            )
         )
 
     def spawn_get_product_table(self):
@@ -213,44 +234,160 @@ class TableMaster:
         headers = PR_CATEGORY_HANDLERS
         self.setup_extra_table(self.table_get_product.tableWidget_2, headers)
 
-        lines = (
+        product_lines = (
             self.table_get_product.lineEdit_3, self.table_get_product.lineEdit_4,
             self.table_get_product.lineEdit_5, self.table_get_product.lineEdit_6,
             self.table_get_product.lineEdit_7, self.table_get_product.lineEdit_8,
             self.table_get_product.lineEdit_9
         )
         self.table_get_product.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_product, ProductGetView, lines)
+            lambda: self.listSmthClickedEvent(self.table_get_product.tableWidget, ProductGetView, product_lines)
+        )
+        category_lines = (self.table_get_product.lineEdit_10, self.table_get_product.lineEdit_11)
+        self.table_get_product.pushButton_2.clicked.connect(
+            lambda: self.listSmthClickedEvent(
+                self.table_get_product.tableWidget_2, ProductCategoryGetView, category_lines
+            )
+        )
+
+    def spawn_add_products_table(self):
+        headers = PRODUCT_HANDLERS
+        self.spawn_table(self.table_add_product, "products_table", headers)
+
+        product_lines = [
+            self.table_add_product.lineEdit_23, self.table_add_product.lineEdit_24,
+            self.table_add_product.lineEdit_25, self.table_add_product.lineEdit_26,
+            self.table_add_product.lineEdit_27, self.table_add_product.lineEdit_28,
+        ]
+        self.table_add_product.pushButton.clicked.connect(
+            lambda: self.addSmthClickEvent(self.table_add_product.tableWidget, ProductAddView, product_lines)
+        )
+
+        category_lines = [self.table_add_product.lineEdit_29, ]
+        headers = PR_CATEGORY_HANDLERS
+        self.table_add_product.pushButton_4.clicked.connect(
+            lambda: self.addSmthClickEvent(self.table_add_product.tableWidget_2, ProductCategoryAddView, category_lines)
+        )
+        self.setup_extra_table(self.table_add_product.tableWidget_2, headers)
+
+    def spawn_mod_products_table(self):
+        headers = PRODUCT_HANDLERS
+        self.spawn_table(self.table_mod_product, "products_table", headers)
+
+        product_lines = (
+            None, self.table_mod_product.lineEdit_4, self.table_mod_product.lineEdit_5,
+            self.table_mod_product.lineEdit_6, self.table_mod_product.lineEdit_7,
+            self.table_mod_product.lineEdit_9, self.table_mod_product.lineEdit_12,
+        )
+        self.table_mod_product.comboBox.addItem("---")
+        self.table_mod_product.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(
+                self.table_mod_product.tableWidget, ProductGetView,
+                product_lines, lambda: add_combo_items(
+                    self.table_mod_product.comboBox, self.table_mod_product.tableWidget
+                )
+            )
+        )
+        f_pr_values = [None, None, None, None, None, None, None]
+        self.dialog_mod_product_form.pushButton.clicked.connect(
+            lambda: self.modifySmthClickDialogEvent(
+                self.table_mod_product, self.table_mod_product.comboBox, self.dialog_mod_product_form,
+                get_products_update_values, get_products_filter_values, modify_products, ProductUpdateView
+            )
+        )
+        self.table_mod_product.pushButton_2.clicked.connect(
+            lambda: self.modifySmthClickEvent(
+                self.table_mod_product, self.table_mod_product.comboBox, self.dialog_mod_product,
+                get_products_update_values, f_pr_values, modify_products, ProductUpdateView
+            )
+        )
+
+        #   #   #   #   #   #
+
+        headers = PR_CATEGORY_HANDLERS
+        categories_lines = (None, self.table_mod_product.lineEdit_14,)
+        self.table_mod_product.comboBox_2.addItem("---")
+        self.table_mod_product.pushButton_3.clicked.connect(
+            lambda: self.listSmthClickedEvent(
+                self.table_mod_product.tableWidget_2, ProductCategoryGetView,
+                categories_lines, lambda: add_combo_items(
+                    self.table_mod_product.comboBox_2, self.table_mod_product.tableWidget_2
+                )
+            )
+        )
+        f_c_values = [None, None]
+        self.dialog_mod_category_form.pushButton.clicked.connect(
+            lambda: self.modifySmthClickDialogEvent(
+                self.table_mod_product, self.table_mod_product.comboBox_2, self.dialog_mod_category_form,
+                get_categories_update_values, get_categories_filter_values, modify_categories, ProductCategoryUpdateView
+            )
+        )
+        self.table_mod_product.pushButton_4.clicked.connect(
+            lambda: self.modifySmthClickEvent(
+                self.table_mod_product, self.table_mod_product.comboBox_2, self.dialog_mod_category,
+                get_categories_update_values, f_c_values, modify_categories, ProductCategoryUpdateView
+            )
+        )
+        self.setup_extra_table(self.table_mod_product.tableWidget_2, headers)
+
+    def spawn_del_product_table(self):
+        headers = PRODUCT_HANDLERS
+        self.spawn_table(self.table_del_product, "products_table", headers)
+
+        product_lines = (
+            self.table_del_product.lineEdit_3, self.table_del_product.lineEdit_4,
+            self.table_del_product.lineEdit_5, self.table_del_product.lineEdit_6,
+            self.table_del_product.lineEdit_7, self.table_del_product.lineEdit_8,
+            self.table_del_product.lineEdit_9,
+        )
+        self.listSmthClickedEvent(self.table_del_product.tableWidget, ProductGetView, product_lines)
+        self.table_del_product.pushButton.clicked.connect(
+            lambda: self.deleteSmthClickEvent(
+                self.table_del_product.tableWidget, product_lines, ProductDeleteView, ProductGetView
+            )
+        )
+
+        headers = PR_CATEGORY_HANDLERS
+        category_lines = (self.table_del_product.lineEdit_10, self.table_del_product.lineEdit_11, )
+        self.setup_extra_table(self.table_del_product.tableWidget_2, headers)
+        self.listSmthClickedEvent(self.table_del_product.tableWidget_2, ProductCategoryGetView, category_lines)
+        self.table_del_product.pushButton_2.clicked.connect(
+            lambda: self.deleteSmthClickEvent(
+                self.table_del_product.tableWidget_2, category_lines,
+                ProductCategoryDeleteView, ProductCategoryGetView
+            )
         )
 
     # EVENTS ------------------------------------------------------------------------------------------------
 
-    def listSmthClickedEvent(self, table, SmthGetView, lines: tuple, func=None):
-        if table.tableWidget.rowCount() > 0:
-            clear_table_widget(table.tableWidget)
+    def listSmthClickedEvent(self, table_widget: QTableWidget, SmthGetView, lines: tuple, func=None):
+        if table_widget.rowCount() > 0:
+            clear_table_widget(table_widget)
 
         filter_params = [line.text() if (line is not None and line.text() != "") else None for line in lines]
 
         smth_get = SmthGetView(self.parent.app)
         response_data = smth_get.get(filter_params)
 
-        fill_table_with_data(response_data, table.tableWidget)
+        fill_table_with_data(response_data, table_widget)
 
         if func:
             func()
 
-    def addSmthClickEvent(self, table, SmthAddView, filter_lines):
-        if table.tableWidget.rowCount() > 0:
-            clear_table_widget(table.tableWidget)
+    def addSmthClickEvent(self, table_widget: QTableWidget, SmthAddView, filter_lines):
+        if table_widget.rowCount() > 0:
+            clear_table_widget(table_widget)
 
         filter_params = [f_line.text() if (f_line.text() != "") else None for f_line in filter_lines]
 
         smth_add = SmthAddView(self.parent.app)
         response_data = smth_add.add(filter_params)
-        fill_table_with_data([response_data], table.tableWidget)
+        fill_table_with_data([response_data], table_widget)
 
-    def modifySmthClickEvent(self, table, dialog_mod, get_smth_func, filter_values, modify_smth, SmthUpdateView):
-        smth_id = int(table.comboBox.currentText()) if table.comboBox.currentText() != "---" else None
+    def modifySmthClickEvent(
+            self, table, combo_widget, dialog_mod, get_smth_func, filter_values, modify_smth, SmthUpdateView
+    ):
+        smth_id = int(combo_widget.currentText()) if combo_widget.currentText() != "---" else None
 
         if not smth_id:
             dialog_mod.exec()
@@ -262,9 +399,9 @@ class TableMaster:
         modify_smth(SmthUpdateView, filter_values, update_values, self.parent)
 
     def modifySmthClickDialogEvent(
-            self, table, dialog_form, get_smth_func, get_smth_filters, modify_smth, SmthUpdateView
+            self, table, combo_box, dialog_form, get_smth_func, get_smth_filters, modify_smth, SmthUpdateView
     ):
-        smth_id = int(table.comboBox.currentText()) if table.comboBox.currentText() != "---" else None
+        smth_id = int(combo_box.currentText()) if combo_box.currentText() != "---" else None
 
         update_values = get_smth_func(table)
         filter_values = get_smth_filters(dialog_form)
@@ -272,14 +409,14 @@ class TableMaster:
 
         modify_smth(SmthUpdateView, filter_values, update_values, self.parent)
 
-    def deleteSmthClickEvent(self, table, lines: tuple, SmthDeleteView, SmthGetView):
+    def deleteSmthClickEvent(self, table_widget: QTableWidget, lines: tuple, SmthDeleteView, SmthGetView):
         delete_params = [line.text() if (line.text() != "") else None for line in lines]
 
         smth_get = SmthDeleteView(self.parent.app)
         response_data = smth_get.delete(delete_params)
 
         self.listSmthClickedEvent(
-            table, SmthGetView, tuple(QLineEdit() for _ in lines)
+            table_widget, SmthGetView, tuple(QLineEdit() for _ in lines)
         )
 
         set_up_info_dialog(
