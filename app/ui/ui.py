@@ -12,6 +12,7 @@ from PyQt5.QtGui import QMouseEvent, QIcon
 
 from generated_uis.mainwnindow_v2 import UiMainWindow
 from generated_uis.table_1_1 import UiForm as T1Form
+from generated_uis.customer_menu import UiForm as T2Form
 from generated_uis.product_menu import UiForm as T5Form
 from generated_uis.vendor_menu import UiForm as T6Form
 from generated_uis.warehouse_menu import UiForm as T7Form
@@ -61,6 +62,7 @@ class Ui(QMainWindow):
         self.list_vendors_table = TableGetVendors()
         self.spawner = TableMaster(self, self.t1_form)
 
+        self.t2_form = T2Form()
         self.t5_form = T5Form()
         self.t6_form = T6Form()
         self.t7_form = T7Form()
@@ -146,6 +148,10 @@ class Ui(QMainWindow):
 
     def go_back(self, widget_name):
         match widget_name:
+            case "customers_table":
+                self.t2_form.setupUi(self)
+                self.setCentralWidget(self.t2_form.horizontalLayoutWidgetT2)
+                self.spawner.cur_table_widget_name = ""
             case "products_table":
                 self.t5_form.setupUi(self)
                 self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
@@ -166,6 +172,17 @@ class Ui(QMainWindow):
 
     def define_clicked_label_actions(self, label: QLabel):
         match label.objectName():
+            case "label_2":
+                self.t2_form.setupUi(self)
+                self.setCentralWidget(self.t2_form.horizontalLayoutWidgetT2)
+            case "label_T2_2":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_get_customers_table()
+            case "label_T2_3":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_add_customers_table()
             case "label_5":
                 self.t5_form.setupUi(self)
                 self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
@@ -226,6 +243,12 @@ class Ui(QMainWindow):
 
     def get_table_labels(self, widget_name) -> list[QLabel]:
         match widget_name:
+            case "horizontalLayoutWidgetT2":
+                return [
+                    self.t2_form.label_T2_2, self.t2_form.label_T2_3,
+                    self.t2_form.label_T2_4, self.t2_form.label_T2_5,
+                    self.t2_form.label_go_back
+                ]
             case "horizontalLayoutWidgetT5":
                 return [
                     self.t5_form.label_T5_2, self.t5_form.label_T5_3,
@@ -254,7 +277,7 @@ class Ui(QMainWindow):
             self.ui.label_2, self.ui.label_3, self.ui.label_4,
             self.ui.label_5, self.ui.label_6, self.ui.label_7,
             self.ui.label_13, self.ui.label_15, self.ui.label_17
-        ]  # if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
+        ]  if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
 
         widget_name = self.centralWidget().objectName()
         match widget_name:

@@ -4,6 +4,7 @@ from app.store.manager.accessor import ManagerAccessor
 from app.store.vendor.accessor import VendorAccessor
 from app.store.warehouse.accessor import WarehouseAccessor
 from app.store.product.accessor import ProductAccessor
+from app.store.customer.accessor import CustomerAccessor
 
 if TYPE_CHECKING:
     from app import App
@@ -17,6 +18,7 @@ class Store:
         self.vendors = VendorAccessor(app)
         self.warehouses = WarehouseAccessor(app)
         self.products = ProductAccessor(app)
+        self.customers = CustomerAccessor(app)
 
 
 def setup_store(app: "App"):

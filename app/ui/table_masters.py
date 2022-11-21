@@ -25,9 +25,13 @@ from generated_uis.update_warehouses_dialog import UiDialog as DialogModWarehous
 from generated_uis.update_products_dialog import UiDialog as DialogModProducts
 from generated_uis.update_categories_dialog import UiDialog as DialogModCategories
 
+from generated_uis.get_customers_table import UiFrame as TableGetCustomers
+from generated_uis.add_customers_table import UiFrame as TableAddCustomers
+
 from app.entities.vendor.views import *
 from app.entities.warehouse.views import *
 from app.entities.product.views import *
+from app.entities.customer.views import *
 from app.back.utils import *
 
 
@@ -41,6 +45,10 @@ PRODUCT_HANDLERS = [
     "ID категории товара", "ID склада", "ID поставщика"
 ]
 PR_CATEGORY_HANDLERS = ["ID категории товара", "Категория товара"]
+CUSTOMER_HANDLERS = [
+    "ID клиента", "Наименование организации / ФИО", "Адрес клиента",
+    "Электронная почта E-mail", "Контактный телефон",
+]
 
 
 class TableMaster:
@@ -63,6 +71,9 @@ class TableMaster:
         self.table_add_product = TableAddProducts()
         self.table_mod_product = TableModProducts()
         self.table_del_product = TableDelProducts()
+
+        self.table_get_customer = TableGetCustomers()
+        self.table_add_customer = TableAddCustomers()
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -356,6 +367,32 @@ class TableMaster:
                 self.table_del_product.tableWidget_2, category_lines,
                 ProductCategoryDeleteView, ProductCategoryGetView
             )
+        )
+
+    def spawn_get_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_get_customer, "customers_table", headers)
+
+        lines = (
+            self.table_get_customer.lineEdit_3, self.table_get_customer.lineEdit_4,
+            self.table_get_customer.lineEdit_5, self.table_get_customer.lineEdit_6,
+            self.table_get_customer.lineEdit_7,
+        )
+        self.table_get_customer.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_get_customer.tableWidget, CustomerGetView, lines)
+        )
+
+    def spawn_add_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_add_customer, "customers_table", headers)
+
+        filter_lines = [
+            self.table_add_customer.lineEdit_4, self.table_add_customer.lineEdit_5,
+            self.table_add_customer.lineEdit_6, self.table_add_customer.lineEdit_7,
+        ]
+
+        self.table_add_customer.pushButton.clicked.connect(
+            lambda: self.addSmthClickEvent(self.table_add_customer.tableWidget, CustomerAddView, filter_lines)
         )
 
     # EVENTS ------------------------------------------------------------------------------------------------
