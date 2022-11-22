@@ -10,6 +10,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 
 if TYPE_CHECKING:
     from app.ui.ui import InfoDialog
+    from app.base.base_accessor import BaseAccessor
 
 
 def in_rect(p_x: int, p_y: int, r_x: int, r_y: int, r_w: int, r_h: int) -> bool:
@@ -83,6 +84,18 @@ def add_combo_items(combo_box: QComboBox, table_widget: QTableWidget):
     for i in range(0, fixed_size):
         combo_box.removeItem(0)
     combo_box.addItems(items_texts)
+
+
+def add_combo_ids(combo_box: QComboBox, accessor: "BaseAccessor"):
+    items = ["---"]
+    p_keys = accessor.get_p_keys()
+    for p_key in p_keys:
+        items.append(str(p_key))
+
+    fixed_size = combo_box.count()
+    for i in range(0, fixed_size):
+        combo_box.removeItem(0)
+    combo_box.addItems(items)
 
 
 def check_number_if_exists(update_values, app):

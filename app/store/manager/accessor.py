@@ -67,3 +67,13 @@ class ManagerAccessor(BaseAccessor):
             upd_session.commit()
 
         return "Вы успешно зарегистрировались!", self.app.m_win.ok_icon, self.app.m_win.ok_img
+
+    def get_p_keys(self) -> list[int]:
+        select_query = select(ManagerModel.manager_id).order_by(ManagerModel.manager_id)
+
+        with self.app.database.session() as get_session:
+            res: ChunkedIteratorResult = get_session.execute(select_query)
+            raw_res_lst = res.all()
+            get_session.commit()
+
+        return [p_key[0] for p_key in raw_res_lst]

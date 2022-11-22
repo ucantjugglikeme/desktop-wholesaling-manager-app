@@ -135,3 +135,13 @@ class CustomerAccessor(BaseAccessor):
             delete_session.commit()
 
         return rowcount
+
+    def get_p_keys(self) -> list[int]:
+        select_query = select(CustomerModel.customer_id).order_by(CustomerModel.customer_id)
+
+        with self.app.database.session() as get_session:
+            res: ChunkedIteratorResult = get_session.execute(select_query)
+            raw_res_lst = res.all()
+            get_session.commit()
+
+        return [p_key[0] for p_key in raw_res_lst]

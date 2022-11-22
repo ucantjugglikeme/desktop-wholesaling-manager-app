@@ -29,8 +29,8 @@ class CustomerAddView:
         query_params = {
             "customer_name": params[0],
             "customer_address": params[1],
-            "email_address": params[2],
-            "customer_number": params[3],
+            "customer_number": params[2],
+            "email_address": params[3],
         }
         resp_data = self.app.store.customers.add_customer(**query_params)
         if not resp_data:

@@ -277,7 +277,7 @@ class Ui(QMainWindow):
             self.ui.label_2, self.ui.label_3, self.ui.label_4,
             self.ui.label_5, self.ui.label_6, self.ui.label_7,
             self.ui.label_13, self.ui.label_15, self.ui.label_17
-        ]  if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
+        ]  # if self.manager else [self.ui.label_13, self.ui.label_15, self.ui.label_17]
 
         widget_name = self.centralWidget().objectName()
         match widget_name:
