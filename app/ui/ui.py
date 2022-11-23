@@ -183,6 +183,14 @@ class Ui(QMainWindow):
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
                 self.spawner.spawn_add_customers_table()
+            case "label_T2_4":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_mod_customers_table()
+            case "label_T2_5":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_delete_customers_table()
             case "label_5":
                 self.t5_form.setupUi(self)
                 self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>702</width>
+    <width>704</width>
     <height>686</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Задать параметры для поиска&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Задать новые значения&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -89,13 +89,13 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_2" native="true">
-        <widget class="QLabel" name="label_8">
+       <widget class="QWidget" name="widget_7" native="true">
+        <widget class="QLabel" name="label_18">
          <property name="geometry">
           <rect>
            <x>60</x>
            <y>0</y>
-           <width>81</width>
+           <width>181</width>
            <height>16</height>
           </rect>
          </property>
@@ -103,18 +103,18 @@
           <string>ID клиента</string>
          </property>
         </widget>
-        <widget class="QWidget" name="horizontalLayoutWidget_4">
+        <widget class="QWidget" name="horizontalLayoutWidget_9">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>20</y>
-           <width>191</width>
+           <width>331</width>
            <height>49</height>
           </rect>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
-           <widget class="QFrame" name="frame_4">
+           <widget class="QFrame" name="frame_9">
             <property name="maximumSize">
              <size>
               <width>50</width>
@@ -130,7 +130,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QLabel" name="label_9">
+            <widget class="QLabel" name="label_19">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -243,11 +243,24 @@
              <string notr="true">background-color: rgb(255, 255, 255);</string>
             </property>
             <property name="text">
-             <string/>
+             <string>Иван Г.</string>
             </property>
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QCheckBox" name="checkBox">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>30</y>
+           <width>70</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Заменить</string>
+         </property>
         </widget>
        </widget>
       </item>
@@ -283,7 +296,7 @@
           <rect>
            <x>0</x>
            <y>20</y>
-           <width>461</width>
+           <width>361</width>
            <height>49</height>
           </rect>
          </property>
@@ -346,102 +359,24 @@
              <string notr="true">background-color: rgb(255, 255, 255);</string>
             </property>
             <property name="text">
-             <string/>
+             <string>город Москва, просп. Вернадского, 78</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="widget_6" native="true">
-        <widget class="QLabel" name="label_16">
+        <widget class="QCheckBox" name="checkBox_2">
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>0</y>
-           <width>181</width>
-           <height>16</height>
+           <x>390</x>
+           <y>30</y>
+           <width>70</width>
+           <height>17</height>
           </rect>
          </property>
          <property name="text">
-          <string>Электронная почта E-mail</string>
+          <string>Заменить</string>
          </property>
-        </widget>
-        <widget class="QWidget" name="horizontalLayoutWidget_8">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>20</y>
-           <width>301</width>
-           <height>49</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QFrame" name="frame_8">
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(34, 34, 34);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <widget class="QLabel" name="label_17">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>51</width>
-               <height>51</height>
-              </rect>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>28</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(120, 75, 227, 255), stop:1 rgba(180, 239, 115, 255));</string>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_6">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </widget>
       </item>
@@ -457,7 +392,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>Контактный телефон</string>
+          <string>Электронная почта E-mail</string>
          </property>
         </widget>
         <widget class="QWidget" name="horizontalLayoutWidget_7">
@@ -511,6 +446,110 @@
            </widget>
           </item>
           <item>
+           <widget class="QLineEdit" name="lineEdit_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>ivan.g@mirea.ru</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_3">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>30</y>
+           <width>70</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Заменить</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_6" native="true">
+        <widget class="QLabel" name="label_16">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>0</y>
+           <width>181</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Контактный номер</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="horizontalLayoutWidget_8">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>20</y>
+           <width>301</width>
+           <height>49</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QFrame" name="frame_8">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(34, 34, 34);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QLabel" name="label_17">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>51</width>
+               <height>51</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>28</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(120, 75, 227, 255), stop:1 rgba(180, 239, 115, 255));</string>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item>
            <widget class="QLineEdit" name="lineEdit_7">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -528,11 +567,24 @@
              <string notr="true">background-color: rgb(255, 255, 255);</string>
             </property>
             <property name="text">
-             <string/>
+             <string>79552156565</string>
             </property>
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_4">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>30</y>
+           <width>70</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Заменить</string>
+         </property>
         </widget>
        </widget>
       </item>
@@ -551,16 +603,51 @@
        </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="maximumSize">
-         <size>
-          <width>470</width>
-          <height>16777215</height>
-         </size>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="text">
-         <string>Вывести поставщиков</string>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
+        <widget class="QPushButton" name="pushButton">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>40</y>
+           <width>221</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>470</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Проверить записи</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>40</y>
+           <width>221</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>470</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Изменить записи</string>
+         </property>
+        </widget>
        </widget>
       </item>
      </layout>

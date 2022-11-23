@@ -5,6 +5,11 @@ if TYPE_CHECKING:
 from PyQt5.QtWidgets import QDialog, QLineEdit
 from app.ui.ui import T1Form
 
+from generated_uis.get_customers_table import UiFrame as TableGetCustomers
+from generated_uis.add_customers_table import UiFrame as TableAddCustomers
+from generated_uis.modify_customers_table import UiFrame as TableModCustomers
+from generated_uis.del_customers_table import UiFrame as TableDelCustomers
+
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 from generated_uis.add_vendors_table import UiFrame as TableAddVendors
 from generated_uis.modify_vendors_table import UiFrame as TableModVendors
@@ -20,13 +25,11 @@ from generated_uis.add_products_table import UiFrame as TableAddProducts
 from generated_uis.modify_products_table import UiFrame as TableModProducts
 from generated_uis.del_products_table import UiFrame as TableDelProducts
 
+from generated_uis.update_customers_dialog import UiDialog as DialogModCustomers
 from generated_uis.update_vendors_dialog import UiDialog as DialogModVendors
 from generated_uis.update_warehouses_dialog import UiDialog as DialogModWarehouses
 from generated_uis.update_products_dialog import UiDialog as DialogModProducts
 from generated_uis.update_categories_dialog import UiDialog as DialogModCategories
-
-from generated_uis.get_customers_table import UiFrame as TableGetCustomers
-from generated_uis.add_customers_table import UiFrame as TableAddCustomers
 
 from app.entities.vendor.views import *
 from app.entities.warehouse.views import *
@@ -56,6 +59,11 @@ class TableMaster:
         self.base_form = related_form
         self.cur_table_widget_name = ""
 
+        self.table_get_customer = TableGetCustomers()
+        self.table_add_customer = TableAddCustomers()
+        self.table_mod_customer = TableModCustomers()
+        self.table_del_customer = TableDelCustomers()
+
         self.table_get_vendor = TableGetVendors()
         self.table_add_vendor = TableAddVendors()
         self.table_mod_vendor = TableModVendors()
@@ -71,8 +79,9 @@ class TableMaster:
         self.table_mod_product = TableModProducts()
         self.table_del_product = TableDelProducts()
 
-        self.table_get_customer = TableGetCustomers()
-        self.table_add_customer = TableAddCustomers()
+        self.dialog_mod_customer = QDialog(self.parent)
+        self.dialog_mod_customer_form = DialogModCustomers()
+        self.dialog_mod_customer_form.setupUi(self.dialog_mod_customer)
 
         self.dialog_mod_vendor = QDialog(self.parent)
         self.dialog_mod_vendor_form = DialogModVendors()
@@ -109,17 +118,94 @@ class TableMaster:
         tableWidget.setHorizontalHeaderLabels(headers)
         tableWidget.resizeColumnsToContents()
 
+    def spawn_get_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_get_customer, "customers_table", headers)
+
+        func = lambda: add_combo_ids(self.table_get_customer.comboBox, self.parent.app.store.customers)
+        func()
+        keys = (self.table_get_customer.comboBox, )
+        lines = (
+            self.table_get_customer.lineEdit_4, self.table_get_customer.lineEdit_5,
+            self.table_get_customer.lineEdit_6, self.table_get_customer.lineEdit_7,
+        )
+        self.table_get_customer.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_get_customer.tableWidget, CustomerGetView, keys, lines, func)
+        )
+
+    def spawn_add_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_add_customer, "customers_table", headers)
+
+        filter_lines = [
+            self.table_add_customer.lineEdit_4, self.table_add_customer.lineEdit_5,
+            self.table_add_customer.lineEdit_6, self.table_add_customer.lineEdit_7,
+        ]
+
+        self.table_add_customer.pushButton.clicked.connect(
+            lambda: self.addSmthClickEvent(self.table_add_customer.tableWidget, CustomerAddView, filter_lines)
+        )
+
+    def spawn_mod_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_mod_customer, "customers_table", headers)
+
+        func = lambda: add_combo_ids(self.table_mod_customer.comboBox, self.parent.app.store.customers)
+        func()
+        keys = (self.table_mod_customer.comboBox, )
+        lines = (
+            self.table_mod_customer.lineEdit_4, self.table_mod_customer.lineEdit_5,
+            self.table_mod_customer.lineEdit_6, self.table_mod_customer.lineEdit_7,
+        )
+        self.table_mod_customer.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_mod_customer.tableWidget, CustomerGetView, keys, lines, func)
+        )
+
+        filter_values = [None, None, None, None, None]
+        self.dialog_mod_customer_form.pushButton.clicked.connect(
+            lambda: self.modifySmthClickDialogEvent(
+                self.table_mod_customer, self.table_mod_customer.comboBox, self.dialog_mod_customer_form,
+                get_customers_update_values, get_customers_filter_values, modify_customers, CustomerUpdateView
+            )
+        )
+        self.table_mod_customer.pushButton_2.clicked.connect(
+            lambda: self.modifySmthClickEvent(
+                self.table_mod_customer, self.table_mod_customer.comboBox, self.dialog_mod_customer,
+                get_customers_update_values, filter_values, modify_customers, CustomerUpdateView
+            )
+        )
+
+    def spawn_delete_customers_table(self):
+        headers = CUSTOMER_HANDLERS
+        self.spawn_table(self.table_del_customer, "customers_table", headers)
+
+        func = lambda: add_combo_ids(self.table_del_customer.comboBox, self.parent.app.store.customers)
+        func()
+        keys = (self.table_del_customer.comboBox, )
+        lines = (
+            self.table_del_customer.lineEdit_4, self.table_del_customer.lineEdit_5,
+            self.table_del_customer.lineEdit_6, self.table_del_customer.lineEdit_7,
+        )
+        self.listSmthClickedEvent(self.table_del_customer.tableWidget, CustomerGetView, keys, lines, func)
+        self.table_del_customer.pushButton.clicked.connect(
+            lambda: self.deleteSmthClickEvent(
+                self.table_del_customer.tableWidget, keys, lines, CustomerDeleteView, CustomerGetView, func
+            )
+        )
+
     def spawn_get_vendors_table(self):
         headers = VENDOR_HANDLERS
         self.spawn_table(self.table_get_vendor, "vendors_table", headers)
 
+        func = lambda: add_combo_ids(self.table_get_vendor.comboBox, self.parent.app.store.vendors)
+        func()
+        keys = (self.table_get_vendor.comboBox, )
         lines = (
-            self.table_get_vendor.lineEdit_3, self.table_get_vendor.lineEdit_4,
-            self.table_get_vendor.lineEdit_5, self.table_get_vendor.lineEdit_6,
-            self.table_get_vendor.lineEdit_7,
+            self.table_get_vendor.lineEdit_4, self.table_get_vendor.lineEdit_5,
+            self.table_get_vendor.lineEdit_6, self.table_get_vendor.lineEdit_7,
         )
         self.table_get_vendor.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_vendor.tableWidget, VendorGetView, lines)
+            lambda: self.listSmthClickedEvent(self.table_get_vendor.tableWidget, VendorGetView, keys, lines, func)
         )
 
     def spawn_add_vendors_table(self):
@@ -139,17 +225,15 @@ class TableMaster:
         headers = VENDOR_HANDLERS
         self.spawn_table(self.table_mod_vendor, "vendors_table", headers)
 
+        func = lambda: add_combo_ids(self.table_mod_vendor.comboBox, self.parent.app.store.vendors)
+        func()
+        keys = (self.table_mod_vendor.comboBox, )
         lines = (
-            None, self.table_mod_vendor.lineEdit_4, self.table_mod_vendor.lineEdit_5,
+            self.table_mod_vendor.lineEdit_4, self.table_mod_vendor.lineEdit_5,
             self.table_mod_vendor.lineEdit_6, self.table_mod_vendor.lineEdit_7,
         )
-        self.table_mod_vendor.comboBox.addItem("---")
         self.table_mod_vendor.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(
-                self.table_mod_vendor.tableWidget, VendorGetView, lines, lambda: add_combo_items(
-                    self.table_mod_vendor.comboBox, self.table_mod_vendor.tableWidget
-                )
-            )
+            lambda: self.listSmthClickedEvent(self.table_mod_vendor.tableWidget, VendorGetView, keys, lines, func)
         )
 
         filter_values = [None, None, None, None, None]
@@ -170,14 +254,18 @@ class TableMaster:
         headers = VENDOR_HANDLERS
         self.spawn_table(self.table_del_vendor, "vendors_table", headers)
 
+        func = lambda: add_combo_ids(self.table_del_vendor.comboBox, self.parent.app.store.vendors)
+        func()
+        keys = (self.table_del_vendor.comboBox, )
         lines = (
-            self.table_del_vendor.lineEdit_3, self.table_del_vendor.lineEdit_4,
-            self.table_del_vendor.lineEdit_5, self.table_del_vendor.lineEdit_6,
-            self.table_del_vendor.lineEdit_7,
+            self.table_del_vendor.lineEdit_4, self.table_del_vendor.lineEdit_5,
+            self.table_del_vendor.lineEdit_6, self.table_del_vendor.lineEdit_7,
         )
-        self.listSmthClickedEvent(self.table_del_vendor.tableWidget, VendorGetView, lines)
+        self.listSmthClickedEvent(self.table_del_vendor.tableWidget, VendorGetView, keys, lines, func)
         self.table_del_vendor.pushButton.clicked.connect(
-            lambda: self.deleteSmthClickEvent(self.table_del_vendor.tableWidget, lines, VendorDeleteView, VendorGetView)
+            lambda: self.deleteSmthClickEvent(
+                self.table_del_vendor.tableWidget, keys, lines, VendorDeleteView, VendorGetView, func
+            )
         )
 
     def spawn_get_warehouse_table(self):
@@ -374,39 +462,15 @@ class TableMaster:
             )
         )
 
-    def spawn_get_customers_table(self):
-        headers = CUSTOMER_HANDLERS
-        self.spawn_table(self.table_get_customer, "customers_table", headers)
-
-        lines = (
-            self.table_get_customer.lineEdit_3, self.table_get_customer.lineEdit_4,
-            self.table_get_customer.lineEdit_5, self.table_get_customer.lineEdit_6,
-            self.table_get_customer.lineEdit_7,
-        )
-        self.table_get_customer.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_customer.tableWidget, CustomerGetView, lines)
-        )
-
-    def spawn_add_customers_table(self):
-        headers = CUSTOMER_HANDLERS
-        self.spawn_table(self.table_add_customer, "customers_table", headers)
-
-        filter_lines = [
-            self.table_add_customer.lineEdit_4, self.table_add_customer.lineEdit_5,
-            self.table_add_customer.lineEdit_6, self.table_add_customer.lineEdit_7,
-        ]
-
-        self.table_add_customer.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_customer.tableWidget, CustomerAddView, filter_lines)
-        )
-
     # EVENTS ------------------------------------------------------------------------------------------------
 
     def listSmthClickedEvent(self, table_widget: QTableWidget, SmthGetView, keys: tuple, lines: tuple, func=None):
         if table_widget.rowCount() > 0:
             clear_table_widget(table_widget)
 
-        filter_params = [key.currentText() if key.currentText() != "---" else None for key in keys]
+        filter_params = [
+            key.currentText() if (key is not None and key.currentText() != "---") else None for key in keys
+        ]
         filter_params.extend([line.text() if (line is not None and line.text() != "") else None for line in lines])
 
         smth_get = SmthGetView(self.parent.app)

@@ -127,6 +127,28 @@ def define_info_dialog(rows: int | None, ui):
     return icon_path, img_path
 
 
+def get_customers_update_values(table_mod_customer):
+    fields = [
+        (table_mod_customer.lineEdit_4.text(), table_mod_customer.checkBox.checkState()),
+        (table_mod_customer.lineEdit_5.text(), table_mod_customer.checkBox_2.checkState()),
+        (table_mod_customer.lineEdit_6.text(), table_mod_customer.checkBox_3.checkState()),
+        (table_mod_customer.lineEdit_7.text(), table_mod_customer.checkBox_4.checkState()),
+    ]
+    update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
+    return update_values
+
+
+def get_customers_filter_values(dialog_mod_customer_form):
+    filter_values = [
+        None,
+        dialog_mod_customer_form.lineEdit.text() if dialog_mod_customer_form.lineEdit.text() != "" else None,
+        dialog_mod_customer_form.lineEdit_2.text() if dialog_mod_customer_form.lineEdit_2.text() != "" else None,
+        dialog_mod_customer_form.lineEdit_3.text() if dialog_mod_customer_form.lineEdit_3.text() != "" else None,
+        dialog_mod_customer_form.lineEdit_4.text() if dialog_mod_customer_form.lineEdit_4.text() != "" else None,
+    ]
+    return filter_values
+
+
 def get_vendors_update_values(table_mod_vendor):
     fields = [
         (table_mod_vendor.lineEdit_4.text(), table_mod_vendor.checkBox.checkState()),
@@ -199,6 +221,12 @@ def get_categories_filter_values(dialog_mod_category_form):
         None, dialog_mod_category_form.lineEdit.text() if dialog_mod_category_form.lineEdit.text() != "" else None,
     ]
     return filter_values
+
+
+def modify_customers(CustomerUpdateView, filter_values, update_values, ui):
+    customer_upd = CustomerUpdateView(ui.app)
+    response_data = customer_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
 
 
 def modify_vendors(VendorUpdateView, filter_values, update_values, ui):

@@ -81,7 +81,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Задать параметры для поиска&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Задать параметры для строк&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -355,13 +355,13 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_6" native="true">
-        <widget class="QLabel" name="label_16">
+       <widget class="QWidget" name="widget_5" native="true">
+        <widget class="QLabel" name="label_14">
          <property name="geometry">
           <rect>
            <x>60</x>
            <y>0</y>
-           <width>181</width>
+           <width>131</width>
            <height>16</height>
           </rect>
          </property>
@@ -369,7 +369,7 @@
           <string>Электронная почта E-mail</string>
          </property>
         </widget>
-        <widget class="QWidget" name="horizontalLayoutWidget_8">
+        <widget class="QWidget" name="horizontalLayoutWidget_7">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -378,9 +378,9 @@
            <height>49</height>
           </rect>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QFrame" name="frame_8">
+           <widget class="QFrame" name="frame_7">
             <property name="maximumSize">
              <size>
               <width>50</width>
@@ -396,7 +396,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QLabel" name="label_17">
+            <widget class="QLabel" name="label_15">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -446,13 +446,13 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_5" native="true">
-        <widget class="QLabel" name="label_14">
+       <widget class="QWidget" name="widget_6" native="true">
+        <widget class="QLabel" name="label_16">
          <property name="geometry">
           <rect>
            <x>60</x>
            <y>0</y>
-           <width>131</width>
+           <width>181</width>
            <height>16</height>
           </rect>
          </property>
@@ -460,18 +460,18 @@
           <string>Контактный телефон</string>
          </property>
         </widget>
-        <widget class="QWidget" name="horizontalLayoutWidget_7">
+        <widget class="QWidget" name="horizontalLayoutWidget_8">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>20</y>
-           <width>229</width>
+           <width>231</width>
            <height>49</height>
           </rect>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QFrame" name="frame_7">
+           <widget class="QFrame" name="frame_8">
             <property name="maximumSize">
              <size>
               <width>50</width>
@@ -487,7 +487,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QLabel" name="label_15">
+            <widget class="QLabel" name="label_17">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -537,6 +537,42 @@
        </widget>
       </item>
       <item>
+       <widget class="QWidget" name="widget_7" native="true">
+        <widget class="QLabel" name="label_18">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>0</y>
+           <width>421</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>Внимание! Пустые параметры означают удаление всех строк из данной таблицы!</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_19">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>421</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>Слева в таблице будут выводиться оставшиеся строки после удаления</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="label_5">
@@ -559,7 +595,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Вывести поставщиков</string>
+         <string>Удалить поставщиков</string>
         </property>
        </widget>
       </item>
