@@ -559,7 +559,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Вывести поставщиков</string>
+         <string>Вывести клиентов</string>
         </property>
        </widget>
       </item>

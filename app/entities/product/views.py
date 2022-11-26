@@ -13,12 +13,12 @@ class ProductGetView:
     def get(self, params: list[str | None]) -> list[tuple[str, str, str, str, str, str, str]]:
         query_params = {
             "product_id": params[0],
-            "product_name": params[1],
-            "product_cost": params[2],
-            "amount": params[3],
-            "product_category_id": params[4],
-            "warehouse_id": params[5],
-            "vendor_id": params[6],
+            "product_name": params[4],
+            "product_cost": params[5],
+            "amount": params[6],
+            "product_category_id": params[1],
+            "warehouse_id": params[2],
+            "vendor_id": params[3],
         }
         return self.app.store.products.list_products(**query_params)
 
@@ -116,12 +116,12 @@ class ProductDeleteView:
     def delete(self, params: list[str | None]) -> tuple[str, str, str]:
         query_params = {
             "product_id": params[0],
-            "product_name": params[1],
-            "product_cost": params[2],
-            "amount": params[3],
-            "product_category_id": params[4],
-            "warehouse_id": params[5],
-            "vendor_id": params[6],
+            "product_name": params[4],
+            "product_cost": params[5],
+            "amount": params[6],
+            "product_category_id": params[1],
+            "warehouse_id": params[2],
+            "vendor_id": params[3],
         }
         rows = self.app.store.products.delete_products(**query_params)
         text = f'{rows} строк было удалено!' if rows is not None else 'Введены некорректные данные!'

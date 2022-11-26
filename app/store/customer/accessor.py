@@ -102,7 +102,8 @@ class CustomerAccessor(BaseAccessor):
                 return None
             except DataError:
                 return None
-            except IntegrityError:
+            except IntegrityError as e:
+                print(e)
                 return None
             update_session.commit()
 

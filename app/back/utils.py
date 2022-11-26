@@ -189,9 +189,9 @@ def get_products_update_values(table_mod_products):
         (table_mod_products.lineEdit_4.text(), table_mod_products.checkBox.checkState()),
         (table_mod_products.lineEdit_5.text(), table_mod_products.checkBox_2.checkState()),
         (table_mod_products.lineEdit_6.text(), table_mod_products.checkBox_3.checkState()),
-        (table_mod_products.lineEdit_7.text(), table_mod_products.checkBox_4.checkState()),
-        (table_mod_products.lineEdit_9.text(), table_mod_products.checkBox_6.checkState()),
-        (table_mod_products.lineEdit_12.text(), table_mod_products.checkBox_8.checkState()),
+        (table_mod_products.comboBox_3.currentText(), table_mod_products.checkBox_4.checkState()),
+        (table_mod_products.comboBox_4.currentText(), table_mod_products.checkBox_6.checkState()),
+        (table_mod_products.comboBox_4.currentText(), table_mod_products.checkBox_8.checkState()),
     ]
     update_values = [pair[0] if pair[1] == 2 else None for pair in fields]
     return update_values
@@ -203,9 +203,12 @@ def get_products_filter_values(dialog_mod_product_form):
         dialog_mod_product_form.lineEdit.text() if dialog_mod_product_form.lineEdit.text() != "" else None,
         dialog_mod_product_form.lineEdit_2.text() if dialog_mod_product_form.lineEdit_2.text() != "" else None,
         dialog_mod_product_form.lineEdit_3.text() if dialog_mod_product_form.lineEdit_3.text() != "" else None,
-        dialog_mod_product_form.lineEdit_4.text() if dialog_mod_product_form.lineEdit_4.text() != "" else None,
-        dialog_mod_product_form.lineEdit_5.text() if dialog_mod_product_form.lineEdit_5.text() != "" else None,
-        dialog_mod_product_form.lineEdit_6.text() if dialog_mod_product_form.lineEdit_6.text() != "" else None,
+        dialog_mod_product_form.comboBox.currentText() if dialog_mod_product_form.comboBox.currentText() != "---"
+        else None,
+        dialog_mod_product_form.comboBox_2.currentText() if dialog_mod_product_form.comboBox_2.currentText() != "---"
+        else None,
+        dialog_mod_product_form.comboBox_3.currentText() if dialog_mod_product_form.comboBox_3.currentText() != "---"
+        else None,
     ]
     return filter_values
 

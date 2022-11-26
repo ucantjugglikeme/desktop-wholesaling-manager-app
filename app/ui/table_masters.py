@@ -130,7 +130,7 @@ class TableMaster:
             self.table_get_customer.lineEdit_6, self.table_get_customer.lineEdit_7,
         )
         self.table_get_customer.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_customer.tableWidget, CustomerGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(self.table_get_customer.tableWidget, CustomerGetView, keys, lines, [func])
         )
 
     def spawn_add_customers_table(self):
@@ -143,7 +143,7 @@ class TableMaster:
         ]
 
         self.table_add_customer.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_customer.tableWidget, CustomerAddView, filter_lines)
+            lambda: self.addSmthClickEvent(self.table_add_customer.tableWidget, CustomerAddView, [], filter_lines, [])
         )
 
     def spawn_mod_customers_table(self):
@@ -158,7 +158,7 @@ class TableMaster:
             self.table_mod_customer.lineEdit_6, self.table_mod_customer.lineEdit_7,
         )
         self.table_mod_customer.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_mod_customer.tableWidget, CustomerGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(self.table_mod_customer.tableWidget, CustomerGetView, keys, lines, [func])
         )
 
         filter_values = [None, None, None, None, None]
@@ -186,10 +186,10 @@ class TableMaster:
             self.table_del_customer.lineEdit_4, self.table_del_customer.lineEdit_5,
             self.table_del_customer.lineEdit_6, self.table_del_customer.lineEdit_7,
         )
-        self.listSmthClickedEvent(self.table_del_customer.tableWidget, CustomerGetView, keys, lines, func)
+        self.listSmthClickedEvent(self.table_del_customer.tableWidget, CustomerGetView, keys, lines, [func])
         self.table_del_customer.pushButton.clicked.connect(
             lambda: self.deleteSmthClickEvent(
-                self.table_del_customer.tableWidget, keys, lines, CustomerDeleteView, CustomerGetView, func
+                self.table_del_customer.tableWidget, keys, lines, CustomerDeleteView, CustomerGetView, [func]
             )
         )
 
@@ -205,7 +205,7 @@ class TableMaster:
             self.table_get_vendor.lineEdit_6, self.table_get_vendor.lineEdit_7,
         )
         self.table_get_vendor.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_vendor.tableWidget, VendorGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(self.table_get_vendor.tableWidget, VendorGetView, keys, lines, [func])
         )
 
     def spawn_add_vendors_table(self):
@@ -218,7 +218,7 @@ class TableMaster:
         ]
 
         self.table_add_vendor.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_vendor.tableWidget, VendorAddView, filter_lines)
+            lambda: self.addSmthClickEvent(self.table_add_vendor.tableWidget, VendorAddView, [], filter_lines, [])
         )
 
     def spawn_mod_vendors_table(self):
@@ -233,7 +233,7 @@ class TableMaster:
             self.table_mod_vendor.lineEdit_6, self.table_mod_vendor.lineEdit_7,
         )
         self.table_mod_vendor.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_mod_vendor.tableWidget, VendorGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(self.table_mod_vendor.tableWidget, VendorGetView, keys, lines, [func])
         )
 
         filter_values = [None, None, None, None, None]
@@ -261,10 +261,10 @@ class TableMaster:
             self.table_del_vendor.lineEdit_4, self.table_del_vendor.lineEdit_5,
             self.table_del_vendor.lineEdit_6, self.table_del_vendor.lineEdit_7,
         )
-        self.listSmthClickedEvent(self.table_del_vendor.tableWidget, VendorGetView, keys, lines, func)
+        self.listSmthClickedEvent(self.table_del_vendor.tableWidget, VendorGetView, keys, lines, [func])
         self.table_del_vendor.pushButton.clicked.connect(
             lambda: self.deleteSmthClickEvent(
-                self.table_del_vendor.tableWidget, keys, lines, VendorDeleteView, VendorGetView, func
+                self.table_del_vendor.tableWidget, keys, lines, VendorDeleteView, VendorGetView, [func]
             )
         )
 
@@ -278,7 +278,9 @@ class TableMaster:
         lines = (self.table_get_warehouse.lineEdit_4,)
 
         self.table_get_warehouse.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_warehouse.tableWidget, WarehouseGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(
+                self.table_get_warehouse.tableWidget, WarehouseGetView, keys, lines, [func]
+            )
         )
 
     def spawn_add_warehouses_table(self):
@@ -288,7 +290,7 @@ class TableMaster:
         filter_lines = [self.table_add_warehouse.lineEdit_4]
 
         self.table_add_warehouse.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_warehouse.tableWidget, WarehouseAddView, filter_lines)
+            lambda: self.addSmthClickEvent(self.table_add_warehouse.tableWidget, WarehouseAddView, [], filter_lines, [])
         )
 
     def spawn_mod_warehouses_table(self):
@@ -300,7 +302,9 @@ class TableMaster:
         keys = (self.table_mod_warehouse.comboBox, )
         lines = (self.table_mod_warehouse.lineEdit_4,)
         self.table_mod_warehouse.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_mod_warehouse.tableWidget, WarehouseGetView, keys, lines, func)
+            lambda: self.listSmthClickedEvent(
+                self.table_mod_warehouse.tableWidget, WarehouseGetView, keys, lines, [func]
+            )
         )
 
         filter_values = [None, None]
@@ -328,7 +332,7 @@ class TableMaster:
         self.table_del_warehouse.pushButton.clicked.connect(
             lambda: self.deleteSmthClickEvent(
                 self.table_del_warehouse.tableWidget, keys, lines, WarehouseDeleteView, WarehouseGetView,
-                lambda: add_combo_ids(self.table_del_warehouse.comboBox, self.parent.app.store.warehouses)
+                [lambda: add_combo_ids(self.table_del_warehouse.comboBox, self.parent.app.store.warehouses)]
             )
         )
 
@@ -338,19 +342,37 @@ class TableMaster:
         headers = PR_CATEGORY_HANDLERS
         self.setup_extra_table(self.table_get_product.tableWidget_2, headers)
 
+        product_funcs = [
+            lambda: add_combo_ids(self.table_get_product.comboBox, self.parent.app.store.products),
+            lambda: add_combo_ids(self.table_get_product.comboBox_2, self.parent.app.store.p_categories),
+            lambda: add_combo_ids(self.table_get_product.comboBox_3, self.parent.app.store.warehouses),
+            lambda: add_combo_ids(self.table_get_product.comboBox_4, self.parent.app.store.vendors),
+        ]
+        for func in product_funcs:
+            func()
+        product_keys = (
+            self.table_get_product.comboBox, self.table_get_product.comboBox_2,
+            self.table_get_product.comboBox_3, self.table_get_product.comboBox_4
+        )
         product_lines = (
-            self.table_get_product.lineEdit_3, self.table_get_product.lineEdit_4,
-            self.table_get_product.lineEdit_5, self.table_get_product.lineEdit_6,
-            self.table_get_product.lineEdit_7, self.table_get_product.lineEdit_8,
-            self.table_get_product.lineEdit_9
+            self.table_get_product.lineEdit_4, self.table_get_product.lineEdit_5,
+            self.table_get_product.lineEdit_6,
         )
         self.table_get_product.pushButton.clicked.connect(
-            lambda: self.listSmthClickedEvent(self.table_get_product.tableWidget, ProductGetView, product_lines)
+            lambda: self.listSmthClickedEvent(
+                self.table_get_product.tableWidget, ProductGetView, product_keys, product_lines, product_funcs
+            )
         )
-        category_lines = (self.table_get_product.lineEdit_10, self.table_get_product.lineEdit_11)
+
+        category_funcs = [lambda: add_combo_ids(self.table_get_product.comboBox_5, self.parent.app.store.p_categories)]
+        for func in category_funcs:
+            func()
+        category_keys = (self.table_get_product.comboBox_5, )
+        category_lines = (self.table_get_product.lineEdit_11, )
         self.table_get_product.pushButton_2.clicked.connect(
             lambda: self.listSmthClickedEvent(
-                self.table_get_product.tableWidget_2, ProductCategoryGetView, category_lines
+                self.table_get_product.tableWidget_2, ProductCategoryGetView, category_keys, category_lines,
+                category_funcs
             )
         )
 
@@ -358,19 +380,33 @@ class TableMaster:
         headers = PRODUCT_HANDLERS
         self.spawn_table(self.table_add_product, "products_table", headers)
 
+        product_funcs = [
+            lambda: add_combo_ids(self.table_add_product.comboBox, self.parent.app.store.p_categories),
+            lambda: add_combo_ids(self.table_add_product.comboBox_2, self.parent.app.store.warehouses),
+            lambda: add_combo_ids(self.table_add_product.comboBox_3, self.parent.app.store.vendors),
+        ]
+        for func in product_funcs:
+            func()
+        product_keys = [
+            self.table_add_product.comboBox, self.table_add_product.comboBox_2,
+            self.table_add_product.comboBox_3
+        ]
         product_lines = [
             self.table_add_product.lineEdit_23, self.table_add_product.lineEdit_24,
-            self.table_add_product.lineEdit_25, self.table_add_product.lineEdit_26,
-            self.table_add_product.lineEdit_27, self.table_add_product.lineEdit_28,
+            self.table_add_product.lineEdit_25,
         ]
         self.table_add_product.pushButton.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_product.tableWidget, ProductAddView, product_lines)
+            lambda: self.addSmthClickEvent(
+                self.table_add_product.tableWidget, ProductAddView, product_keys, product_lines, product_funcs
+            )
         )
 
         category_lines = [self.table_add_product.lineEdit_29, ]
         headers = PR_CATEGORY_HANDLERS
         self.table_add_product.pushButton_4.clicked.connect(
-            lambda: self.addSmthClickEvent(self.table_add_product.tableWidget_2, ProductCategoryAddView, category_lines)
+            lambda: self.addSmthClickEvent(
+                self.table_add_product.tableWidget_2, ProductCategoryAddView, [], category_lines, []
+            )
         )
         self.setup_extra_table(self.table_add_product.tableWidget_2, headers)
 
@@ -378,21 +414,35 @@ class TableMaster:
         headers = PRODUCT_HANDLERS
         self.spawn_table(self.table_mod_product, "products_table", headers)
 
-        product_lines = (
-            None, self.table_mod_product.lineEdit_4, self.table_mod_product.lineEdit_5,
-            self.table_mod_product.lineEdit_6, self.table_mod_product.lineEdit_7,
-            self.table_mod_product.lineEdit_9, self.table_mod_product.lineEdit_12,
+        product_funcs = [
+            lambda: add_combo_ids(self.table_mod_product.comboBox, self.parent.app.store.products),
+            lambda: add_combo_ids(self.table_mod_product.comboBox_3, self.parent.app.store.p_categories),
+            lambda: add_combo_ids(self.table_mod_product.comboBox_4, self.parent.app.store.warehouses),
+            lambda: add_combo_ids(self.table_mod_product.comboBox_5, self.parent.app.store.vendors),
+        ]
+        for func in product_funcs:
+            func()
+        product_keys = (
+            self.table_mod_product.comboBox, self.table_mod_product.comboBox_3,
+            self.table_mod_product.comboBox_4, self.table_mod_product.comboBox_5
         )
-        self.table_mod_product.comboBox.addItem("---")
+        product_lines = (
+            self.table_mod_product.lineEdit_4, self.table_mod_product.lineEdit_5,
+            self.table_mod_product.lineEdit_6,
+        )
         self.table_mod_product.pushButton.clicked.connect(
             lambda: self.listSmthClickedEvent(
-                self.table_mod_product.tableWidget, ProductGetView,
-                product_lines, lambda: add_combo_items(
-                    self.table_mod_product.comboBox, self.table_mod_product.tableWidget
-                )
+                self.table_mod_product.tableWidget, ProductGetView, product_keys, product_lines, product_funcs
             )
         )
         f_pr_values = [None, None, None, None, None, None, None]
+        dialog_pr_funcs = [
+            lambda: add_combo_ids(self.dialog_mod_product_form.comboBox, self.parent.app.store.p_categories),
+            lambda: add_combo_ids(self.dialog_mod_product_form.comboBox_2, self.parent.app.store.warehouses),
+            lambda: add_combo_ids(self.dialog_mod_product_form.comboBox_3, self.parent.app.store.vendors),
+        ]
+        for func in dialog_pr_funcs:
+            func()
         self.dialog_mod_product_form.pushButton.clicked.connect(
             lambda: self.modifySmthClickDialogEvent(
                 self.table_mod_product, self.table_mod_product.comboBox, self.dialog_mod_product_form,
@@ -409,14 +459,17 @@ class TableMaster:
         #   #   #   #   #   #
 
         headers = PR_CATEGORY_HANDLERS
-        categories_lines = (None, self.table_mod_product.lineEdit_14,)
-        self.table_mod_product.comboBox_2.addItem("---")
+        categories_funcs = [
+            lambda: add_combo_ids(self.table_mod_product.comboBox_2, self.parent.app.store.p_categories)
+        ]
+        for func in categories_funcs:
+            func()
+        categories_keys = (self.table_mod_product.comboBox_2, )
+        categories_lines = (self.table_mod_product.lineEdit_14,)
         self.table_mod_product.pushButton_3.clicked.connect(
             lambda: self.listSmthClickedEvent(
                 self.table_mod_product.tableWidget_2, ProductCategoryGetView,
-                categories_lines, lambda: add_combo_items(
-                    self.table_mod_product.comboBox_2, self.table_mod_product.tableWidget_2
-                )
+                categories_keys, categories_lines, categories_funcs
             )
         )
         f_c_values = [None, None]
@@ -438,33 +491,55 @@ class TableMaster:
         headers = PRODUCT_HANDLERS
         self.spawn_table(self.table_del_product, "products_table", headers)
 
-        product_lines = (
-            self.table_del_product.lineEdit_3, self.table_del_product.lineEdit_4,
-            self.table_del_product.lineEdit_5, self.table_del_product.lineEdit_6,
-            self.table_del_product.lineEdit_7, self.table_del_product.lineEdit_8,
-            self.table_del_product.lineEdit_9,
+        product_funcs = [
+            lambda: add_combo_ids(self.table_del_product.comboBox, self.parent.app.store.products),
+            lambda: add_combo_ids(self.table_del_product.comboBox_2, self.parent.app.store.p_categories),
+            lambda: add_combo_ids(self.table_del_product.comboBox_3, self.parent.app.store.warehouses),
+            lambda: add_combo_ids(self.table_del_product.comboBox_4, self.parent.app.store.vendors),
+        ]
+        for func in product_funcs:
+            func()
+        product_keys = (
+            self.table_del_product.comboBox, self.table_del_product.comboBox_2,
+            self.table_del_product.comboBox_3, self.table_del_product.comboBox_4
         )
-        self.listSmthClickedEvent(self.table_del_product.tableWidget, ProductGetView, product_lines)
+        product_lines = (
+            self.table_del_product.lineEdit_4, self.table_del_product.lineEdit_5,
+            self.table_del_product.lineEdit_6,
+        )
+        self.listSmthClickedEvent(
+            self.table_del_product.tableWidget, ProductGetView, product_keys, product_lines, product_funcs
+        )
         self.table_del_product.pushButton.clicked.connect(
             lambda: self.deleteSmthClickEvent(
-                self.table_del_product.tableWidget, product_lines, ProductDeleteView, ProductGetView
+                self.table_del_product.tableWidget, product_keys, product_lines, ProductDeleteView, ProductGetView,
+                product_funcs
             )
         )
 
         headers = PR_CATEGORY_HANDLERS
-        category_lines = (self.table_del_product.lineEdit_10, self.table_del_product.lineEdit_11,)
+        categories_funcs = [
+            lambda: add_combo_ids(self.table_del_product.comboBox_5, self.parent.app.store.p_categories)
+        ]
+        for func in categories_funcs:
+            func()
+        categories_keys = (self.table_del_product.comboBox_5,)
+        category_lines = (self.table_del_product.lineEdit_11, )
         self.setup_extra_table(self.table_del_product.tableWidget_2, headers)
-        self.listSmthClickedEvent(self.table_del_product.tableWidget_2, ProductCategoryGetView, category_lines)
+        self.listSmthClickedEvent(
+            self.table_del_product.tableWidget_2, ProductCategoryGetView, categories_keys, category_lines,
+            categories_funcs
+        )
         self.table_del_product.pushButton_2.clicked.connect(
             lambda: self.deleteSmthClickEvent(
-                self.table_del_product.tableWidget_2, category_lines,
-                ProductCategoryDeleteView, ProductCategoryGetView
+                self.table_del_product.tableWidget_2, categories_keys, category_lines,
+                ProductCategoryDeleteView, ProductCategoryGetView, categories_funcs
             )
         )
 
     # EVENTS ------------------------------------------------------------------------------------------------
 
-    def listSmthClickedEvent(self, table_widget: QTableWidget, SmthGetView, keys: tuple, lines: tuple, func=None):
+    def listSmthClickedEvent(self, table_widget: QTableWidget, SmthGetView, keys: tuple, lines: tuple, funcs=None):
         if table_widget.rowCount() > 0:
             clear_table_widget(table_widget)
 
@@ -478,18 +553,24 @@ class TableMaster:
 
         fill_table_with_data(response_data, table_widget)
 
-        if func:
-            func()
+        if funcs:
+            for func in funcs:
+                func()
 
-    def addSmthClickEvent(self, table_widget: QTableWidget, SmthAddView, filter_lines):
+    def addSmthClickEvent(self, table_widget: QTableWidget, SmthAddView, filter_keys, filter_lines, funcs):
         if table_widget.rowCount() > 0:
             clear_table_widget(table_widget)
 
         filter_params = [f_line.text() if (f_line.text() != "") else None for f_line in filter_lines]
+        filter_params.extend([f_key.currentText() if (f_key.currentText() != "---") else None for f_key in filter_keys])
 
         smth_add = SmthAddView(self.parent.app)
         response_data = smth_add.add(filter_params)
         fill_table_with_data([response_data], table_widget)
+
+        if funcs:
+            for func in funcs:
+                func()
 
     def modifySmthClickEvent(
             self, table, combo_widget, dialog_mod, get_smth_func, filter_values, modify_smth, SmthUpdateView
@@ -517,7 +598,7 @@ class TableMaster:
         modify_smth(SmthUpdateView, filter_values, update_values, self.parent)
 
     def deleteSmthClickEvent(
-            self, table_widget: QTableWidget, keys: tuple, lines: tuple, SmthDeleteView, SmthGetView, refresh_keys
+            self, table_widget: QTableWidget, keys: tuple, lines: tuple, SmthDeleteView, SmthGetView, funcs
     ):
         delete_params = [key.currentText() if key.currentText() != "---" else None for key in keys]
         delete_params.extend([line.text() if (line.text() != "") else None for line in lines])
@@ -528,7 +609,9 @@ class TableMaster:
         self.listSmthClickedEvent(
             table_widget, SmthGetView, tuple(None for _ in keys), tuple(QLineEdit() for _ in lines)
         )
-        refresh_keys()
+        if funcs:
+            for func in funcs:
+                func()
 
         set_up_info_dialog(
             self.parent.info_dialog, self.parent.info_form,

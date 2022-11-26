@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class UiFrame(object):
     def setupUi(self, Frame):
         # Frame.setObjectName("Frame")
-         #Frame.resize(702, 686)
+        # Frame.resize(702, 686)
         self.horizontalLayoutWidget = QtWidgets.QWidget(Frame)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 691, 671))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -277,4 +277,4 @@ class UiFrame(object):
         self.label_17.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.label_18.setText(_translate("Frame", "Внимание! Пустые параметры означают удаление всех строк из данной таблицы!"))
         self.label_19.setText(_translate("Frame", "Слева в таблице будут выводиться оставшиеся строки после удаления"))
-        self.pushButton.setText(_translate("Frame", "Удалить поставщиков"))
+        self.pushButton.setText(_translate("Frame", "Удалить клиентов"))

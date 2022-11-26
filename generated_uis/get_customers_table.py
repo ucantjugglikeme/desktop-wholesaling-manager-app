@@ -264,4 +264,4 @@ class UiFrame(object):
         self.label_17.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.label_14.setText(_translate("Frame", "Контактный телефон"))
         self.label_15.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.pushButton.setText(_translate("Frame", "Вывести поставщиков"))
+        self.pushButton.setText(_translate("Frame", "Вывести клиентов"))

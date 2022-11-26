@@ -94,6 +94,8 @@ class ProductAccessor(BaseAccessor):
                 return []
             except ProgrammingError:
                 return []
+            except DataError:
+                return []
 
         res_lst = (
             str(product.product_id), product_name, str(product_cost), str(amount),
@@ -158,6 +160,8 @@ class ProductAccessor(BaseAccessor):
             except DataError:
                 return None
             except IntegrityError:
+                return None
+            except OperationalError:
                 return None
             update_session.commit()
 

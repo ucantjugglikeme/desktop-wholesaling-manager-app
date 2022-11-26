@@ -259,7 +259,7 @@
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>74992156565</string>
+       <string>rector@mirea.ru</string>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Normal</enum>
@@ -329,7 +329,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Контактный телефон&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Электронная почта E-mail&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -345,7 +345,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Электронная почта E-mail&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Контактный номер&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_4">
@@ -410,7 +410,7 @@
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>rector@mirea.ru</string>
+       <string>74992156565</string>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Normal</enum>

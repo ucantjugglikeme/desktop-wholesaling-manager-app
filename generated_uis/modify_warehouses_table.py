@@ -156,7 +156,7 @@ class UiFrame(object):
         self.label_18.setText(_translate("Frame", "ID склада"))
         self.label_19.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.label_10.setText(_translate("Frame", "Адрес склада"))
-        self.label_11.setText(_translate("Frame", "<html><head/><body><p align=\"center\">*</p></body></html>"))
+        self.label_11.setText(_translate("Frame", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.lineEdit_4.setText(_translate("Frame", "город Москва, просп. Вернадского, 78"))
         self.checkBox.setText(_translate("Frame", "Заменить"))
         self.pushButton.setText(_translate("Frame", "Проверить записи"))
