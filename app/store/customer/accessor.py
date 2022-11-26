@@ -1,6 +1,7 @@
 from typing import List, Any, Tuple
 
 from sqlalchemy import select, delete
+from sqlalchemy.cimmutabledict import immutabledict
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.exc import (
@@ -20,20 +21,20 @@ class CustomerAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 CustomerModel.customer_id == params["customer_id"]
                 if params["customer_id"] is not None else None,
-                CustomerModel.customer_name == params["customer_name"]
+                CustomerModel.customer_name.like(f"%{params['customer_name']}%")
                 if params["customer_name"] is not None else None,
-                CustomerModel.customer_address == params["customer_address"]
+                CustomerModel.customer_address.like(f"%{params['customer_address']}%")
                 if params["customer_address"] is not None else None,
-                CustomerModel.email_address == params["email_address"]
+                CustomerModel.email_address.like(f"%{params['email_address']}%")
                 if params["email_address"] is not None else None,
-                CustomerModel.customer_number == params["customer_number"]
+                CustomerModel.customer_number.like(f"%{params['customer_number']}%")
                 if params["customer_number"] is not None else None,
             ]
             if comp_stmt is not None
         ]
         # filter(lambda x: x is not None, filter_params) doesn't work :(
-        select_query = select(CustomerModel).where() if not filter_params \
-            else select(CustomerModel).where(*filter_params)
+        select_query = select(CustomerModel) if not filter_params \
+            else select(CustomerModel).filter(*filter_params)
 
         with self.app.database.session() as get_session:
             res: ChunkedIteratorResult = get_session.execute(select_query)
@@ -72,13 +73,13 @@ class CustomerAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 CustomerModel.customer_id == filter_params["customer_id"]
                 if filter_params["customer_id"] is not None else None,
-                CustomerModel.customer_name == filter_params["customer_name"]
+                CustomerModel.customer_name.like(f"%{filter_params['customer_name']}%")
                 if filter_params["customer_name"] is not None else None,
-                CustomerModel.customer_address == filter_params["customer_address"]
+                CustomerModel.customer_address.like(f"%{filter_params['customer_address']}%")
                 if filter_params["customer_address"] is not None else None,
-                CustomerModel.email_address == filter_params["email_address"]
+                CustomerModel.email_address.like(f"%{filter_params['email_address']}%")
                 if filter_params["email_address"] is not None else None,
-                CustomerModel.customer_number == filter_params["customer_number"]
+                CustomerModel.customer_number.like(f"%{filter_params['customer_number']}%")
                 if filter_params["customer_number"] is not None else None,
             ]
             if comp_stmt is not None
@@ -114,22 +115,24 @@ class CustomerAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 CustomerModel.customer_id == query_params["customer_id"]
                 if query_params["customer_id"] is not None else None,
-                CustomerModel.customer_name == query_params["customer_name"]
+                CustomerModel.customer_name.like(f"%{query_params['customer_name']}%")
                 if query_params["customer_name"] is not None else None,
-                CustomerModel.customer_address == query_params["customer_address"]
+                CustomerModel.customer_address.like(f"%{query_params['customer_address']}%")
                 if query_params["customer_address"] is not None else None,
-                CustomerModel.email_address == query_params["email_address"]
+                CustomerModel.email_address.like(f"%{query_params['email_address']}%")
                 if query_params["email_address"] is not None else None,
-                CustomerModel.customer_number == query_params["customer_number"]
+                CustomerModel.customer_number.like(f"%{query_params['customer_number']}%")
                 if query_params["customer_number"] is not None else None,
             ]
             if comp_stmt is not None
         ]
 
-        delete_query = delete(CustomerModel).where(*filter_params)
+        delete_query = delete(CustomerModel).filter(*filter_params)
         with self.app.database.session() as delete_session:
             try:
-                res: LegacyCursorResult = delete_session.execute(delete_query)
+                res: LegacyCursorResult = delete_session.execute(
+                    delete_query, execution_options=immutabledict({"synchronize_session": 'fetch'})
+                )
             except OperationalError:
                 return None
             rowcount = res.rowcount

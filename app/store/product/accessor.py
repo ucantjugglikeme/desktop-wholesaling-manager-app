@@ -2,6 +2,7 @@ from typing import List, Any, Tuple
 from decimal import Decimal
 
 from sqlalchemy import select, delete
+from sqlalchemy.cimmutabledict import immutabledict
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.exc import (
@@ -10,21 +11,24 @@ from sqlalchemy.exc import (
 )
 from app.base.base_accessor import BaseAccessor
 from app.entities.product.models import ProductModel, ProductCategoryModel
+from app.back.utils import get_value_range
 
 
 class ProductAccessor(BaseAccessor):
     def list_products(
             self, **params: str | None
     ) -> list[tuple[str, str, str, str, str, str, str]]:
+        product_cost_range = get_value_range(params["product_cost"])
+        product_amount_range = get_value_range(params["amount"])
         filter_params = [
             comp_stmt for comp_stmt in [
                 ProductModel.product_id == params["product_id"]
                 if params["product_id"] is not None else None,
-                ProductModel.product_name == params["product_name"]
+                ProductModel.product_name.like(f"%{params['product_name']}%")
                 if params["product_name"] is not None else None,
-                ProductModel.product_cost == params["product_cost"]
+                ProductModel.product_cost.between(product_cost_range[0], product_cost_range[1])
                 if params["product_cost"] is not None else None,
-                ProductModel.amount == params["amount"]
+                ProductModel.amount.between(product_amount_range[0], product_amount_range[1])
                 if params["amount"] is not None else None,
                 ProductModel.product_category_id == params["product_category_id"]
                 if params["product_category_id"] is not None else None,
@@ -36,8 +40,8 @@ class ProductAccessor(BaseAccessor):
             if comp_stmt is not None
         ]
         # filter(lambda x: x is not None, filter_params) doesn't work :(
-        select_query = select(ProductModel).where() if not filter_params \
-            else select(ProductModel).where(*filter_params)
+        select_query = select(ProductModel) if not filter_params \
+            else select(ProductModel).filter(*filter_params)
 
         with self.app.database.session() as get_session:
             res: ChunkedIteratorResult = get_session.execute(select_query)
@@ -59,14 +63,14 @@ class ProductAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 ProductCategoryModel.product_category_id == params["product_category_id"]
                 if params["product_category_id"] is not None else None,
-                ProductCategoryModel.product_category == params["product_category"]
+                ProductCategoryModel.product_category.like(f"%{params['product_category']}%")
                 if params["product_category"] is not None else None,
             ]
             if comp_stmt is not None
         ]
         # filter(lambda x: x is not None, filter_params) doesn't work :(
-        select_query = select(ProductCategoryModel).where() if not filter_params \
-            else select(ProductCategoryModel).where(*filter_params)
+        select_query = select(ProductCategoryModel) if not filter_params \
+            else select(ProductCategoryModel).filter(*filter_params)
 
         with self.app.database.session() as get_session:
             res: ChunkedIteratorResult = get_session.execute(select_query)
@@ -119,15 +123,17 @@ class ProductAccessor(BaseAccessor):
         return res_lst
 
     def update_products(self, update_params: list[str], **filter_params: str | None) -> int | None:
+        product_cost_range = get_value_range(filter_params["product_cost"])
+        product_amount_range = get_value_range(filter_params["amount"])
         filter_values = [
             comp_stmt for comp_stmt in [
                 ProductModel.product_id == filter_params["product_id"]
                 if filter_params["product_id"] is not None else None,
-                ProductModel.product_name == filter_params["product_name"]
+                ProductModel.product_name.like(f"%{filter_params['product_name']}%")
                 if filter_params["product_name"] is not None else None,
-                ProductModel.product_cost == filter_params["product_cost"]
+                ProductModel.product_cost.between(product_cost_range[0], product_cost_range[1])
                 if filter_params["product_cost"] is not None else None,
-                ProductModel.amount == filter_params["amount"]
+                ProductModel.amount.between(product_amount_range[0], product_amount_range[1])
                 if filter_params["amount"] is not None else None,
                 ProductModel.product_category_id == filter_params["product_category_id"]
                 if filter_params["product_category_id"] is not None else None,
@@ -172,7 +178,7 @@ class ProductAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 ProductCategoryModel.product_category_id == filter_params["product_category_id"]
                 if filter_params["product_category_id"] is not None else None,
-                ProductCategoryModel.product_category == filter_params["product_category"]
+                ProductCategoryModel.product_category.like(f"%{filter_params['product_category']}%")
                 if filter_params["product_category"] is not None else None,
             ]
             if comp_stmt is not None
@@ -200,15 +206,17 @@ class ProductAccessor(BaseAccessor):
         return res
 
     def delete_products(self, **query_params: str | None) -> int | None:
+        product_cost_range = get_value_range(query_params["product_cost"])
+        product_amount_range = get_value_range(query_params["amount"])
         filter_params = [
             comp_stmt for comp_stmt in [
                 ProductModel.product_id == query_params["product_id"]
                 if query_params["product_id"] is not None else None,
-                ProductModel.product_name == query_params["product_name"]
+                ProductModel.product_name.like(f"%{query_params['product_name']}%")
                 if query_params["product_name"] is not None else None,
-                ProductModel.product_cost == query_params["product_cost"]
+                ProductModel.product_cost.between(product_cost_range[0], product_cost_range[1])
                 if query_params["product_cost"] is not None else None,
-                ProductModel.amount == query_params["amount"]
+                ProductModel.amount.between(product_amount_range[0], product_amount_range[1])
                 if query_params["amount"] is not None else None,
                 ProductModel.product_category_id == query_params["product_category_id"]
                 if query_params["product_category_id"] is not None else None,
@@ -220,10 +228,12 @@ class ProductAccessor(BaseAccessor):
             if comp_stmt is not None
         ]
 
-        delete_query = delete(ProductModel).where(*filter_params)
+        delete_query = delete(ProductModel).filter(*filter_params)
         with self.app.database.session() as delete_session:
             try:
-                res: LegacyCursorResult = delete_session.execute(delete_query)
+                res: LegacyCursorResult = delete_session.execute(
+                    delete_query, execution_options=immutabledict({"synchronize_session": 'fetch'})
+                )
             except OperationalError:
                 return None
             rowcount = res.rowcount
@@ -236,16 +246,18 @@ class ProductAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 ProductCategoryModel.product_category_id == query_params["product_category_id"]
                 if query_params["product_category_id"] is not None else None,
-                ProductCategoryModel.product_category == query_params["product_category"]
+                ProductCategoryModel.product_category.like(f"%{query_params['product_category']}%")
                 if query_params["product_category"] is not None else None,
             ]
             if comp_stmt is not None
         ]
 
-        delete_query = delete(ProductCategoryModel).where(*filter_params)
+        delete_query = delete(ProductCategoryModel).filter(*filter_params)
         with self.app.database.session() as delete_session:
             try:
-                res: LegacyCursorResult = delete_session.execute(delete_query)
+                res: LegacyCursorResult = delete_session.execute(
+                    delete_query, execution_options=immutabledict({"synchronize_session": 'fetch'})
+                )
             except OperationalError:
                 return None
             rowcount = res.rowcount

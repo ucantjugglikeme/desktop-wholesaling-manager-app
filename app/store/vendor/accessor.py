@@ -1,6 +1,7 @@
 from typing import List, Any, Tuple
 
 from sqlalchemy import select, delete
+from sqlalchemy.cimmutabledict import immutabledict
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.exc import (
@@ -20,20 +21,20 @@ class VendorAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == params["vendor_id"]
                 if params["vendor_id"] is not None else None,
-                VendorModel.vendor_name == params["vendor_name"]
+                VendorModel.vendor_name.like(f"%{params['vendor_name']}%")
                 if params["vendor_name"] is not None else None,
-                VendorModel.vendor_address == params["vendor_address"]
+                VendorModel.vendor_address.like(f"%{params['vendor_address']}%")
                 if params["vendor_address"] is not None else None,
-                VendorModel.vendor_number == params["vendor_number"]
+                VendorModel.vendor_number.like(f"%{params['vendor_number']}%")
                 if params["vendor_number"] is not None else None,
-                VendorModel.email_address == params["email_address"]
+                VendorModel.email_address.like(f"%{params['email_address']}%")
                 if params["email_address"] is not None else None,
             ]
             if comp_stmt is not None
         ]
         # filter(lambda x: x is not None, filter_params) doesn't work :(
-        select_query = select(VendorModel).where() if not filter_params \
-            else select(VendorModel).where(*filter_params)
+        select_query = select(VendorModel) if not filter_params \
+            else select(VendorModel).filter(*filter_params)
 
         with self.app.database.session() as get_session:
             res: ChunkedIteratorResult = get_session.execute(select_query)
@@ -74,13 +75,13 @@ class VendorAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == filter_params["vendor_id"]
                 if filter_params["vendor_id"] is not None else None,
-                VendorModel.vendor_name == filter_params["vendor_name"]
+                VendorModel.vendor_name.like(f"%{filter_params['vendor_name']}%")
                 if filter_params["vendor_name"] is not None else None,
-                VendorModel.vendor_address == filter_params["vendor_address"]
+                VendorModel.vendor_address.like(f"%{filter_params['vendor_address']}%")
                 if filter_params["vendor_address"] is not None else None,
-                VendorModel.vendor_number == filter_params["vendor_number"]
+                VendorModel.vendor_number.like(f"%{filter_params['vendor_number']}%")
                 if filter_params["vendor_number"] is not None else None,
-                VendorModel.email_address == filter_params["email_address"]
+                VendorModel.email_address.like(f"%{filter_params['email_address']}%")
                 if filter_params["email_address"] is not None else None,
             ]
             if comp_stmt is not None
@@ -119,13 +120,13 @@ class VendorAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 VendorModel.vendor_id == query_params["vendor_id"]
                 if query_params["vendor_id"] is not None else None,
-                VendorModel.vendor_name == query_params["vendor_name"]
+                VendorModel.vendor_name.like(f"%{query_params['vendor_name']}%")
                 if query_params["vendor_name"] is not None else None,
-                VendorModel.vendor_address == query_params["vendor_address"]
+                VendorModel.vendor_address.like(f"%{query_params['vendor_address']}%")
                 if query_params["vendor_address"] is not None else None,
-                VendorModel.vendor_number == query_params["vendor_number"]
+                VendorModel.vendor_number.like(f"%{query_params['vendor_number']}%")
                 if query_params["vendor_number"] is not None else None,
-                VendorModel.email_address == query_params["email_address"]
+                VendorModel.email_address.like(f"%{query_params['email_address']}%")
                 if query_params["email_address"] is not None else None,
             ]
             if comp_stmt is not None
@@ -134,7 +135,9 @@ class VendorAccessor(BaseAccessor):
         delete_query = delete(VendorModel).where(*filter_params)
         with self.app.database.session() as delete_session:
             try:
-                res: LegacyCursorResult = delete_session.execute(delete_query)
+                res: LegacyCursorResult = delete_session.execute(
+                    delete_query, execution_options=immutabledict({"synchronize_session": 'fetch'})
+                )
             except OperationalError:
                 return None
             rowcount = res.rowcount

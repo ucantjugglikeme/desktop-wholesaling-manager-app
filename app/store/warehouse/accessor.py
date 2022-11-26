@@ -1,6 +1,7 @@
 from typing import List, Any, Tuple
 
 from sqlalchemy import select, delete
+from sqlalchemy.cimmutabledict import immutabledict
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.engine.cursor import LegacyCursorResult
 from sqlalchemy.exc import (
@@ -21,13 +22,13 @@ class WarehouseAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 WarehouseModel.warehouse_id == params["warehouse_id"]
                 if params["warehouse_id"] is not None else None,
-                WarehouseModel.warehouse_address == params["warehouse_address"]
+                WarehouseModel.warehouse_address.like(f"%{params['warehouse_address']}%")
                 if params["warehouse_address"] is not None else None,
             ]
             if comp_stmt is not None
         ]
-        select_query = select(WarehouseModel).where() if not filter_params \
-            else select(WarehouseModel).where(*filter_params)
+        select_query = select(WarehouseModel) if not filter_params \
+            else select(WarehouseModel).filter(*filter_params)
 
         with self.app.database.session() as get_session:
             res: ChunkedIteratorResult = get_session.execute(select_query)
@@ -57,7 +58,7 @@ class WarehouseAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 WarehouseModel.warehouse_id == filter_params["warehouse_id"]
                 if filter_params["warehouse_id"] is not None else None,
-                WarehouseModel.warehouse_address == filter_params["warehouse_address"]
+                WarehouseModel.warehouse_address.like(f"%{filter_params['warehouse_address']}%")
                 if filter_params["warehouse_address"] is not None else None,
             ]
             if comp_stmt is not None
@@ -89,7 +90,7 @@ class WarehouseAccessor(BaseAccessor):
             comp_stmt for comp_stmt in [
                 WarehouseModel.warehouse_id == query_params["warehouse_id"]
                 if query_params["warehouse_id"] is not None else None,
-                WarehouseModel.warehouse_address == query_params["warehouse_address"]
+                WarehouseModel.warehouse_address.like(f"%{query_params['warehouse_address']}%")
                 if query_params["warehouse_address"] is not None else None,
             ]
             if comp_stmt is not None
@@ -98,7 +99,9 @@ class WarehouseAccessor(BaseAccessor):
         delete_query = delete(WarehouseModel).where(*filter_params)
         with self.app.database.session() as delete_session:
             try:
-                res: LegacyCursorResult = delete_session.execute(delete_query)
+                res: LegacyCursorResult = delete_session.execute(
+                    delete_query, execution_options=immutabledict({"synchronize_session": 'fetch'})
+                )
             except OperationalError:
                 return None
             rowcount = res.rowcount

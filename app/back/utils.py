@@ -1,4 +1,4 @@
-from typing import Final, TYPE_CHECKING
+from typing import Final, TYPE_CHECKING, Tuple
 from re import fullmatch
 
 from PyQt5.QtWidgets import (
@@ -42,6 +42,17 @@ def is_valid_psw(password: str) -> bool:
 def is_valid_number(phone_number: str) -> bool:
     pattern = '[78][0-9]{10}'
     return fullmatch(pattern, phone_number) is not None
+
+
+def get_value_range(value: str) -> tuple[None, None] | tuple[str, str]:
+    if value is None:
+        return value, value
+    params = value.replace(" ", "").split(",")
+    if len(params) == 1:
+        return value, value
+    if len(params) == 2:
+        return params[0], params[1]
+    return None, None
 
 
 def set_up_info_dialog(info_dialog: QDialog, info_form: "InfoDialog", text: str, icon_path: str, img_path: str):
