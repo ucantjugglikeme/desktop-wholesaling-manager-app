@@ -13,6 +13,7 @@ from PyQt5.QtGui import QMouseEvent, QIcon
 from generated_uis.mainwnindow_v2 import UiMainWindow
 from generated_uis.table_1_1 import UiForm as T1Form
 from generated_uis.customer_menu import UiForm as T2Form
+from generated_uis.manager_menu import UiForm as T3Form
 from generated_uis.product_menu import UiForm as T5Form
 from generated_uis.vendor_menu import UiForm as T6Form
 from generated_uis.warehouse_menu import UiForm as T7Form
@@ -63,6 +64,7 @@ class Ui(QMainWindow):
         self.spawner = TableMaster(self, self.t1_form)
 
         self.t2_form = T2Form()
+        self.t3_form = T3Form()
         self.t5_form = T5Form()
         self.t6_form = T6Form()
         self.t7_form = T7Form()
@@ -152,6 +154,10 @@ class Ui(QMainWindow):
                 self.t2_form.setupUi(self)
                 self.setCentralWidget(self.t2_form.horizontalLayoutWidgetT2)
                 self.spawner.cur_table_widget_name = ""
+            case "managers_table":
+                self.t3_form.setupUi(self)
+                self.setCentralWidget(self.t3_form.horizontalLayoutWidgetT3)
+                self.spawner.cur_table_widget_name = ""
             case "products_table":
                 self.t5_form.setupUi(self)
                 self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
@@ -191,6 +197,17 @@ class Ui(QMainWindow):
                 self.t1_form.setupUi(self)
                 self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
                 self.spawner.spawn_delete_customers_table()
+            case "label_3":
+                self.t3_form.setupUi(self)
+                self.setCentralWidget(self.t3_form.horizontalLayoutWidgetT3)
+            case "label_T3_2":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_get_managers_table()
+            case "label_T3_4":
+                self.t1_form.setupUi(self)
+                self.setCentralWidget(self.t1_form.horizontalLayoutWidgetT)
+                self.spawner.spawn_mod_managers_table()
             case "label_5":
                 self.t5_form.setupUi(self)
                 self.setCentralWidget(self.t5_form.horizontalLayoutWidgetT5)
@@ -256,6 +273,11 @@ class Ui(QMainWindow):
                     self.t2_form.label_T2_2, self.t2_form.label_T2_3,
                     self.t2_form.label_T2_4, self.t2_form.label_T2_5,
                     self.t2_form.label_go_back
+                ]
+            case "horizontalLayoutWidgetT3":
+                return [
+                    self.t3_form.label_T3_2, self.t3_form.label_T3_4,
+                    self.t3_form.label_go_back
                 ]
             case "horizontalLayoutWidgetT5":
                 return [

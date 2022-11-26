@@ -109,9 +109,9 @@ def add_combo_ids(combo_box: QComboBox, accessor: "BaseAccessor"):
     combo_box.addItems(items)
 
 
-def check_number_if_exists(update_values, app):
+def check_number_if_exists(update_number, app):
     try:
-        if not is_valid_number(update_values["vendor_number"]):
+        if not is_valid_number(update_number):
             icon_path = app.m_win.err_icon
             image_path = app.m_win.err_img
             return f"Введены некорректные данные!", icon_path, image_path
@@ -264,4 +264,10 @@ def modify_products(ProductUpdateView, filter_values, update_values, ui):
 def modify_categories(ProductCategoryUpdateView, filter_values, update_values, ui):
     category_upd = ProductCategoryUpdateView(ui.app)
     response_data = category_upd.update(filter_values, update_values)
+    set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])
+
+
+def modify_managers(ManagerUpdateView, filter_values, update_values, ui):
+    manager_upd = ManagerUpdateView(ui.app)
+    response_data = manager_upd.update(filter_values, update_values)
     set_up_info_dialog(ui.info_dialog, ui.info_form, response_data[0], response_data[1], response_data[2])

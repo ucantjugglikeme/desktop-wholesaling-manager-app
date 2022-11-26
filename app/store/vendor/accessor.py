@@ -96,7 +96,10 @@ class VendorAccessor(BaseAccessor):
             }.items() if value is not None
         }
 
-        resp = check_number_if_exists(update_values, self.app)
+        try:
+            resp = check_number_if_exists(update_values["vendor_number"], self.app)
+        except KeyError:
+            resp = None
         if resp is not None:
             return None
 

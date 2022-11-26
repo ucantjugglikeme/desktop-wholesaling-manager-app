@@ -10,6 +10,9 @@ from generated_uis.add_customers_table import UiFrame as TableAddCustomers
 from generated_uis.modify_customers_table import UiFrame as TableModCustomers
 from generated_uis.del_customers_table import UiFrame as TableDelCustomers
 
+from generated_uis.get_managers_table import UiFrame as TableGetManagers
+from generated_uis.modify_managers_table import UiFrame as TableModManagers
+
 from generated_uis.get_vendors_table import UiFrame as TableGetVendors
 from generated_uis.add_vendors_table import UiFrame as TableAddVendors
 from generated_uis.modify_vendors_table import UiFrame as TableModVendors
@@ -32,6 +35,7 @@ from generated_uis.update_products_dialog import UiDialog as DialogModProducts
 from generated_uis.update_categories_dialog import UiDialog as DialogModCategories
 
 from app.entities.vendor.views import *
+from app.entities.manager.views import *
 from app.entities.warehouse.views import *
 from app.entities.product.views import *
 from app.entities.customer.views import *
@@ -51,6 +55,10 @@ CUSTOMER_HANDLERS = [
     "ID клиента", "Наименование организации / ФИО", "Адрес клиента",
     "Электронная почта E-mail", "Контактный телефон",
 ]
+MANAGER_HANDLERS = [
+    "ID менеджера", "ФИО менеджера", "Дата рождения", "Номер отдела",
+    "Место жительства", "Электронная почта E-mail", "Рабочий номер"
+]
 
 
 class TableMaster:
@@ -63,6 +71,9 @@ class TableMaster:
         self.table_add_customer = TableAddCustomers()
         self.table_mod_customer = TableModCustomers()
         self.table_del_customer = TableDelCustomers()
+
+        self.table_get_manager = TableGetManagers()
+        self.table_mod_manager = TableModManagers()
 
         self.table_get_vendor = TableGetVendors()
         self.table_add_vendor = TableAddVendors()
@@ -191,6 +202,54 @@ class TableMaster:
             lambda: self.deleteSmthClickEvent(
                 self.table_del_customer.tableWidget, keys, lines, CustomerDeleteView, CustomerGetView, [func]
             )
+        )
+
+    def spawn_get_managers_table(self):
+        headers = MANAGER_HANDLERS
+        self.spawn_table(self.table_get_manager, "managers_table", headers)
+
+        func = lambda: add_combo_ids(self.table_get_manager.comboBox, self.parent.app.store.managers)
+        func()
+        keys = (self.table_get_manager.comboBox, )
+        lines = (
+            self.table_get_manager.lineEdit_4, self.table_get_manager.lineEdit_5,
+            self.table_get_manager.lineEdit_6, self.table_get_manager.lineEdit_7,
+            self.table_get_manager.lineEdit_8, self.table_get_manager.lineEdit_9,
+        )
+        self.table_get_manager.pushButton.clicked.connect(
+            lambda: self.listSmthClickedEvent(self.table_get_manager.tableWidget, ManagerGetView, keys, lines, [func])
+        )
+
+    def spawn_mod_managers_table(self):
+        headers = MANAGER_HANDLERS
+        self.spawn_table(self.table_mod_manager, "managers_table", headers)
+
+        lines = (
+            self.table_mod_manager.lineEdit_8, self.table_mod_manager.lineEdit_9,
+            self.table_mod_manager.lineEdit_10,
+        )
+        self.table_mod_manager.lineEdit.setText(str(self.parent.manager.manager_id))
+        query_params = {
+            "manager_id": str(self.parent.manager.manager_id),
+            "manager_full_name": None, "birth_date": None, "department_number": None,
+            "residential_address": None, "email_address": None, "work_number": None,
+        }
+        manager: ManagerModel = self.parent.app.store.managers.list_managers(**query_params)[0]
+        print(manager)
+        self.table_mod_manager.lineEdit_4.setText(manager[1])
+        self.table_mod_manager.lineEdit_5.setText(manager[2])
+        self.table_mod_manager.lineEdit_6.setText(manager[3])
+        self.table_mod_manager.lineEdit_7.setText(manager[4])
+        self.table_mod_manager.lineEdit_8.setText(manager[5])
+        self.table_mod_manager.lineEdit_9.setText(manager[6])
+        filter_values = [
+            self.table_mod_manager.lineEdit, self.table_mod_manager.lineEdit_4,
+            self.table_mod_manager.lineEdit_5, self.table_mod_manager.lineEdit_6,
+            self.table_mod_manager.lineEdit_7, self.table_mod_manager.lineEdit_8,
+            self.table_mod_manager.lineEdit_9
+        ]
+        self.table_mod_manager.pushButton.clicked.connect(
+            lambda: self.updateManagerClickEvent(ManagerUpdateView, filter_values, lines)
         )
 
     def spawn_get_vendors_table(self):
@@ -616,4 +675,14 @@ class TableMaster:
         set_up_info_dialog(
             self.parent.info_dialog, self.parent.info_form,
             response_data[0], response_data[1], response_data[2]
+        )
+
+    def updateManagerClickEvent(self, ManagerUpdateView, filter_lines, update_lines):
+        filter_params = [f_line.text() if (f_line.text() != "") else None for f_line in filter_lines]
+        update_params = [u_line.text() if (u_line.text() != "") else None for u_line in update_lines]
+
+        manager_upd = ManagerUpdateView(self.parent.app)
+        response_data = manager_upd.update(filter_params, update_params)
+        set_up_info_dialog(
+            self.parent.info_dialog, self.parent.info_form, response_data[0], response_data[1], response_data[2]
         )
