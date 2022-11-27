@@ -7,7 +7,7 @@ from app.base.base_accessor import BaseAccessor
 from app.entities.manager.models import (
     ManagerModel, ManagerAuthModel
 )
-from app.back.utils import is_valid_psw, get_value_range, check_number_if_exists
+from app.back.utils import is_valid_psw, get_value_range, check_number_if_exists, is_valid_number
 
 
 class ManagerAccessor(BaseAccessor):
@@ -123,16 +123,10 @@ class ManagerAccessor(BaseAccessor):
         update_values = {
             val_name: value for val_name, value in {
                 "email_address": update_params[0] if update_params[0] is not None else None,
-                "work_number": update_params[1] if update_params[1] is not None else None,
+                "work_number": update_params[1] if update_params[1] is not None and is_valid_number(update_params[1])
+                else None,
             }.items() if value is not None
         }
-
-        try:
-            resp = check_number_if_exists(update_values["work_number"], self.app)
-        except KeyError:
-            resp = None
-        if resp is not None:
-            return None
 
         with self.app.database.session() as update_session:
             try:
@@ -156,7 +150,7 @@ class ManagerAccessor(BaseAccessor):
                 update_values = {
                     val_name: value for val_name, value in {
                         "password_": sha256(update_params[2].encode()).hexdigest() if update_params[2] is not None
-                        else None,
+                        and is_valid_psw(update_params[2]) else None,
                     }.items() if value is not None
                 }
                 res += update_session.query(ManagerAuthModel).filter(*filter_values).update(

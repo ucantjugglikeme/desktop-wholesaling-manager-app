@@ -135,7 +135,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_get_customer.comboBox, self.parent.app.store.customers)
         func()
-        keys = (self.table_get_customer.comboBox, )
+        keys = (self.table_get_customer.comboBox,)
         lines = (
             self.table_get_customer.lineEdit_4, self.table_get_customer.lineEdit_5,
             self.table_get_customer.lineEdit_6, self.table_get_customer.lineEdit_7,
@@ -163,7 +163,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_mod_customer.comboBox, self.parent.app.store.customers)
         func()
-        keys = (self.table_mod_customer.comboBox, )
+        keys = (self.table_mod_customer.comboBox,)
         lines = (
             self.table_mod_customer.lineEdit_4, self.table_mod_customer.lineEdit_5,
             self.table_mod_customer.lineEdit_6, self.table_mod_customer.lineEdit_7,
@@ -192,7 +192,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_del_customer.comboBox, self.parent.app.store.customers)
         func()
-        keys = (self.table_del_customer.comboBox, )
+        keys = (self.table_del_customer.comboBox,)
         lines = (
             self.table_del_customer.lineEdit_4, self.table_del_customer.lineEdit_5,
             self.table_del_customer.lineEdit_6, self.table_del_customer.lineEdit_7,
@@ -210,7 +210,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_get_manager.comboBox, self.parent.app.store.managers)
         func()
-        keys = (self.table_get_manager.comboBox, )
+        keys = (self.table_get_manager.comboBox,)
         lines = (
             self.table_get_manager.lineEdit_4, self.table_get_manager.lineEdit_5,
             self.table_get_manager.lineEdit_6, self.table_get_manager.lineEdit_7,
@@ -248,6 +248,9 @@ class TableMaster:
             self.table_mod_manager.lineEdit_7, self.table_mod_manager.lineEdit_8,
             self.table_mod_manager.lineEdit_9
         ]
+        filter_params = filter_values[:5]
+        filter_params.extend([QLineEdit(), QLineEdit()])
+        self.listSmthClickedEvent(self.table_mod_manager.tableWidget, ManagerGetView, (), tuple(filter_params))
         self.table_mod_manager.pushButton.clicked.connect(
             lambda: self.updateManagerClickEvent(ManagerUpdateView, filter_values, lines)
         )
@@ -258,7 +261,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_get_vendor.comboBox, self.parent.app.store.vendors)
         func()
-        keys = (self.table_get_vendor.comboBox, )
+        keys = (self.table_get_vendor.comboBox,)
         lines = (
             self.table_get_vendor.lineEdit_4, self.table_get_vendor.lineEdit_5,
             self.table_get_vendor.lineEdit_6, self.table_get_vendor.lineEdit_7,
@@ -286,7 +289,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_mod_vendor.comboBox, self.parent.app.store.vendors)
         func()
-        keys = (self.table_mod_vendor.comboBox, )
+        keys = (self.table_mod_vendor.comboBox,)
         lines = (
             self.table_mod_vendor.lineEdit_4, self.table_mod_vendor.lineEdit_5,
             self.table_mod_vendor.lineEdit_6, self.table_mod_vendor.lineEdit_7,
@@ -315,7 +318,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_del_vendor.comboBox, self.parent.app.store.vendors)
         func()
-        keys = (self.table_del_vendor.comboBox, )
+        keys = (self.table_del_vendor.comboBox,)
         lines = (
             self.table_del_vendor.lineEdit_4, self.table_del_vendor.lineEdit_5,
             self.table_del_vendor.lineEdit_6, self.table_del_vendor.lineEdit_7,
@@ -358,7 +361,7 @@ class TableMaster:
 
         func = lambda: add_combo_ids(self.table_mod_warehouse.comboBox, self.parent.app.store.warehouses)
         func()
-        keys = (self.table_mod_warehouse.comboBox, )
+        keys = (self.table_mod_warehouse.comboBox,)
         lines = (self.table_mod_warehouse.lineEdit_4,)
         self.table_mod_warehouse.pushButton.clicked.connect(
             lambda: self.listSmthClickedEvent(
@@ -426,8 +429,8 @@ class TableMaster:
         category_funcs = [lambda: add_combo_ids(self.table_get_product.comboBox_5, self.parent.app.store.p_categories)]
         for func in category_funcs:
             func()
-        category_keys = (self.table_get_product.comboBox_5, )
-        category_lines = (self.table_get_product.lineEdit_11, )
+        category_keys = (self.table_get_product.comboBox_5,)
+        category_lines = (self.table_get_product.lineEdit_11,)
         self.table_get_product.pushButton_2.clicked.connect(
             lambda: self.listSmthClickedEvent(
                 self.table_get_product.tableWidget_2, ProductCategoryGetView, category_keys, category_lines,
@@ -523,7 +526,7 @@ class TableMaster:
         ]
         for func in categories_funcs:
             func()
-        categories_keys = (self.table_mod_product.comboBox_2, )
+        categories_keys = (self.table_mod_product.comboBox_2,)
         categories_lines = (self.table_mod_product.lineEdit_14,)
         self.table_mod_product.pushButton_3.clicked.connect(
             lambda: self.listSmthClickedEvent(
@@ -583,7 +586,7 @@ class TableMaster:
         for func in categories_funcs:
             func()
         categories_keys = (self.table_del_product.comboBox_5,)
-        category_lines = (self.table_del_product.lineEdit_11, )
+        category_lines = (self.table_del_product.lineEdit_11,)
         self.setup_extra_table(self.table_del_product.tableWidget_2, headers)
         self.listSmthClickedEvent(
             self.table_del_product.tableWidget_2, ProductCategoryGetView, categories_keys, category_lines,
@@ -686,3 +689,5 @@ class TableMaster:
         set_up_info_dialog(
             self.parent.info_dialog, self.parent.info_form, response_data[0], response_data[1], response_data[2]
         )
+
+        self.listSmthClickedEvent(self.table_mod_manager.tableWidget, ManagerGetView, (), filter_lines)
